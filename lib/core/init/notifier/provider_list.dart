@@ -1,0 +1,35 @@
+import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
+
+import '../navigation/navigation_service.dart';
+import 'theme_notifier.dart';
+
+class ApplicationProvider {
+  static ApplicationProvider? _instance;
+  static ApplicationProvider get instance {
+    _instance ??= ApplicationProvider._init();
+    return _instance!;
+  }
+
+  ApplicationProvider._init();
+
+  List<SingleChildWidget> singleItems = [];
+
+  List<SingleChildWidget> dependItems = [
+    ChangeNotifierProvider(
+      create: (context) => ThemeNotifier(),
+    ),
+    Provider.value(
+      value: NavigationService.instance,
+    ),
+    // Provider<AuthenticationProvider>(
+    //   create: (_) => AuthenticationProvider(FirebaseAuth.instance),
+    // ),
+    // StreamProvider(
+    //   create: (context) => context.read<AuthenticationProvider>().authState,
+    //   initialData: null,
+    // )
+  ];
+
+  List<SingleChildWidget> uiChangesItems = [];
+}
