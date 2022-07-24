@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:studio_reservation_app/views/sign_in.dart';
+import 'package:studio_reservation_app/views/login_view.dart';
 import '../../constants/navigation/navigation_constants.dart';
 
 class NavigationRoute {
@@ -25,7 +25,7 @@ class NavigationRoute {
 
       default:
         return MaterialPageRoute(
-          builder: (context) => sign_in(),
+          builder: (context) => LoginView(),
         );
     }
   }

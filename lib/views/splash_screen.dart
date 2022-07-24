@@ -12,11 +12,12 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        const Background(),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [Logo()],
-        )
+        Background(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [Logo()],
+          ),
+        ),
       ],
     );
   }
