@@ -42,7 +42,7 @@ class _LoginViewState extends State<LoginView> with RouteAware {
                     minHeight: MediaQuery.of(context).size.height,
                   ),
                   child: IntrinsicHeight(
-                    child: Background(
+                    child: SignInBackground(
                       child: SafeArea(
                           child: Column(
                         children: [
@@ -92,8 +92,13 @@ class _LoginViewState extends State<LoginView> with RouteAware {
                             height: 49,
                           ),
                           InputField(
-                              controller: viewModel.emailController,
-                              hint: "Email Adress"),
+                            controller: viewModel.emailController,
+                            hint: "Email Adress",
+                            icon: const Icon(
+                              Icons.mail_outline_rounded,
+                              color: Color(0xffFD0C89),
+                            ),
+                          ),
                           const SizedBox(height: 20),
                           PasswordField(
                             controller: viewModel.passwordController,
@@ -110,23 +115,8 @@ class _LoginViewState extends State<LoginView> with RouteAware {
                           ColoredButton(
                             text: 'Sign In',
                             onPressed: () async {
-                              _formKey.currentState!.save();
-                              final isValid = _formKey.currentState!.validate();
-                              print(isValid);
-                              if (isValid) {
-                                await viewModel.signIn(
-                                  viewModel.emailController.text,
-                                  viewModel.passwordController.text,
-                                );
-                              } else {
-                                const snackBar = SnackBar(
-                                  content: Text(
-                                      "Lütfen E-posta ve Şifre Alanlarını Doldurunuz"),
-                                  backgroundColor: Colors.red,
-                                );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
-                              }
+                              viewModel.signIn(viewModel.emailController.text,
+                                  viewModel.passwordController.text);
                             },
                           ),
                           const SizedBox(
@@ -140,12 +130,12 @@ class _LoginViewState extends State<LoginView> with RouteAware {
                                   Text('Don\'t have an account?',
                                       style: TextStyle(
                                           color: Colors.white.withOpacity(0.7),
-                                          fontSize: 14,
+                                          fontSize: 16,
                                           fontWeight: FontWeight.normal)),
                                   const Text('Sign Up Now!',
                                       style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: 14,
+                                          fontSize: 16,
                                           fontWeight: FontWeight.bold)),
                                 ]),
                           )
@@ -174,6 +164,23 @@ class _LoginViewState extends State<LoginView> with RouteAware {
           ],
         ),
       ),
+    );
+  }
+}
+
+class SignInBackground extends StatelessWidget {
+  const SignInBackground({Key? key, required this.child}) : super(key: key);
+  final Widget child;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/sign_in_background.png'),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: child,
     );
   }
 }

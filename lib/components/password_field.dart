@@ -60,7 +60,9 @@ class _PasswordFieldState extends State<PasswordField> {
                       });
                     },
                     child: Icon(
-                        _obscureText ? Icons.visibility : Icons.visibility_off),
+                      _obscureText ? Icons.visibility : Icons.visibility_off,
+                      color: const Color(0xffFD0C89),
+                    ),
                   ),
                   floatingLabelBehavior: FloatingLabelBehavior.always,
                   border: InputBorder.none)),

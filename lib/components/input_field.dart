@@ -10,12 +10,14 @@ class InputField extends StatelessWidget {
     Key? key,
     required this.controller,
     required this.hint,
+    this.icon,
     this.isObscure,
   }) : super(key: key);
 
   final TextEditingController controller;
   final String hint;
   final bool? isObscure;
+  final Icon? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,7 @@ class InputField extends StatelessWidget {
                   ),
                   floatingLabelBehavior: FloatingLabelBehavior.always,
                   border: InputBorder.none,
-                  suffixIcon: const Icon(Icons.mail))),
+                  suffixIcon: icon)),
         ),
       ),
     );

@@ -10,15 +10,17 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Background(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [Logo()],
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          Background(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [Logo()],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
