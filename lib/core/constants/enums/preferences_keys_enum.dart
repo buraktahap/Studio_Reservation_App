@@ -9,4 +9,5 @@ enum PreferencesKeys {
   USER_NAME,
   REMEMBER_CLIENT,
   TOKEN_EXPIRE_TIME,
+  USER_ID
 }

@@ -10,15 +10,15 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Background(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [Logo()],
-            ),
-          ),
+    return Background(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Logo(),
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+          )
         ],
       ),
     );

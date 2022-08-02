@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:studio_reservation_app/views/login_view.dart';
+import '../../../views/home_view.dart';
 import '../../constants/navigation/navigation_constants.dart';
 
 class NavigationRoute {
@@ -17,8 +18,8 @@ class NavigationRoute {
       // case NavigationConstants.MAIN_VIEWS:
       //   return normalNavigate(MainViews());
 
-      // case NavigationConstants.HOME_VIEW:
-      //   return normalNavigate(HomeView());
+      case NavigationConstants.HOME_VIEW:
+        return normalNavigate(HomeView());
 
       // case NavigationConstants.LOGIN_VIA_AZURE_VIEW:
       //   return normalNavigate(LoginView());

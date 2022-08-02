@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:studio_reservation_app/components/background.dart';
+import 'package:studio_reservation_app/components/lesson_CArd.dart';
 import 'package:studio_reservation_app/viewmodels/home_view_model.dart';
 import 'package:studio_reservation_app/views/home_screen_view.dart';
+import 'package:studio_reservation_app/views/splash_screen.dart';
 
-import '../core/base/view/base_view.dart';
+import 'package:studio_reservation_app/core/base/view/base_view.dart';
 import 'location_selection_view.dart';
 import 'login_view.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView({Key? key}) : super(key: key);
+  HomeView({Key? key}) : super(key: key);
 
   @override
   State<HomeView> createState() => _HomeViewState();
@@ -20,17 +22,19 @@ class _HomeViewState extends State<HomeView> {
   int pageIndex = 0;
 
   final pages = [
-    const LoginView(),
-    LocationSelectionView(),
     const HomeScreenView(),
-    HomeScreenView(),
+    const LessonCard(),
+    const SplashScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return BaseView<HomeViewModel>(
         viewModel: HomeViewModel(),
-        onModelReady: (HomeViewModel model) {},
+        onModelReady: (HomeViewModel model) {
+          model.setContext(context);
+          model.init();
+        },
         onPageBuilder: (BuildContext context, HomeViewModel viewModel) =>
             Scaffold(
                 extendBody: true,
@@ -109,25 +113,25 @@ class _HomeViewState extends State<HomeView> {
                     size: 35,
                   ),
           ),
-          IconButton(
-            enableFeedback: false,
-            onPressed: () {
-              setState(() {
-                pageIndex = 3;
-              });
-            },
-            icon: pageIndex == 3
-                ? const Icon(
-                    Icons.more_vert,
-                    color: Color.fromARGB(255, 253, 12, 146),
-                    size: 35,
-                  )
-                : const Icon(
-                    Icons.more_vert,
-                    color: Colors.white,
-                    size: 35,
-                  ),
-          ),
+          // IconButton(
+          //   enableFeedback: false,
+          //   onPressed: () {
+          //     setState(() {
+          //       pageIndex = 3;
+          //     });
+          //   },
+          //   icon: pageIndex == 3
+          //       ? const Icon(
+          //           Icons.more_vert,
+          //           color: Color.fromARGB(255, 253, 12, 146),
+          //           size: 35,
+          //         )
+          //       : const Icon(
+          //           Icons.more_vert,
+          //           color: Colors.white,
+          //           size: 35,
+          //         ),
+          // ),
         ],
       ),
     );

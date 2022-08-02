@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:studio_reservation_app/classes/member.dart';
+import 'package:studio_reservation_app/components/lesson_CArd.dart';
 import 'package:studio_reservation_app/core/base/view/base_view.dart';
+import 'package:studio_reservation_app/models/member_location_update_response.dart';
+import 'package:studio_reservation_app/static_member.dart';
 
 import '../viewmodels/home_screen_view_model.dart';
 
@@ -19,12 +23,11 @@ class _HomeScreenViewState extends State<HomeScreenView> {
       viewModel: HomeScreenViewModel(),
       onModelReady: (HomeScreenViewModel model) {},
       onPageBuilder: (BuildContext context, HomeScreenViewModel viewModel) =>
+          ListView(
+        children: [
           Padding(
-        padding: const EdgeInsets.fromLTRB(30, 70, 30, 0),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Row(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
@@ -40,7 +43,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                     const Text(
                       "let's Get Exercise",
                       style: TextStyle(color: Colors.white, fontSize: 30),
-                    )
+                    ),
                   ],
                 ),
                 const Align(
@@ -50,17 +53,20 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                     color: Colors.white,
                     size: 35,
                   ),
-                )
+                ),
               ],
             ),
-            Row(
-              children: [Container()],
-            ),
-            Row(
-              children: [Container()],
-            ),
-          ],
-        ),
+          ),
+          LessonCard(),
+          LessonCard(),
+          LessonCard(),
+          Row(
+            children: [Container()],
+          ),
+          Row(
+            children: [Container()],
+          ),
+        ],
       ),
     );
   }

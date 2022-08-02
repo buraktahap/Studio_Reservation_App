@@ -3,10 +3,15 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:mobx/mobx.dart';
+import 'package:studio_reservation_app/models/branch_location_response.dart';
+import 'package:studio_reservation_app/static_member.dart';
+import 'package:studio_reservation_app/viewmodels/location_selection_view_model.dart';
 import 'package:studio_reservation_app/views/location_selection_view.dart';
 import '../core/base/base_viewmodel.dart';
+import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/constants/network/network_constants.dart';
 import '../core/enums/url_enum.dart';
+import '../core/init/cache/locale_manager.dart';
 import '../models/sign_in_model.dart';
 import '../models/sign_in_response.dart';
 import 'dart:async';
@@ -83,10 +88,13 @@ abstract class _LoginViewModelBase with Store, BaseViewModel {
       );
       switch (response.statusCode) {
         case HttpStatus.ok:
-          final SignInResponse appSignInResponse = await
-              SignInResponse.fromJson(response.data);
+          final SignInResponseModel appSignInResponse =
+              await SignInResponseModel.fromJson(response.data);
+          await LocaleManager.instance.setIntValue(
+              PreferencesKeys.USER_ID, appSignInResponse.id as int);
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => LocationSelectionView()));
+
           break;
         case HttpStatus.notFound:
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -100,6 +108,30 @@ abstract class _LoginViewModelBase with Store, BaseViewModel {
     }
     return null;
   }
+
+  @action
+  getCities() {
+    return cities;
+  }
+
+  @observable
+  List cities = [];
+
+  // @observable
+  // Future<List<BranchLocationResponseModel>?> getAllLocations() async {
+  //   final response = await dio.get(Urls.GetAllLocations.rawValue);
+  //   switch (response.statusCode) {
+  //     case HttpStatus.ok:
+  //       final responseBody = await response.data;
+  //       if (responseBody is List) {
+  //         return cities = responseBody
+  //             .map((e) => BranchLocationResponseModel.fromJson(e))
+  //             .toList();
+  //       }
+  //       return Future.error(responseBody);
+  //   }
+  //   return null;
+  // }
 
   // Future<void> login() async {
   //   if (passwordController.text.isNotEmpty && emailController.text.isNotEmpty) {

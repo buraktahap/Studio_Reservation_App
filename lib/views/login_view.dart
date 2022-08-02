@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:studio_reservation_app/components/background.dart';
 import 'package:studio_reservation_app/components/colored_button.dart';
 import 'package:studio_reservation_app/components/input_field.dart';
+import 'package:studio_reservation_app/viewmodels/location_selection_view_model.dart';
 import '../../../../core/base/view/base_view.dart';
 import '../components/logo.dart';
 import '../components/password_field.dart';
@@ -18,10 +19,8 @@ class LoginView extends StatefulWidget {
 
 final _formKey = GlobalKey<FormState>();
 
-class _LoginViewState extends State<LoginView> with RouteAware {
-  void didPopNext() {
-    setState(() {});
-  }
+class _LoginViewState extends State<LoginView>  {
+
 
   @override
   Widget build(BuildContext context) {
@@ -115,30 +114,30 @@ class _LoginViewState extends State<LoginView> with RouteAware {
                           ColoredButton(
                             text: 'Sign In',
                             onPressed: () async {
-                              viewModel.signIn(viewModel.emailController.text,
-                                  viewModel.passwordController.text);
+                              viewModel.signIn(
+                                viewModel.emailController.text,
+                                viewModel.passwordController.text,
+                              );
                             },
                           ),
                           const SizedBox(
                             height: 100,
                           ),
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text('Don\'t have an account?',
-                                      style: TextStyle(
-                                          color: Colors.white.withOpacity(0.7),
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.normal)),
-                                  const Text('Sign Up Now!',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold)),
-                                ]),
-                          )
+                          // Row(
+                          //     mainAxisAlignment: MainAxisAlignment.center,
+                          //     children: [
+                          //       Text('Don\'t have an account?',
+                          //           style: TextStyle(
+                          //               color: Colors.white.withOpacity(0.7),
+                          //               fontSize: 16,
+                          //               fontWeight: FontWeight.normal)),
+                          //       SizedBox(width: 10),
+                          //       const Text('Sign Up Now!',
+                          //           style: TextStyle(
+                          //               color: Colors.white,
+                          //               fontSize: 16,
+                          //               fontWeight: FontWeight.bold)),
+                          //     ])
                         ],
                       )),
                     ),
