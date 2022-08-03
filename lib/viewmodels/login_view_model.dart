@@ -34,19 +34,12 @@ abstract class _LoginViewModelBase with Store, BaseViewModel {
 
   late TextEditingController emailController;
   late TextEditingController passwordController;
-  bool isChecked = false;
-  GlobalKey<FormState> formState = GlobalKey();
-  GlobalKey<ScaffoldState> scaffoldState = GlobalKey();
-  @observable
-  bool isLoading = false;
-  @observable
-  bool isLockOpen = true;
+
   @observable
   String userEmail = "";
   @observable
   bool isVisible = true;
-  @observable
-  int currentTabIndex = 0;
+
   @action
   void setUserEmail(String email) {
     userEmail = email;
@@ -55,21 +48,6 @@ abstract class _LoginViewModelBase with Store, BaseViewModel {
   @action
   void changeVisibility() {
     isVisible = !isVisible;
-  }
-
-  @action
-  void changeCurrentTabIndex(int val) {
-    currentTabIndex = val;
-  }
-
-  @action
-  void isLockStateChange() {
-    isLockOpen = !isLockOpen;
-  }
-
-  @action
-  void isLoadingChange() {
-    isLoading = !isLoading;
   }
 
   final dio = Dio(
@@ -108,14 +86,6 @@ abstract class _LoginViewModelBase with Store, BaseViewModel {
     }
     return null;
   }
-
-  @action
-  getCities() {
-    return cities;
-  }
-
-  @observable
-  List cities = [];
 
   // @observable
   // Future<List<BranchLocationResponseModel>?> getAllLocations() async {

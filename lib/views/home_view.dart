@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:studio_reservation_app/components/background.dart';
-import 'package:studio_reservation_app/components/lesson_CArd.dart';
+import 'package:studio_reservation_app/deneme/card_view.dart';
 import 'package:studio_reservation_app/viewmodels/home_view_model.dart';
+import 'package:studio_reservation_app/views/booking_view.dart';
 import 'package:studio_reservation_app/views/home_screen_view.dart';
 import 'package:studio_reservation_app/views/splash_screen.dart';
 
@@ -23,7 +24,7 @@ class _HomeViewState extends State<HomeView> {
 
   final pages = [
     const HomeScreenView(),
-    const LessonCard(),
+    CardsView(),
     const SplashScreen(),
   ];
 

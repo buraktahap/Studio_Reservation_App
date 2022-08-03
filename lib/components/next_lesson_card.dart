@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 import 'package:studio_reservation_app/components/colored_button.dart';
 import 'package:studio_reservation_app/components/colored_button_with_size.dart';
 
-class LessonCard extends StatefulWidget {
-  const LessonCard({Key? key}) : super(key: key);
+class NextLessonCard extends StatefulWidget {
+  const NextLessonCard({Key? key}) : super(key: key);
 
   @override
-  State<LessonCard> createState() => _LessonCardState();
+  State<NextLessonCard> createState() => _NextLessonCardState();
 }
 
-class _LessonCardState extends State<LessonCard> {
+class _NextLessonCardState extends State<NextLessonCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -38,30 +39,18 @@ class _LessonCardState extends State<LessonCard> {
           ),
           Image.asset('assets/images/Logo.png'),
           ButtonBar(
-            alignment: MainAxisAlignment.center,
+            alignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  ColoredButtonWithSize(
-                    text: "Check In",
-                    onPressed: () {
-                      print("checkin");
-                    },
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    height: 45,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  ColoredButtonWithSize(
-                      text: "Check Out",
-                      onPressed: () {
-                        print("checkout");
-                      },
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      height: 45),
-                ],
-              ),
+              ColoredButtonWithSize(
+                  text: "Check In",
+                  onPressed: () {},
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  height: 45),
+              ColoredButtonWithSize(
+                  text: "Cancel",
+                  onPressed: () {},
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  height: 45)
             ],
           ),
         ],
