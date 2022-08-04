@@ -3,11 +3,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:mobx/mobx.dart';
+import 'package:studio_reservation_app/core/base/model/base_viewmodel.dart';
 import 'package:studio_reservation_app/models/branch_location_response.dart';
 import 'package:studio_reservation_app/static_member.dart';
 import 'package:studio_reservation_app/viewmodels/location_selection_view_model.dart';
 import 'package:studio_reservation_app/views/location_selection_view.dart';
-import '../core/base/base_viewmodel.dart';
 import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/constants/network/network_constants.dart';
 import '../core/enums/url_enum.dart';
@@ -27,50 +27,12 @@ abstract class _LoginViewModelBase with Store, BaseViewModel {
   void setContext(BuildContext context) => this.context = context;
   @override
   void init() {
-    super.init();
     emailController = TextEditingController();
     passwordController = TextEditingController();
   }
 
   late TextEditingController emailController;
   late TextEditingController passwordController;
-  bool isChecked = false;
-  GlobalKey<FormState> formState = GlobalKey();
-  GlobalKey<ScaffoldState> scaffoldState = GlobalKey();
-  @observable
-  bool isLoading = false;
-  @observable
-  bool isLockOpen = true;
-  @observable
-  String userEmail = "";
-  @observable
-  bool isVisible = true;
-  @observable
-  int currentTabIndex = 0;
-  @action
-  void setUserEmail(String email) {
-    userEmail = email;
-  }
-
-  @action
-  void changeVisibility() {
-    isVisible = !isVisible;
-  }
-
-  @action
-  void changeCurrentTabIndex(int val) {
-    currentTabIndex = val;
-  }
-
-  @action
-  void isLockStateChange() {
-    isLockOpen = !isLockOpen;
-  }
-
-  @action
-  void isLoadingChange() {
-    isLoading = !isLoading;
-  }
 
   final dio = Dio(
     BaseOptions(
@@ -78,6 +40,8 @@ abstract class _LoginViewModelBase with Store, BaseViewModel {
       headers: {"Content-Type": "application/json"},
     ),
   );
+
+  @observable
   Future<String?> signIn(String email, String password) async {
     try {
       final response = await dio.post(
@@ -92,8 +56,11 @@ abstract class _LoginViewModelBase with Store, BaseViewModel {
               await SignInResponseModel.fromJson(response.data);
           await LocaleManager.instance.setIntValue(
               PreferencesKeys.USER_ID, appSignInResponse.id as int);
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => LocationSelectionView()));
+          
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => LocationSelectionView()),
+              (r) => false);
 
           break;
         case HttpStatus.notFound:

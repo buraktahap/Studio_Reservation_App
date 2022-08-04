@@ -23,23 +23,24 @@ dependencies:
   easy_localization: ^3.0.0
   equatable: ^2.0.3
   fast_immutable_collections: ^7.0.3
-  file_picker: ^4.1.1
-  flutter_form_builder: ^6.1.0+1
+  file_picker: ^5.0.1
+  flutter_form_builder: ^7.5.0
   flutter_mobx: ^2.0.2
   flutter_multi_formatter: ^2.4.4
   flutter_multiselect: ^1.0.0
   flutter_screenutil: ^5.0.1
-  flutter_slidable: ^0.6.0
-  flutter_svg: ^0.22.0
+  flutter_slidable: ^2.0.0
+  flutter_svg: ^1.1.2
   footer: ^0.0.4
   get: ^4.3.8
   http: ^0.13.3
   image_picker: any
   json_annotation: ^4.1.0
-  json_serializable: ^5.0.0
+  json_serializable: ^6.3.1
   mime: ^1.0.1
   mime_type: ^1.0.0
   mobx: ^2.0.4
+  mobx_codegen: ^2.0.7
   multi_select_flutter: ^4.0.0
   numberpicker: ^2.1.1
   path: ^1.8.0
@@ -47,17 +48,17 @@ dependencies:
   popover: ^0.2.6+3
   provider: ^6.0.0
   shared_preferences: ^2.0.7
-  webview_flutter: ^2.0.4
+  webview_flutter: ^3.0.4
   flutter_launcher_icons: ^0.9.3
   carousel_slider: ^4.1.1
   qr_code_scanner: ^1.0.0
-  vexana: ^2.8.1
+  vexana: ^3.0.1
 dependency_overrides:
-  analyzer: ^3.1.0
-  meta: ^1.4.0
+  analyzer: ^4.3.1
+  meta: ^1.8.0
 
 
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.5
   helpers: ^1.1.4
   path_drawing: ^1.0.0
 
@@ -66,8 +67,8 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^2.0.0
-  build_runner: ^2.1.11
-  mobx_codegen: ^2.0.7
+  build_runner: ^2.0.0
+  
 
 
 flutter:

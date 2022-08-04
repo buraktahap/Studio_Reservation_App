@@ -14,8 +14,11 @@ import 'package:studio_reservation_app/static_member.dart';
 import 'package:studio_reservation_app/views/home_screen_view.dart';
 import 'package:studio_reservation_app/views/home_view.dart';
 import '../core/base/base_viewmodel.dart';
+import '../core/base/model/base_viewmodel.dart';
+import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/constants/network/network_constants.dart';
 import '../core/enums/url_enum.dart';
+import '../core/init/cache/locale_manager.dart';
 part 'location_selection_view_model.g.dart';
 
 class LocationSelectionViewModel = _LocationSelectionViewModelBase
@@ -27,6 +30,7 @@ abstract class _LocationSelectionViewModelBase with Store, BaseViewModel {
 
   @override
   void init() {
+    // TODO: implement init
     super.init();
     GetAllLocations();
   }
@@ -69,26 +73,28 @@ abstract class _LocationSelectionViewModelBase with Store, BaseViewModel {
   }
 
   @observable
-  void MemberLocationUpdate(int? userId, String? location) async {
+  void MemberLocationUpdate(int userId, String? location) async {
     try {
-      final response = await dio.post(
-        Urls.MemberLocationUpdate.rawValue,
-        data: jsonEncode(
-            SignInResponseModel(id: userId, location: location).toJson()),
-      );
+      final response = await dio.post(Urls.MemberLocationUpdate.rawValue,
+          data: jsonEncode(
+              SignInResponseModel(id: userId, location: location).toJson()));
+
       switch (response.statusCode) {
         case HttpStatus.ok:
           // ignore: use_build_context_synchronously
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => HomeView()));
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => HomeView()),
+              ((r) => false));
+          await LocaleManager.instance.setStringValue(
+              PreferencesKeys.USER_LOCATION, location as String);
       }
     } on DioError catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Please select a location")));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Please select a location")));
     }
   }
 
-  
   // @action
   // Future<Object?> LocationUpdate(int? id, String location) async {
   //   try {

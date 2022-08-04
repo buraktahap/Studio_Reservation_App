@@ -75,7 +75,7 @@ class _LocationSelectionViewState extends State<LocationSelectionView> {
                                         text: "Approve",
                                         onPressed: () {
                                           viewModel.MemberLocationUpdate(
-                                              userId, _selectedCity.name);
+                                              userId!, _selectedCity.name);
                                         }))
                               ],
                             ),

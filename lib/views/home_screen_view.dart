@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:studio_reservation_app/classes/member.dart';
-import 'package:studio_reservation_app/components/lesson_CArd.dart';
+import 'package:studio_reservation_app/components/enroll_lesson_card.dart';
 import 'package:studio_reservation_app/core/base/view/base_view.dart';
 import 'package:studio_reservation_app/models/member_location_update_response.dart';
 import 'package:studio_reservation_app/static_member.dart';
 
+import '../components/last_completed_lesson_card.dart';
 import '../viewmodels/home_screen_view_model.dart';
 
 class HomeScreenView extends StatefulWidget {
@@ -57,9 +58,8 @@ class _HomeScreenViewState extends State<HomeScreenView> {
               ],
             ),
           ),
-          LessonCard(),
-          LessonCard(),
-          LessonCard(),
+          EnrollLessonCard(),
+          LastCompletedLessonCard(),
           Row(
             children: [Container()],
           ),

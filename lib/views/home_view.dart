@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:studio_reservation_app/components/background.dart';
-import 'package:studio_reservation_app/components/lesson_CArd.dart';
+import 'package:studio_reservation_app/components/enroll_lesson_card.dart';
+import 'package:studio_reservation_app/core/constants/enums/preferences_keys_enum.dart';
+import 'package:studio_reservation_app/viewmodels/booking_view_model.dart';
 import 'package:studio_reservation_app/viewmodels/home_view_model.dart';
+import 'package:studio_reservation_app/views/booking_view.dart';
 import 'package:studio_reservation_app/views/home_screen_view.dart';
 import 'package:studio_reservation_app/views/splash_screen.dart';
 
 import 'package:studio_reservation_app/core/base/view/base_view.dart';
+import '../core/init/cache/locale_manager.dart';
 import 'location_selection_view.dart';
 import 'login_view.dart';
 
@@ -19,11 +23,14 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  final String? userLocation =
+      LocaleManager.instance.getStringValue(PreferencesKeys.USER_LOCATION);
+
   int pageIndex = 0;
 
   final pages = [
     const HomeScreenView(),
-    const LessonCard(),
+    BookingView(),
     const SplashScreen(),
   ];
 
@@ -79,6 +86,7 @@ class _HomeViewState extends State<HomeView> {
             enableFeedback: false,
             onPressed: () {
               setState(() {
+                BookingViewModel().LessonsByBranchName(userLocation);
                 pageIndex = 1;
               });
             },

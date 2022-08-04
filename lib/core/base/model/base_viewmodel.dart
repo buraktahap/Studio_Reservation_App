@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+
 import '../../init/cache/locale_manager.dart';
 import '../../init/navigation/navigation_service.dart';
 

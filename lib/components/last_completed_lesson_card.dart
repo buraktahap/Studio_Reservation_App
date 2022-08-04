@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 import 'package:studio_reservation_app/components/colored_button.dart';
 import 'package:studio_reservation_app/components/colored_button_with_size.dart';
 
-class LessonCard extends StatefulWidget {
-  const LessonCard({Key? key}) : super(key: key);
+class LastCompletedLessonCard extends StatefulWidget {
+  const LastCompletedLessonCard({Key? key}) : super(key: key);
 
   @override
-  State<LessonCard> createState() => _LessonCardState();
+  State<LastCompletedLessonCard> createState() =>
+      _LastCompletedLessonCardState();
 }
 
-class _LessonCardState extends State<LessonCard> {
+class _LastCompletedLessonCardState extends State<LastCompletedLessonCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -36,33 +38,9 @@ class _LessonCardState extends State<LessonCard> {
                   )
                 ]),
           ),
-          Image.asset('assets/images/Logo.png'),
-          ButtonBar(
-            alignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                children: [
-                  ColoredButtonWithSize(
-                    text: "Check In",
-                    onPressed: () {
-                      print("checkin");
-                    },
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    height: 45,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  ColoredButtonWithSize(
-                      text: "Check Out",
-                      onPressed: () {
-                        print("checkout");
-                      },
-                      width: MediaQuery.of(context).size.width * 0.4,
-                      height: 45),
-                ],
-              ),
-            ],
+          Image.asset(
+            'assets/images/Logo.png',
+            height: 161,
           ),
         ],
       ),
