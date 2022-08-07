@@ -10,6 +10,12 @@ part of 'home_view_model.dart';
 
 mixin _$HomeViewModel on _HomeViewModelBase, Store {
   @override
+  ObservableFuture<MemberDetailsResponse?> memberDetails(int id) {
+    final _$future = super.memberDetails(id);
+    return ObservableFuture<MemberDetailsResponse?>(_$future);
+  }
+
+  @override
   String toString() {
     return '''
 

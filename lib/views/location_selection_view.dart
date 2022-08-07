@@ -63,20 +63,18 @@ class _LocationSelectionViewState extends State<LocationSelectionView> {
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 30),
-                            child: Row(
+                            child: Column(
                               children: [
-                                Expanded(flex: 2, child: cities(viewModel)),
+                                cities(viewModel),
                                 const SizedBox(
-                                  width: 10,
+                                  height: 30,
                                 ),
-                                Expanded(
-                                    flex: 1,
-                                    child: ColoredButton(
-                                        text: "Approve",
-                                        onPressed: () {
-                                          viewModel.MemberLocationUpdate(
-                                              userId!, _selectedCity.name);
-                                        }))
+                                ColoredButton(
+                                    text: "Approve",
+                                    onPressed: () {
+                                      viewModel.MemberLocationUpdate(
+                                          userId!, _selectedCity.name);
+                                    })
                               ],
                             ),
                           ),

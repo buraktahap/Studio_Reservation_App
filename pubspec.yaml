@@ -53,6 +53,7 @@ dependencies:
   carousel_slider: ^4.1.1
   qr_code_scanner: ^1.0.0
   vexana: ^3.0.1
+  intl: ^0.17.0
 dependency_overrides:
   analyzer: ^4.3.1
   meta: ^1.8.0

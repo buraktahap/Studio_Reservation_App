@@ -29,7 +29,6 @@ class _BookingViewState extends State<BookingView> {
 
   @override
   Widget build(BuildContext context) {
-    LocationSelectionView locationViewModel = LocationSelectionView();
     return BaseView<BookingViewModel>(
         viewModel: BookingViewModel(),
         onModelReady: (BookingViewModel model) {},
@@ -37,23 +36,28 @@ class _BookingViewState extends State<BookingView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 GestureDetector(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 45, 15, 0),
-                    child: Text(
-                      userLocation!,
-                      style: TextStyle(color: Colors.white, fontSize: 30),
-                    ),
-                  ),
-                  onLongPressEnd: (details) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LocationSelectionView(),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 45, 15, 0),
+                      child: Row(
+                        children: [
+                          Text(
+                            userLocation!,
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 30),
+                          ),
+                          const Icon(Icons.arrow_drop_down,
+                              color: Colors.white),
+                        ],
                       ),
-                    );
-                  },
-                ),
-
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LocationSelectionView(),
+                        ),
+                      );
+                    }),
                 FutureBuilder(
                     future:
                         BookingViewModel().LessonsByBranchName(userLocation),
@@ -72,37 +76,16 @@ class _BookingViewState extends State<BookingView> {
                                   lesson_description: snapshot
                                       .data[index].description
                                       .toString(),
-                                  // lesson_image: snapshot.data[index].image,
                                   lesson_level: snapshot.data[index].lessonLevel
                                       .toString(),
+                                  lesson_id: snapshot.data[index].id,
                                 );
                               }),
                         );
                       } else {
-                        return CircularProgressIndicator();
+                        return const CircularProgressIndicator();
                       }
                     }),
-                // ListView.builder(
-                //     shrinkWrap: true,
-                //     itemCount: viewModel.lessons.length,
-                //     itemBuilder: (BuildContext context, int index) {
-                //       return Padding(
-                //         padding: const EdgeInsets.all(15.0),
-                //         child: Container(
-                //           color: Colors.blue,
-                //           margin: EdgeInsets.all(10),
-                //           padding: EdgeInsets.all(15),
-                //           alignment: Alignment.center,
-                //           child: Text(
-                //             viewModel.lessons[index].name,
-                //             style: TextStyle(
-                //               color: Colors.white,
-                //               fontSize: 22,
-                //             ),
-                //           ),
-                //         ),
-                //       );
-                //     }),
               ],
             ));
   }
