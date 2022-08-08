@@ -1,8 +1,9 @@
+
 class memberLessonResponse {
-  Null? isEnrolled;
-  Null? enrollCount;
-  Null? isCheckin;
-  Null? isCompleted;
+  bool? isEnrolled;
+  int? enrollCount;
+  bool? isCheckin;
+  bool? isCompleted;
   int? memberId;
   int? lessonId;
 

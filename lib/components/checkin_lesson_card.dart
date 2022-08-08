@@ -2,43 +2,42 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:get/get.dart';
 import 'package:studio_reservation_app/components/colored_button.dart';
 import 'package:studio_reservation_app/components/colored_button_with_size.dart';
-import 'package:studio_reservation_app/viewmodels/booking_view_model.dart';
+import 'package:studio_reservation_app/models/lesson_response_model.dart';
+import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
 
+import '../classes/lesson.dart';
 import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/init/cache/locale_manager.dart';
 
-class UpcomingLessonCard extends StatefulWidget {
-  final String lesson_name;
-  late String lesson_date;
-  final String lesson_description;
-  final int lesson_id;
-  // final String lesson_image;
-  final String lesson_level;
+class CheckInLessonCard extends StatefulWidget {
+  final String lesson_date;
+
   final String lesson_time;
-  UpcomingLessonCard({
+
+  final String lesson_level;
+
+  final String lesson_name;
+
+  const CheckInLessonCard({
     Key? key,
-    required this.lesson_name,
     required this.lesson_date,
-    required this.lesson_description, // required this.lesson_image,
-    required this.lesson_level,
     required this.lesson_time,
-    required this.lesson_id,
+    required this.lesson_level,
+    required this.lesson_name,
+    required String lesson_description,
+    required lesson_id,
   }) : super(key: key);
 
   @override
-  State<UpcomingLessonCard> createState() => _UpcomingLessonCardState();
+  State<CheckInLessonCard> createState() => _CheckInLessonCardState();
 }
 
-@override
-State<UpcomingLessonCard> createState() => _UpcomingLessonCardState();
-
-class _UpcomingLessonCardState extends State<UpcomingLessonCard> {
+class _CheckInLessonCardState extends State<CheckInLessonCard> {
   final int? userId =
       LocaleManager.instance.getIntValue(PreferencesKeys.USER_ID);
-  BookingViewModel viewModel = BookingViewModel();
+  HomeScreenViewModel viewModel = HomeScreenViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +47,7 @@ class _UpcomingLessonCardState extends State<UpcomingLessonCard> {
     String formattedTime = DateFormat('HH:mm').format(selectedTime);
     return Card(
       color: const Color(0xff373856),
-      margin: const EdgeInsets.fromLTRB(15, 0, 15, 20),
+      margin: const EdgeInsets.fromLTRB(15, 20, 15, 20),
       clipBehavior: Clip.antiAlias,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
@@ -86,17 +85,27 @@ class _UpcomingLessonCardState extends State<UpcomingLessonCard> {
             ),
             ButtonBar(
               alignment: MainAxisAlignment.center,
+              layoutBehavior: ButtonBarLayoutBehavior.padded,
               children: [
                 ColoredButtonWithSize(
-                  text: viewModel.enrollStatus,
+                  text: "Check In",
                   // onPressed: viewModel.Enroll(memberId, widget.lesson_id),
                   width: MediaQuery.of(context).size.width * 0.8,
                   height: 45,
                   onPressed: () {
-                    viewModel.Enroll(userId!, widget.lesson_id);
-                    setState(() {
-                      viewModel.enrollStatus;
-                    });
+                    setState(() {});
+                  },
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                ColoredButtonWithSize(
+                  text: "Cancel",
+                  // onPressed: viewModel.Enroll(memberId, widget.lesson_id),
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  height: 45,
+                  onPressed: () {
+                    setState(() {});
                   },
                 ),
               ],

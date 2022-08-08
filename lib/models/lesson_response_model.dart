@@ -8,10 +8,7 @@ class LessonResponseModel {
   String? startDate;
   String? estimatedTime;
   int? trainerId;
-  Null? trainer;
-  Null? memberLessons;
   int? classesId;
-  Null? classes;
 
   LessonResponseModel(
       {this.id,
@@ -23,10 +20,7 @@ class LessonResponseModel {
       this.startDate,
       this.estimatedTime,
       this.trainerId,
-      this.trainer,
-      this.memberLessons,
-      this.classesId,
-      this.classes});
+      this.classesId});
 
   LessonResponseModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -38,10 +32,7 @@ class LessonResponseModel {
     startDate = json['startDate'];
     estimatedTime = json['estimatedTime'];
     trainerId = json['trainerId'];
-    trainer = json['trainer'];
-    memberLessons = json['memberLessons'];
     classesId = json['classesId'];
-    classes = json['classes'];
   }
 
   Map<String, dynamic> toJson() {
@@ -55,10 +46,7 @@ class LessonResponseModel {
     data['startDate'] = this.startDate;
     data['estimatedTime'] = this.estimatedTime;
     data['trainerId'] = this.trainerId;
-    data['trainer'] = this.trainer;
-    data['memberLessons'] = this.memberLessons;
     data['classesId'] = this.classesId;
-    data['classes'] = this.classes;
     return data;
   }
 }

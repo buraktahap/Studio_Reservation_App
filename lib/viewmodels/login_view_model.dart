@@ -75,7 +75,7 @@ abstract class _LoginViewModelBase with Store, BaseViewModel {
     }
     return null;
   }
-
+  
   @action
   getCities() {
     return cities;

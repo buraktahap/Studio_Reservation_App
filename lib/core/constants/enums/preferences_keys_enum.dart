@@ -11,4 +11,5 @@ enum PreferencesKeys {
   TOKEN_EXPIRE_TIME,
   USER_ID,
   USER_LOCATION,
+  CHECKIN_ID,
 }

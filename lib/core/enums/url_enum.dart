@@ -6,6 +6,8 @@ enum Urls {
   LessonsByBranchName,
   Enroll,
   GetMemberById,
+  CheckInLessonDetails,
+  GetLessonById,
 }
 
 extension UrlsExtension on Urls {
@@ -25,6 +27,10 @@ extension UrlsExtension on Urls {
         return "/MemberLessons/Enroll";
       case Urls.GetMemberById:
         return "/Members/getById";
+      case Urls.CheckInLessonDetails:
+        return "/MemberLessons/CheckInLessonDetails";
+      case Urls.GetLessonById:
+        return "/Lessons/GetLessonById";
     }
   }
 }

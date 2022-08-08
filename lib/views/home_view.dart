@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:studio_reservation_app/components/background.dart';
-import 'package:studio_reservation_app/components/enroll_lesson_card.dart';
+import 'package:studio_reservation_app/components/checkin_lesson_card.dart';
 import 'package:studio_reservation_app/core/constants/enums/preferences_keys_enum.dart';
 import 'package:studio_reservation_app/viewmodels/booking_view_model.dart';
 import 'package:studio_reservation_app/viewmodels/home_view_model.dart';

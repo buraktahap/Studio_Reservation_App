@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:studio_reservation_app/classes/member.dart';
-import 'package:studio_reservation_app/components/enroll_lesson_card.dart';
+import 'package:studio_reservation_app/components/checkin_lesson_card.dart';
 import 'package:studio_reservation_app/core/base/view/base_view.dart';
 import 'package:studio_reservation_app/models/member_location_update_response.dart';
 import 'package:studio_reservation_app/static_member.dart';
@@ -22,8 +22,6 @@ class HomeScreenView extends StatefulWidget {
 }
 
 class _HomeScreenViewState extends State<HomeScreenView> {
-  HomeViewModel homeViewModel = HomeViewModel();
-
   final int? userId =
       LocaleManager.instance.getIntValue(PreferencesKeys.USER_ID);
 
@@ -84,8 +82,29 @@ class _HomeScreenViewState extends State<HomeScreenView> {
               ],
             ),
           ),
-          EnrollLessonCard(),
-          LastCompletedLessonCard(),
+          FutureBuilder(
+              future: HomeScreenViewModel().checkInLesson(),
+              builder: (context, AsyncSnapshot snapshot) {
+                if (snapshot.connectionState == ConnectionState.done &&
+                    snapshot.data != null) {
+                  return CheckInLessonCard(
+                    lesson_name: snapshot.data.name,
+                    lesson_date: snapshot.data.startDate,
+                    lesson_time: snapshot.data.estimatedTime,
+                    lesson_description: snapshot.data.description.toString(),
+                    lesson_level: snapshot.data.lessonLevel.toString(),
+                    lesson_id: snapshot.data.id,
+                  );
+                } else {
+                  return const CheckInLessonCard(
+                      lesson_date: "0000-00-00 00:00:00.0000000",
+                      lesson_time: "0000-00-00 00:00:00.0000000",
+                      lesson_level: "",
+                      lesson_name: "",
+                      lesson_description: "",
+                      lesson_id: "");
+                }
+              }),
           Row(
             children: [Container()],
           ),

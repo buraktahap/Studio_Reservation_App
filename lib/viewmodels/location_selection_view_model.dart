@@ -12,6 +12,7 @@ import 'package:studio_reservation_app/models/member_location_update_response.da
 import 'package:studio_reservation_app/models/sign_in_response.dart';
 import 'package:studio_reservation_app/static_member.dart';
 import 'package:studio_reservation_app/views/home_screen_view.dart';
+import 'package:studio_reservation_app/models/member_lesson_response.dart';
 import 'package:studio_reservation_app/views/home_view.dart';
 import '../core/base/base_viewmodel.dart';
 import '../core/base/model/base_viewmodel.dart';
@@ -34,6 +35,9 @@ abstract class _LocationSelectionViewModelBase with Store, BaseViewModel {
     super.init();
     GetAllLocations();
   }
+
+  final int? userId =
+      LocaleManager.instance.getIntValue(PreferencesKeys.USER_ID);
 
   @observable
   List<BranchLocationResponseModel>? categories =
@@ -68,6 +72,31 @@ abstract class _LocationSelectionViewModelBase with Store, BaseViewModel {
               .toList();
         }
         return Future.error(responseBody);
+    }
+    return null;
+  }
+
+  @observable
+  void checkInLessonDetails() async {
+    try {
+      final response =
+          await dio.get(Urls.CheckInLessonDetails.rawValue, queryParameters: {
+        'id': userId,
+      });
+      switch (response.statusCode) {
+        case HttpStatus.ok:
+          final responseBody = await response.data;
+          print(responseBody);
+          final checkInLessonDetails = responseBody
+              .map((e) => memberLessonResponse.fromJson(e))
+              .toList();
+          print(checkInLessonDetails[0].lessonId);
+
+          await LocaleManager.instance.setIntValue(PreferencesKeys.CHECKIN_ID,
+              checkInLessonDetails[0].lessonId as int);
+      }
+    } on DioError catch (e) {
+      print("e");
     }
     return null;
   }
