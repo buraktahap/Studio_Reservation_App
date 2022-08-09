@@ -3,13 +3,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:studio_reservation_app/classes/member.dart';
 import 'package:studio_reservation_app/components/background.dart';
 import 'package:studio_reservation_app/components/colored_button.dart';
-import 'package:studio_reservation_app/components/upcoming_lesson_card.dart';
+import 'package:studio_reservation_app/components/enroll_lesson_card.dart';
 import 'package:studio_reservation_app/core/base/view/base_view.dart';
 import 'package:studio_reservation_app/models/branch_location_response.dart';
 import 'package:studio_reservation_app/models/location_selection_model.dart';
 import 'package:studio_reservation_app/models/member_location_update.dart';
 import 'package:studio_reservation_app/models/sign_in_response.dart';
 import 'package:studio_reservation_app/static_member.dart';
+import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
 
 import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/init/cache/locale_manager.dart';
@@ -25,7 +26,7 @@ class LocationSelectionView extends StatefulWidget {
 class _LocationSelectionViewState extends State<LocationSelectionView> {
   @override
   void initState() {
-    LocationSelectionViewModel().checkInLessonDetails();
+    HomeScreenViewModel().checkInLessonDetails();
     super.initState();
   }
 

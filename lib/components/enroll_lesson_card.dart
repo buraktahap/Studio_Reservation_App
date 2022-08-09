@@ -2,42 +2,43 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 import 'package:studio_reservation_app/components/colored_button.dart';
 import 'package:studio_reservation_app/components/colored_button_with_size.dart';
-import 'package:studio_reservation_app/models/lesson_response_model.dart';
-import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
+import 'package:studio_reservation_app/viewmodels/booking_view_model.dart';
 
-import '../classes/lesson.dart';
 import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/init/cache/locale_manager.dart';
 
-class CheckInLessonCard extends StatefulWidget {
-  final String lesson_date;
-
-  final String lesson_time;
-
-  final String lesson_level;
-
+class EnrollLessonCard extends StatefulWidget {
   final String lesson_name;
-
-  const CheckInLessonCard({
+  late String lesson_date;
+  final String lesson_description;
+  final int lesson_id;
+  // final String lesson_image;
+  final String lesson_level;
+  final String lesson_time;
+  EnrollLessonCard({
     Key? key,
-    required this.lesson_date,
-    required this.lesson_time,
-    required this.lesson_level,
     required this.lesson_name,
-    required String lesson_description,
-    required lesson_id,
+    required this.lesson_date,
+    required this.lesson_description, // required this.lesson_image,
+    required this.lesson_level,
+    required this.lesson_time,
+    required this.lesson_id,
   }) : super(key: key);
 
   @override
-  State<CheckInLessonCard> createState() => _CheckInLessonCardState();
+  State<EnrollLessonCard> createState() => _EnrollLessonCardState();
 }
 
-class _CheckInLessonCardState extends State<CheckInLessonCard> {
+@override
+State<EnrollLessonCard> createState() => _EnrollLessonCardState();
+
+class _EnrollLessonCardState extends State<EnrollLessonCard> {
   final int? userId =
       LocaleManager.instance.getIntValue(PreferencesKeys.USER_ID);
-  HomeScreenViewModel viewModel = HomeScreenViewModel();
+  BookingViewModel viewModel = BookingViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -47,20 +48,12 @@ class _CheckInLessonCardState extends State<CheckInLessonCard> {
     String formattedTime = DateFormat('HH:mm').format(selectedTime);
     return Card(
       color: const Color(0xff373856),
-      margin: const EdgeInsets.fromLTRB(15, 20, 15, 20),
+      margin: const EdgeInsets.fromLTRB(15, 0, 15, 20),
       clipBehavior: Clip.antiAlias,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
         child: Column(
           children: [
-            Container(
-              alignment: Alignment.topLeft,
-              child: const Text("Check In",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                  )),
-            ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -94,35 +87,17 @@ class _CheckInLessonCardState extends State<CheckInLessonCard> {
             ButtonBar(
               alignment: MainAxisAlignment.center,
               children: [
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ColoredButtonWithSize(
-                      text: "Check In",
-                      // onPressed: viewModel.Enroll(memberId, widget.lesson_id),
-                      width: MediaQuery.of(context).size.width * 0.35,
-                      height: 45,
-                      onPressed: () {
-                        viewModel.CheckIn();
-                        setState(() {});
-                      },
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    ColoredButtonWithSize(
-                      text: "Cancel",
-                      // onPressed: viewModel.Enroll(memberId, widget.lesson_id),
-                      width: MediaQuery.of(context).size.width * 0.35,
-                      height: 45,
-                      onPressed: () {
-                        viewModel.EnrollCancel();
-                        viewModel.checkInLessonDetails();
-                        setState(() {});
-                      },
-                    ),
-                  ],
+                ColoredButtonWithSize(
+                  text: viewModel.enrollStatus,
+                  // onPressed: viewModel.Enroll(memberId, widget.lesson_id),
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  height: 45,
+                  onPressed: () {
+                    viewModel.Enroll(userId!, widget.lesson_id);
+                    setState(() {
+                      viewModel.enrollStatus;
+                    });
+                  },
                 ),
               ],
             ),

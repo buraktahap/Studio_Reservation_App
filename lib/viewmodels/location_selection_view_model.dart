@@ -77,31 +77,6 @@ abstract class _LocationSelectionViewModelBase with Store, BaseViewModel {
   }
 
   @observable
-  void checkInLessonDetails() async {
-    try {
-      final response =
-          await dio.get(Urls.CheckInLessonDetails.rawValue, queryParameters: {
-        'id': userId,
-      });
-      switch (response.statusCode) {
-        case HttpStatus.ok:
-          final responseBody = await response.data;
-          print(responseBody);
-          final checkInLessonDetails = responseBody
-              .map((e) => memberLessonResponse.fromJson(e))
-              .toList();
-          print(checkInLessonDetails[0].lessonId);
-
-          await LocaleManager.instance.setIntValue(PreferencesKeys.CHECKIN_ID,
-              checkInLessonDetails[0].lessonId as int);
-      }
-    } on DioError catch (e) {
-      print("e");
-    }
-    return null;
-  }
-
-  @observable
   void MemberLocationUpdate(int userId, String? location) async {
     try {
       final response = await dio.post(Urls.MemberLocationUpdate.rawValue,

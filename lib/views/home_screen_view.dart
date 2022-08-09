@@ -3,12 +3,13 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:studio_reservation_app/classes/member.dart';
 import 'package:studio_reservation_app/components/checkin_lesson_card.dart';
+import 'package:studio_reservation_app/components/enroll_lesson_card.dart';
 import 'package:studio_reservation_app/core/base/view/base_view.dart';
 import 'package:studio_reservation_app/models/member_location_update_response.dart';
 import 'package:studio_reservation_app/static_member.dart';
 import 'package:studio_reservation_app/views/home_view.dart';
 
-import '../components/last_completed_lesson_card.dart';
+import '../components/upcoming_lesson_card.dart';
 import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/init/cache/locale_manager.dart';
 import '../viewmodels/home_screen_view_model.dart';
@@ -105,12 +106,29 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                       lesson_id: "");
                 }
               }),
-          Row(
-            children: [Container()],
-          ),
-          Row(
-            children: [Container()],
-          ),
+          FutureBuilder(
+              future: HomeScreenViewModel().reservationList(),
+              builder: (context, AsyncSnapshot snapshot) {
+                if (snapshot.connectionState == ConnectionState.done &&
+                    snapshot.data[1] != null) {
+                  return UpcomingLessonCard(
+                    lesson_name: snapshot.data[1].name,
+                    lesson_date: snapshot.data[1].startDate,
+                    lesson_time: snapshot.data[1].estimatedTime,
+                    lesson_description: snapshot.data[1].description.toString(),
+                    lesson_level: snapshot.data[1].lessonLevel.toString(),
+                    lesson_id: snapshot.data[1].id,
+                  );
+                } else {
+                  return UpcomingLessonCard(
+                      lesson_date: "0000-00-00 00:00:00.0000000",
+                      lesson_time: "0000-00-00 00:00:00.0000000",
+                      lesson_level: "",
+                      lesson_name: "",
+                      lesson_description: "",
+                      lesson_id: 0);
+                }
+              })
         ],
       ),
     );

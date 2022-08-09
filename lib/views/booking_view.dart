@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:studio_reservation_app/components/upcoming_lesson_Card.dart';
+import 'package:studio_reservation_app/components/enroll_lesson_Card.dart';
 import 'package:studio_reservation_app/core/base/view/base_view.dart';
 import 'package:studio_reservation_app/core/enums/url_enum.dart';
 import 'package:studio_reservation_app/models/member_location_update_response.dart';
@@ -68,7 +68,7 @@ class _BookingViewState extends State<BookingView> {
                               shrinkWrap: true,
                               itemCount: snapshot.data.length,
                               itemBuilder: (BuildContext context, int index) {
-                                return UpcomingLessonCard(
+                                return EnrollLessonCard(
                                   lesson_name: snapshot.data[index].name,
                                   lesson_date: snapshot.data[index].startDate,
                                   lesson_time:
