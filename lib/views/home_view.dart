@@ -5,6 +5,7 @@ import 'package:studio_reservation_app/components/background.dart';
 import 'package:studio_reservation_app/components/checkin_lesson_card.dart';
 import 'package:studio_reservation_app/core/constants/enums/preferences_keys_enum.dart';
 import 'package:studio_reservation_app/viewmodels/booking_view_model.dart';
+import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
 import 'package:studio_reservation_app/viewmodels/home_view_model.dart';
 import 'package:studio_reservation_app/views/booking_view.dart';
 import 'package:studio_reservation_app/views/home_screen_view.dart';
@@ -65,6 +66,7 @@ class _HomeViewState extends State<HomeView> {
           IconButton(
             enableFeedback: false,
             onPressed: () {
+              HomeScreenViewModel().checkInLessonDetails();
               setState(() {
                 pageIndex = 0;
               });

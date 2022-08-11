@@ -77,7 +77,18 @@ class _BookingViewState extends State<BookingView> {
                                       .data[index].description
                                       .toString(),
                                   lesson_level: snapshot.data[index].lessonLevel
-                                      .toString(),
+                                              .toString() ==
+                                          "1"
+                                      ? "Beginner"
+                                      : snapshot.data[0].lessonLevel
+                                                  .toString() ==
+                                              "2"
+                                          ? "Intermediate"
+                                          : snapshot.data[0].lessonLevel
+                                                      .toString() ==
+                                                  "3"
+                                              ? "Advanced"
+                                              : "All",
                                   lesson_id: snapshot.data[index].id,
                                 );
                               }),

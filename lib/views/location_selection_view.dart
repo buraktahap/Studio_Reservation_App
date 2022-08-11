@@ -24,10 +24,14 @@ class LocationSelectionView extends StatefulWidget {
 }
 
 class _LocationSelectionViewState extends State<LocationSelectionView> {
+  var branches = [];
+
   @override
   void initState() {
-    HomeScreenViewModel().checkInLessonDetails();
     super.initState();
+    LocationSelectionViewModel().GetAllLocations();
+    branches = LocationSelectionViewModel().cities;
+    setState(() {});
   }
 
   final int? userId =
@@ -94,15 +98,20 @@ class _LocationSelectionViewState extends State<LocationSelectionView> {
   }
 
   Widget cities(LocationSelectionViewModel viewModel) {
+    @override
+    void initState() {
+      super.initState();
+      setState(() {});
+    }
+
+    String? selectedLocation;
+    LocationSelectionViewModel().GetAllLocations();
     return Container(
       height: 60,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30), color: Colors.white),
       child: GestureDetector(
-        onTap: () {
-          viewModel.GetAllLocations();
-          setState(() {});
-        },
+        onTap: () {},
         child: Center(
           child: DropdownButton(
             underline: Container(),
@@ -118,7 +127,8 @@ class _LocationSelectionViewState extends State<LocationSelectionView> {
             ),
             alignment: Alignment.center,
             elevation: 16,
-            borderRadius: BorderRadius.circular(25),
+            itemHeight: 60,
+            borderRadius: BorderRadius.circular(30),
             style: const TextStyle(color: Colors.black, fontSize: 18),
             icon: const Padding(
               padding: EdgeInsets.only(right: 30.0),
@@ -150,9 +160,9 @@ class _LocationSelectionViewState extends State<LocationSelectionView> {
   //     );
   //   }).toList();
   // }
-
   List<DropdownMenuItem<String>> branchLocations(
       LocationSelectionViewModel viewModel) {
+    viewModel.GetAllLocations();
     return viewModel.cities.map((item) {
       return DropdownMenuItem(
         value: item.name.toString(),

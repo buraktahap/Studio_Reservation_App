@@ -33,10 +33,9 @@ class _UpcomingReservationListViewState
                       padding: const EdgeInsets.fromLTRB(15, 45, 15, 0),
                       child: Container(
                         alignment: Alignment.centerLeft,
-                        child: Text(
+                        child: const Text(
                           "Upcoming Lessons",
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 30),
+                          style: TextStyle(color: Colors.white, fontSize: 30),
                         ),
                       ),
                     ),
@@ -62,8 +61,19 @@ class _UpcomingReservationListViewState
                                             .data[index].description
                                             .toString(),
                                         lesson_level: snapshot
-                                            .data[index].lessonLevel
-                                            .toString(),
+                                                    .data[index].lessonLevel
+                                                    .toString() ==
+                                                "1"
+                                            ? "Beginner"
+                                            : snapshot.data[0].lessonLevel
+                                                        .toString() ==
+                                                    "2"
+                                                ? "Intermediate"
+                                                : snapshot.data[0].lessonLevel
+                                                            .toString() ==
+                                                        "3"
+                                                    ? "Advanced"
+                                                    : "All",
                                         lesson_id: snapshot.data[index].id,
                                       );
                                     } else {

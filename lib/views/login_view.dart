@@ -6,6 +6,7 @@ import 'package:studio_reservation_app/components/background.dart';
 import 'package:studio_reservation_app/components/colored_button.dart';
 import 'package:studio_reservation_app/components/input_field.dart';
 import 'package:studio_reservation_app/viewmodels/location_selection_view_model.dart';
+import 'package:studio_reservation_app/views/location_selection_view.dart';
 import '../../../../core/base/view/base_view.dart';
 import '../components/logo.dart';
 import '../components/password_field.dart';
@@ -114,6 +115,7 @@ class _LoginViewState extends State<LoginView>  {
                           ColoredButton(
                             text: 'Sign In',
                             onPressed: () async {
+
                               viewModel.signIn(
                                 viewModel.emailController.text,
                                 viewModel.passwordController.text,

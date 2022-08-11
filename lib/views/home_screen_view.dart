@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:studio_reservation_app/classes/member.dart';
+import 'package:studio_reservation_app/components/checked_lesson_card.dart';
 import 'package:studio_reservation_app/components/checkin_lesson_card.dart';
 import 'package:studio_reservation_app/components/enroll_lesson_card.dart';
+import 'package:studio_reservation_app/components/text_lesson_card.dart';
 import 'package:studio_reservation_app/core/base/view/base_view.dart';
 import 'package:studio_reservation_app/models/member_location_update_response.dart';
 import 'package:studio_reservation_app/static_member.dart';
@@ -84,49 +86,76 @@ class _HomeScreenViewState extends State<HomeScreenView> {
             ),
           ),
           FutureBuilder(
-              future: HomeScreenViewModel().checkInLesson(),
+              future: HomeScreenViewModel().checkInLessonJoined(),
               builder: (context, AsyncSnapshot snapshot) {
-                if (snapshot.connectionState == ConnectionState.done &&
-                    snapshot.data != null) {
-                  return CheckInLessonCard(
-                    lesson_name: snapshot.data.name,
-                    lesson_date: snapshot.data.startDate,
-                    lesson_time: snapshot.data.estimatedTime,
-                    lesson_description: snapshot.data.description.toString(),
-                    lesson_level: snapshot.data.lessonLevel.toString(),
-                    lesson_id: snapshot.data.id,
+                if (snapshot.data == null || snapshot.data[0] == null) {
+                  return const TextLessonCard(
+                      text:
+                          "You have nothing to checkin. You can enroll more lesson from the booking page!");
+                } else if (snapshot.data[0] != null &&
+                    snapshot.data[0].isCheckin == true) {
+                  return CheckedLessonCard(
+                    lesson_name: snapshot.data[1].name,
+                    lesson_date: snapshot.data[1].startDate,
+                    lesson_time: snapshot.data[1].estimatedTime,
+                    lesson_description: snapshot.data[1].description.toString(),
+                    lesson_level: snapshot.data[1].lessonLevel.toString() == "1"
+                        ? "Beginner"
+                        : snapshot.data[0].lessonLevel.toString() == "2"
+                            ? "Intermediate"
+                            : snapshot.data[0].lessonLevel.toString() == "3"
+                                ? "Advanced"
+                                : "All",
+                    lesson_id: snapshot.data[1].id,
+                    text: "You have succesfully checked in!",
                   );
-                } else {
-                  return const CheckInLessonCard(
-                      lesson_date: "0000-00-00 00:00:00.0000000",
-                      lesson_time: "0000-00-00 00:00:00.0000000",
-                      lesson_level: "",
-                      lesson_name: "",
-                      lesson_description: "",
-                      lesson_id: "");
+                } else if (snapshot.connectionState == ConnectionState.done &&
+                    snapshot.data[0] != null &&
+                    snapshot.data[1].id != null &&
+                    snapshot.data[0].isCheckin != true) {
+                  var lesson = viewModel.checkInLesson();
+                  print(viewModel.isCheckin);
+                  return CheckInLessonCard(
+                    lesson_name: snapshot.data[1].name,
+                    lesson_date: snapshot.data[1].startDate,
+                    lesson_time: snapshot.data[1].estimatedTime,
+                    lesson_description: snapshot.data[1].description.toString(),
+                    lesson_level: snapshot.data[1].lessonLevel.toString() == "1"
+                        ? "Beginner"
+                        : snapshot.data[0].lessonLevel.toString() == "2"
+                            ? "Intermediate"
+                            : snapshot.data[0].lessonLevel.toString() == "3"
+                                ? "Advanced"
+                                : "All",
+                    lesson_id: snapshot.data[1].id,
+                  );
                 }
+                return Container();
               }),
           FutureBuilder(
               future: HomeScreenViewModel().reservationList(),
               builder: (context, AsyncSnapshot snapshot) {
                 if (snapshot.connectionState == ConnectionState.done &&
-                    snapshot.data[1] != null) {
+                    snapshot.data != null &&
+                    snapshot.data.length > 0) {
                   return UpcomingLessonCard(
-                    lesson_name: snapshot.data[1].name,
-                    lesson_date: snapshot.data[1].startDate,
-                    lesson_time: snapshot.data[1].estimatedTime,
-                    lesson_description: snapshot.data[1].description.toString(),
-                    lesson_level: snapshot.data[1].lessonLevel.toString(),
-                    lesson_id: snapshot.data[1].id,
+                    lesson_name: snapshot.data[0].name,
+                    lesson_date: snapshot.data[0].startDate,
+                    lesson_time: snapshot.data[0].estimatedTime,
+                    lesson_description: snapshot.data[0].description.toString(),
+                    lesson_level: snapshot.data[0].lessonLevel.toString() == "1"
+                        ? "Beginner"
+                        : snapshot.data[0].lessonLevel.toString() == "2"
+                            ? "Intermediate"
+                            : snapshot.data[0].lessonLevel.toString() == "3"
+                                ? "Advanced"
+                                : "All",
+                    lesson_id: snapshot.data[0].id,
                   );
                 } else {
-                  return UpcomingLessonCard(
-                      lesson_date: "0000-00-00 00:00:00.0000000",
-                      lesson_time: "0000-00-00 00:00:00.0000000",
-                      lesson_level: "",
-                      lesson_name: "",
-                      lesson_description: "",
-                      lesson_id: 0);
+                  return const TextLessonCard(
+                      text:
+                          "You have no upcoming lesson. You can enroll more lesson from the booking page!");
                 }
               })
         ],

@@ -26,46 +26,62 @@ abstract class _HomeScreenViewModelBase with Store {
     ),
   );
 
+  bool isCheckin = false;
+
+  @action
+  void setCheckin(bool value) => isCheckin = value;
+
   @observable
-  void checkInLessonDetails() async {
+  Future<memberLessonResponse?> checkInLessonDetails() async {
     try {
-      final response =
-          await dio.get(Urls.ReservationList.rawValue, queryParameters: {
+      var response =
+          await dio.get(Urls.CheckInLessonDetails.rawValue, queryParameters: {
         'id': userId,
       });
       switch (response.statusCode) {
         case HttpStatus.ok:
           final responseBody = await response.data;
-          print(responseBody);
-          final checkInLessonDetails = responseBody
-              .map((e) => LessonResponseModel.fromJson(e))
-              .toList();
-          print(checkInLessonDetails[0].id);
+          final memberLessonResponse checkInLesson =
+              memberLessonResponse.fromJson(responseBody);
 
-          await LocaleManager.instance
-              .setIntValue(PreferencesKeys.CHECKIN_ID,checkInLessonDetails[0].id );
+          print(responseBody);
+          return checkInLesson;
+
+        case HttpStatus.notFound:
+          return null;
+        // case HttpStatus.accepted:
+        //   final responseBody = await response.data;
+        //   final LessonResponseModel checkInLesson =
+        //       LessonResponseModel.fromJson(responseBody);
+
+        //   print(responseBody);
+        //   return checkInLesson;
       }
     } on DioError catch (e) {
       print("e");
     }
     return null;
   }
+
   final int? userId =
       LocaleManager.instance.getIntValue(PreferencesKeys.USER_ID);
 
   final int? checkInId =
       LocaleManager.instance.getIntValue(PreferencesKeys.CHECKIN_ID);
+
   @observable
   void CheckIn() async {
+    memberLessonResponse? x = await checkInLessonDetails();
     try {
       final response = await dio.post(Urls.CheckIn.rawValue,
           data: jsonEncode(
-              memberLessonResponse(memberId: userId, lessonId: checkInId)
+              memberLessonResponse(memberId: userId, lessonId: x?.lessonId)
                   .toJson()));
       print(response.data);
       switch (response.statusCode) {
         case HttpStatus.ok:
-          return print("checkin completed");
+          setCheckin(true);
+          print("checkin completed");
       }
     } on DioError catch (e) {
       print("checkIn failed");
@@ -85,9 +101,8 @@ abstract class _HomeScreenViewModelBase with Store {
       case HttpStatus.ok:
         final responseBody = await response.data;
         if (responseBody is List) {
-          return reservations = responseBody
-              .map((e) => LessonResponseModel.fromJson(e))
-              .toList();
+          return reservations =
+              responseBody.map((e) => LessonResponseModel.fromJson(e)).toList();
         }
         return Future.error(responseBody);
     }
@@ -96,17 +111,25 @@ abstract class _HomeScreenViewModelBase with Store {
 
   @observable
   void EnrollCancel() async {
+    memberLessonResponse? x = await checkInLessonDetails();
     try {
       final response = await dio.post(Urls.EnrollCancel.rawValue,
           data: jsonEncode(
-              memberLessonResponse(memberId: userId, lessonId: checkInId)
+              memberLessonResponse(memberId: userId, lessonId: x?.lessonId)
                   .toJson()));
       print(response.data);
       switch (response.statusCode) {
         case HttpStatus.ok:
-          await LocaleManager.instance
-              .setIntValue(PreferencesKeys.CHECKIN_ID, 0);
-          return print("enroll canceled");
+          await reservationList();
+          if (reservations.isNotEmpty) {
+            await LocaleManager.instance
+                .setIntValue(PreferencesKeys.CHECKIN_ID, reservations[0].id);
+            return print("enroll canceled");
+          } else {
+            await LocaleManager.instance
+                .setIntValue(PreferencesKeys.CHECKIN_ID, 0);
+            return print("enroll canceled and no lesson for checkin");
+          }
       }
     } on DioError catch (e) {
       print("cancel failed");
@@ -114,11 +137,22 @@ abstract class _HomeScreenViewModelBase with Store {
   }
 
   @observable
+  Future<List?> checkInLessonJoined() async {
+    List checkInLessonJoinedDetails = [];
+    memberLessonResponse? ml = await checkInLessonDetails();
+    LessonResponseModel? lr = await checkInLesson();
+    checkInLessonJoinedDetails.add(ml);
+    checkInLessonJoinedDetails.add(lr);
+    return checkInLessonJoinedDetails;
+  }
+
+  @observable
   Future<LessonResponseModel?> checkInLesson() async {
+    memberLessonResponse? ml = await checkInLessonDetails();
     try {
       final response =
           await dio.get(Urls.GetLessonById.rawValue, queryParameters: {
-        'id': checkInId,
+        'id': ml?.lessonId,
       });
       print(response.data);
       switch (response.statusCode) {

@@ -6,10 +6,13 @@ import 'package:studio_reservation_app/components/colored_button.dart';
 import 'package:studio_reservation_app/components/colored_button_with_size.dart';
 import 'package:studio_reservation_app/models/lesson_response_model.dart';
 import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
+import 'package:studio_reservation_app/views/home_screen_view.dart';
 
 import '../classes/lesson.dart';
 import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/init/cache/locale_manager.dart';
+
+HomeScreenViewModel viewModel = HomeScreenViewModel();
 
 class CheckInLessonCard extends StatefulWidget {
   final String lesson_date;
@@ -37,7 +40,6 @@ class CheckInLessonCard extends StatefulWidget {
 class _CheckInLessonCardState extends State<CheckInLessonCard> {
   final int? userId =
       LocaleManager.instance.getIntValue(PreferencesKeys.USER_ID);
-  HomeScreenViewModel viewModel = HomeScreenViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +76,7 @@ class _CheckInLessonCardState extends State<CheckInLessonCard> {
                     title: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text(widget.lesson_name + " - " + widget.lesson_level,
+                          Text("${widget.lesson_name} - ${widget.lesson_level}",
                               style: const TextStyle(
                                   color: Colors.white, fontSize: 20)),
                         ]),
@@ -82,7 +84,7 @@ class _CheckInLessonCardState extends State<CheckInLessonCard> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            formattedDate + " | " + formattedTime,
+                            "$formattedDate | $formattedTime",
                             style:
                                 TextStyle(color: Colors.white.withOpacity(0.6)),
                           ),
@@ -104,8 +106,11 @@ class _CheckInLessonCardState extends State<CheckInLessonCard> {
                       width: MediaQuery.of(context).size.width * 0.35,
                       height: 45,
                       onPressed: () {
-                        viewModel.CheckIn();
-                        setState(() {});
+                        setState(() {
+                          viewModel.CheckIn();
+                          HomeScreenViewModel().setCheckin(true);
+                          print(viewModel.isCheckin);
+                        });
                       },
                     ),
                     const SizedBox(
@@ -117,9 +122,10 @@ class _CheckInLessonCardState extends State<CheckInLessonCard> {
                       width: MediaQuery.of(context).size.width * 0.35,
                       height: 45,
                       onPressed: () {
-                        viewModel.EnrollCancel();
-                        viewModel.checkInLessonDetails();
-                        setState(() {});
+                        setState(() {
+                          viewModel.EnrollCancel();
+                          _CheckInLessonCardState();
+                        });
                       },
                     ),
                   ],

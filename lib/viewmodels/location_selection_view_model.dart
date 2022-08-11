@@ -26,14 +26,13 @@ class LocationSelectionViewModel = _LocationSelectionViewModelBase
     with _$LocationSelectionViewModel;
 
 abstract class _LocationSelectionViewModelBase with Store, BaseViewModel {
-  @override
-  void setContext(BuildContext context) => this.context = context;
+  late List<BranchLocationResponseModel> cities;
+
 
   @override
-  void init() {
-    // TODO: implement init
-    super.init();
-    GetAllLocations();
+  void setContext(BuildContext context) => this.context = context;
+  Future<void> init() async {
+    var cities = (await GetAllLocations()) ?? [];
   }
 
   final int? userId =
@@ -46,13 +45,9 @@ abstract class _LocationSelectionViewModelBase with Store, BaseViewModel {
   List<MultiSelectItem<BranchLocationResponseModel>> cityList =
       <MultiSelectItem<BranchLocationResponseModel>>[];
 
-  @action
-  getCities() {
-    return cities;
-  }
-
-  @observable
-  List cities = [];
+  // @observable
+  // List<BranchLocationResponseModel>? cities =
+  //     <BranchLocationResponseModel>[];
 
   final dio = Dio(
     BaseOptions(

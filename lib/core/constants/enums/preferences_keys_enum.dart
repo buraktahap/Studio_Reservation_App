@@ -12,4 +12,5 @@ enum PreferencesKeys {
   USER_ID,
   USER_LOCATION,
   CHECKIN_ID,
+  IS_CHECKIN
 }
