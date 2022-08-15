@@ -60,6 +60,8 @@ class _UpcomingLessonCardState extends State<UpcomingLessonCard> {
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: CircleAvatar(
+                      backgroundImage:
+                          Image.asset('assets/images/trainer1.png').image,
                       radius: MediaQuery.of(context).size.width * 0.05),
                 ),
                 Expanded(
@@ -85,18 +87,21 @@ class _UpcomingLessonCardState extends State<UpcomingLessonCard> {
               ],
             ),
             ButtonBar(
-              alignment: MainAxisAlignment.center,
+              alignment: MainAxisAlignment.end,
               children: [
-                ColoredButtonWithSize(
-                  text: "See All",
+                TextButton(
+                  child: const Text(
+                    "See All",
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 253, 12, 146), fontSize: 16),
+                  ),
                   // onPressed: viewModel.Enroll(memberId, widget.lesson_id),
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  height: 45,
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const UpcomingReservationListView(),
+                        builder: (context) =>
+                            const UpcomingReservationListView(),
                       ),
                     );
 

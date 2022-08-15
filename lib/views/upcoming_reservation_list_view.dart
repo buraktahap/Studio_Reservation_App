@@ -5,6 +5,7 @@ import 'package:studio_reservation_app/components/checkin_lesson_card.dart';
 import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
 
 import '../components/background.dart';
+import '../components/colored_button_with_size.dart';
 import '../core/base/base_viewmodel.dart';
 import '../viewmodels/booking_view_model.dart';
 
@@ -47,35 +48,98 @@ class _UpcomingReservationListViewState
                             return Expanded(
                               child: ListView.builder(
                                   shrinkWrap: true,
-                                  itemCount: snapshot.data.length,
+                                  itemCount: snapshot.data.length ?? 0,
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     if (snapshot != null) {
                                       return CheckInLessonCard(
-                                        lesson_name: snapshot.data[index].name,
-                                        lesson_date:
-                                            snapshot.data[index].startDate,
-                                        lesson_time:
-                                            snapshot.data[index].estimatedTime,
-                                        lesson_description: snapshot
-                                            .data[index].description
-                                            .toString(),
-                                        lesson_level: snapshot
-                                                    .data[index].lessonLevel
-                                                    .toString() ==
-                                                "1"
-                                            ? "Beginner"
-                                            : snapshot.data[0].lessonLevel
-                                                        .toString() ==
-                                                    "2"
-                                                ? "Intermediate"
-                                                : snapshot.data[0].lessonLevel
-                                                            .toString() ==
-                                                        "3"
-                                                    ? "Advanced"
-                                                    : "All",
-                                        lesson_id: snapshot.data[index].id,
-                                      );
+                                          lesson_name:
+                                              snapshot.data[index].lesson.name,
+                                          lesson_date: snapshot
+                                              .data[index].lesson.startDate
+                                              .toString(),
+                                          lesson_time: snapshot
+                                              .data[index].lesson.estimatedTime
+                                              .toString(),
+                                          lesson_description: snapshot
+                                              .data[index].lesson.description
+                                              .toString(),
+                                          lesson_level: snapshot.data[index]
+                                                      .lesson.lessonLevel
+                                                      .toString() ==
+                                                  "1"
+                                              ? "Beginner"
+                                              : snapshot.data[index].lesson.lessonLevel
+                                                          .toString() ==
+                                                      "2"
+                                                  ? "Intermediate"
+                                                  : snapshot.data[index].lesson
+                                                              .lessonLevel
+                                                              .toString() ==
+                                                          "3"
+                                                      ? "Advanced"
+                                                      : "All",
+                                          lesson_id: snapshot.data[index].lesson.id,
+                                          buttonBar: snapshot.data[index].isCheckin == true
+                                              ? const Text(
+                                                  "You have succesfully checked in!",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16),
+                                                )
+                                              : ButtonBar(
+                                                  alignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        ColoredButtonWithSize(
+                                                          text: "Check In",
+                                                          // onPressed: viewModel.Enroll(memberId, widget.lesson_id),
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.35,
+                                                          height: 45,
+                                                          onPressed: () {
+                                                            viewModel.CheckIn(
+                                                                snapshot
+                                                                    .data[index]
+                                                                    .lessonId);
+                                                            print(viewModel
+                                                                .isCheckin);
+                                                            setState(() {});
+                                                          },
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 20,
+                                                        ),
+                                                        ColoredButtonWithSize(
+                                                          text: "Cancel",
+                                                          // onPressed: viewModel.Enroll(memberId, widget.lesson_id),
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.35,
+                                                          height: 45,
+                                                          onPressed: () {
+                                                            viewModel
+                                                                .EnrollCancel();
+                                                            setState(() {});
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                          isChecked: snapshot.data[index].isCheckin);
                                     } else {
                                       return const CircularProgressIndicator();
                                     }

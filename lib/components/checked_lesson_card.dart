@@ -23,6 +23,9 @@ class CheckedLessonCard extends StatefulWidget {
 
   final String lesson_name;
   final String text;
+  final bool isChecked;
+
+  final int lesson_id;
   const CheckedLessonCard({
     Key? key,
     required this.lesson_date,
@@ -30,8 +33,9 @@ class CheckedLessonCard extends StatefulWidget {
     required this.lesson_level,
     required this.lesson_name,
     required String lesson_description,
-    required lesson_id,
+    required this.lesson_id,
     required this.text,
+    required this.isChecked,
   }) : super(key: key);
 
   @override
@@ -70,6 +74,8 @@ class _CheckedLessonCardState extends State<CheckedLessonCard> {
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: CircleAvatar(
+                      backgroundImage:
+                          Image.asset('assets/images/trainer1.png').image,
                       radius: MediaQuery.of(context).size.width * 0.05),
                 ),
                 Expanded(
@@ -101,9 +107,20 @@ class _CheckedLessonCardState extends State<CheckedLessonCard> {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(widget.text,
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 16)),
+                    widget.isChecked == false
+                        ? ColoredButtonWithSize(
+                            height: 40,
+                            width: MediaQuery.of(context).size.width * 0.3,
+                            text: "Check In",
+                            onPressed: () {
+                              setState(() {
+                                HomeScreenViewModel().CheckIn(widget.lesson_id);
+                              });
+                            },
+                          )
+                        : Text(widget.text,
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 16)),
                   ],
                 ),
               ],

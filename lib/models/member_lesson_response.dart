@@ -1,37 +1,120 @@
+// To parse this JSON data, do
+//
+//     final memberLessonResponse = memberLessonResponseFromJson(jsonString);
 
-class memberLessonResponse {
+import 'dart:convert';
+
+MemberLessonResponse memberLessonResponseFromJson(String str) =>
+    MemberLessonResponse.fromJson(json.decode(str));
+
+String memberLessonResponseToJson(MemberLessonResponse data) =>
+    json.encode(data.toJson());
+
+class MemberLessonResponse {
+  MemberLessonResponse({
+    this.isEnrolled,
+    this.enrollCount,
+    this.isCheckin,
+    this.isCompleted,
+    this.memberId,
+    this.member,
+    this.lessonId,
+    this.lesson,
+    this.id,
+  });
+
   bool? isEnrolled;
-  int? enrollCount;
-  bool? isCheckin;
+  dynamic? enrollCount;
+  dynamic? isCheckin;
   bool? isCompleted;
   int? memberId;
+  dynamic? member;
   int? lessonId;
+  Lesson? lesson;
+  int? id;
 
-  memberLessonResponse(
-      {this.isEnrolled,
-      this.enrollCount,
-      this.isCheckin,
-      this.isCompleted,
-      this.memberId,
-      this.lessonId});
+  factory MemberLessonResponse.fromJson(Map<String, dynamic> json) =>
+      MemberLessonResponse(
+        isEnrolled: json["isEnrolled"],
+        enrollCount: json["enrollCount"],
+        isCheckin: json["isCheckin"],
+        isCompleted: json["isCompleted"],
+        memberId: json["memberId"],
+        member: json["member"],
+        lessonId: json["lessonId"],
+        lesson: Lesson.fromJson(json["lesson"]),
+        id: json["id"],
+      );
 
-  memberLessonResponse.fromJson(Map<String, dynamic> json) {
-    isEnrolled = json['isEnrolled'];
-    enrollCount = json['enrollCount'];
-    isCheckin = json['isCheckin'];
-    isCompleted = json['isCompleted'];
-    memberId = json['memberId'];
-    lessonId = json['lessonId'];
-  }
+  Map<String, dynamic> toJson() => {
+        "isEnrolled": isEnrolled,
+        "enrollCount": enrollCount,
+        "isCheckin": isCheckin,
+        "isCompleted": isCompleted,
+        "memberId": memberId,
+        "member": member,
+        "lessonId": lessonId,
+        "lesson": lesson?.toJson(),
+        "id": id,
+      };
+}
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['isEnrolled'] = this.isEnrolled;
-    data['enrollCount'] = this.enrollCount;
-    data['isCheckin'] = this.isCheckin;
-    data['isCompleted'] = this.isCompleted;
-    data['memberId'] = this.memberId;
-    data['lessonId'] = this.lessonId;
-    return data;
-  }
+class Lesson {
+  Lesson({
+    this.id,
+    this.name,
+    this.lessonType,
+    this.lessonLevel,
+    this.description,
+    this.quota,
+    this.startDate,
+    this.estimatedTime,
+    this.trainerId,
+    this.trainer,
+    this.classesId,
+    this.classes,
+  });
+
+  int? id;
+  String? name;
+  int? lessonType;
+  int? lessonLevel;
+  dynamic? description;
+  int? quota;
+  DateTime? startDate;
+  DateTime? estimatedTime;
+  int? trainerId;
+  dynamic? trainer;
+  int? classesId;
+  dynamic? classes;
+
+  factory Lesson.fromJson(Map<String, dynamic> json) => Lesson(
+        id: json["id"],
+        name: json["name"],
+        lessonType: json["lessonType"],
+        lessonLevel: json["lessonLevel"],
+        description: json["description"],
+        quota: json["quota"],
+        startDate: DateTime.parse(json["startDate"]),
+        estimatedTime: DateTime.parse(json["estimatedTime"]),
+        trainerId: json["trainerId"],
+        trainer: json["trainer"],
+        classesId: json["classesId"],
+        classes: json["classes"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "lessonType": lessonType,
+        "lessonLevel": lessonLevel,
+        "description": description,
+        "quota": quota,
+        "startDate": startDate?.toIso8601String(),
+        "estimatedTime": estimatedTime?.toIso8601String(),
+        "trainerId": trainerId,
+        "trainer": trainer,
+        "classesId": classesId,
+        "classes": classes,
+      };
 }

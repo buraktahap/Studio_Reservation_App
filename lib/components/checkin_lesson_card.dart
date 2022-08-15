@@ -22,8 +22,9 @@ class CheckInLessonCard extends StatefulWidget {
   final String lesson_level;
 
   final String lesson_name;
-
-  const CheckInLessonCard({
+  late bool isChecked;
+  late Widget buttonBar;
+  CheckInLessonCard({
     Key? key,
     required this.lesson_date,
     required this.lesson_time,
@@ -31,6 +32,8 @@ class CheckInLessonCard extends StatefulWidget {
     required this.lesson_name,
     required String lesson_description,
     required lesson_id,
+    required this.isChecked,
+    required this.buttonBar,
   }) : super(key: key);
 
   @override
@@ -69,6 +72,8 @@ class _CheckInLessonCardState extends State<CheckInLessonCard> {
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: CircleAvatar(
+                      backgroundImage:
+                          Image.asset('assets/images/trainer1.png').image,
                       radius: MediaQuery.of(context).size.width * 0.05),
                 ),
                 Expanded(
@@ -93,45 +98,7 @@ class _CheckInLessonCardState extends State<CheckInLessonCard> {
                 ),
               ],
             ),
-            ButtonBar(
-              alignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ColoredButtonWithSize(
-                      text: "Check In",
-                      // onPressed: viewModel.Enroll(memberId, widget.lesson_id),
-                      width: MediaQuery.of(context).size.width * 0.35,
-                      height: 45,
-                      onPressed: () {
-                        setState(() {
-                          viewModel.CheckIn();
-                          HomeScreenViewModel().setCheckin(true);
-                          print(viewModel.isCheckin);
-                        });
-                      },
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    ColoredButtonWithSize(
-                      text: "Cancel",
-                      // onPressed: viewModel.Enroll(memberId, widget.lesson_id),
-                      width: MediaQuery.of(context).size.width * 0.35,
-                      height: 45,
-                      onPressed: () {
-                        setState(() {
-                          viewModel.EnrollCancel();
-                          _CheckInLessonCardState();
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ],
-            ),
+            widget.buttonBar,
           ],
         ),
       ),

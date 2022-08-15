@@ -60,6 +60,8 @@ class _EnrollLessonCardState extends State<EnrollLessonCard> {
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
                   child: CircleAvatar(
+                    backgroundImage:
+                          Image.asset('assets/images/trainer1.png').image,
                       radius: MediaQuery.of(context).size.width * 0.05),
                 ),
                 Expanded(

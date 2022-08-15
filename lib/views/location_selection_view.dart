@@ -111,7 +111,9 @@ class _LocationSelectionViewState extends State<LocationSelectionView> {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30), color: Colors.white),
       child: GestureDetector(
-        onTap: () {},
+        onTap: () {
+          setState(() {});
+        },
         child: Center(
           child: DropdownButton(
             underline: Container(),

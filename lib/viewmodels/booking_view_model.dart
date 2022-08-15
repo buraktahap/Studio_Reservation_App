@@ -76,7 +76,6 @@ abstract class _BookingViewModelBase with Store {
           break;
       }
     } on DioError catch (e) {
-      enrollStatus = "You have already enrolled";
       print("e");
       return null;
     }

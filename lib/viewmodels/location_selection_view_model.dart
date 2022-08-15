@@ -26,8 +26,7 @@ class LocationSelectionViewModel = _LocationSelectionViewModelBase
     with _$LocationSelectionViewModel;
 
 abstract class _LocationSelectionViewModelBase with Store, BaseViewModel {
-  late List<BranchLocationResponseModel> cities;
-
+  List<BranchLocationResponseModel> cities = [];
 
   @override
   void setContext(BuildContext context) => this.context = context;

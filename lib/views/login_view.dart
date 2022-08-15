@@ -20,9 +20,7 @@ class LoginView extends StatefulWidget {
 
 final _formKey = GlobalKey<FormState>();
 
-class _LoginViewState extends State<LoginView>  {
-
-
+class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return BaseView<LoginViewModel>(
@@ -46,6 +44,7 @@ class _LoginViewState extends State<LoginView>  {
                       child: SafeArea(
                           child: Column(
                         children: [
+                          const SizedBox(height: 20),
                           const Padding(
                             padding: EdgeInsets.all(30.0),
                             child: Align(
@@ -115,7 +114,6 @@ class _LoginViewState extends State<LoginView>  {
                           ColoredButton(
                             text: 'Sign In',
                             onPressed: () async {
-
                               viewModel.signIn(
                                 viewModel.emailController.text,
                                 viewModel.passwordController.text,
