@@ -31,9 +31,10 @@ class _LoginViewState extends State<LoginView> {
       },
       onPageBuilder: (BuildContext context, LoginViewModel viewModel) =>
           Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Observer(builder: (_) {
           return SingleChildScrollView(
-              physics: const NeverScrollableScrollPhysics(),
+              physics: const ClampingScrollPhysics(),
               child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minWidth: MediaQuery.of(context).size.width,

@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
         builder: (BuildContext context, Widget? widget) =>
-            MaterialApp( initialRoute: "/", routes: {
+            MaterialApp( debugShowCheckedModeBanner: false, initialRoute: "/", routes: {
               '/': (context) => const LoginView(),
               '/home': (context) =>  HomeView(),
               '/location': (context) => LocationSelectionView(),

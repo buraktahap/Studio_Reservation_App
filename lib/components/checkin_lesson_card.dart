@@ -24,6 +24,7 @@ class CheckInLessonCard extends StatefulWidget {
   final String lesson_name;
   late bool isChecked;
   late Widget buttonBar;
+  final int lesson_id;
   CheckInLessonCard({
     Key? key,
     required this.lesson_date,
@@ -31,7 +32,7 @@ class CheckInLessonCard extends StatefulWidget {
     required this.lesson_level,
     required this.lesson_name,
     required String lesson_description,
-    required lesson_id,
+    required this.lesson_id,
     required this.isChecked,
     required this.buttonBar,
   }) : super(key: key);
@@ -98,7 +99,7 @@ class _CheckInLessonCardState extends State<CheckInLessonCard> {
                 ),
               ],
             ),
-            widget.buttonBar,
+           widget.buttonBar,
           ],
         ),
       ),

@@ -10,16 +10,23 @@ import 'package:studio_reservation_app/core/base/model/base_viewmodel.dart';
 import 'package:studio_reservation_app/core/constants/network/network_constants.dart';
 import 'package:studio_reservation_app/core/enums/url_enum.dart';
 import 'package:studio_reservation_app/models/enrollResponseModel.dart';
+import 'package:studio_reservation_app/models/get_lessons_by_branc_by_enroll.dart';
 import 'package:studio_reservation_app/models/lesson_response_model.dart';
 import 'package:studio_reservation_app/models/member_details_response.dart';
 import 'package:studio_reservation_app/models/member_lesson_response.dart';
 import 'package:studio_reservation_app/models/sign_in_response.dart';
 import 'package:studio_reservation_app/viewmodels/location_selection_view_model.dart';
+
+import '../core/constants/enums/preferences_keys_enum.dart';
+import '../core/init/cache/locale_manager.dart';
 part 'booking_view_model.g.dart';
 
 class BookingViewModel = _BookingViewModelBase with _$BookingViewModel;
 
 abstract class _BookingViewModelBase with Store {
+  final int? userId =
+      LocaleManager.instance.getIntValue(PreferencesKeys.USER_ID);
+
   @observable
   String enrollStatus = "Enroll";
   // @override
@@ -40,11 +47,12 @@ abstract class _BookingViewModelBase with Store {
   List lessons = [];
 
   @observable
-  Future<List<LessonResponseModel>?> LessonsByBranchName(
+  Future<List<GetLessonsByBranchNameWithEnroll>?> LessonsByBranchName(
       String? Location) async {
     try {
       final response =
-          await dio.get(Urls.LessonsByBranchName.rawValue, queryParameters: {
+          await dio.post(Urls.LessonsByBranchName.rawValue, queryParameters: {
+        'memberId': userId,
         'branchName': Location,
       });
       switch (response.statusCode) {
@@ -52,7 +60,7 @@ abstract class _BookingViewModelBase with Store {
           final responseBody = await response.data;
           if (responseBody is List) {
             return lessons = responseBody
-                .map((e) => LessonResponseModel.fromJson(e))
+                .map((e) => GetLessonsByBranchNameWithEnroll.fromJson(e))
                 .toList();
           }
       }

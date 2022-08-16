@@ -17,7 +17,7 @@ import 'location_selection_view.dart';
 import 'login_view.dart';
 
 class HomeView extends StatefulWidget {
-  HomeView({Key? key}) : super(key: key);
+  const HomeView({Key? key}) : super(key: key);
 
   @override
   State<HomeView> createState() => _HomeViewState();
@@ -31,7 +31,7 @@ class _HomeViewState extends State<HomeView> {
 
   final pages = [
     const HomeScreenView(),
-    BookingView(),
+    const BookingView(),
     const SplashScreen(),
   ];
 
@@ -66,7 +66,6 @@ class _HomeViewState extends State<HomeView> {
           IconButton(
             enableFeedback: false,
             onPressed: () {
-              HomeScreenViewModel().checkInLessonDetails();
               setState(() {
                 pageIndex = 0;
               });
@@ -88,7 +87,6 @@ class _HomeViewState extends State<HomeView> {
             enableFeedback: false,
             onPressed: () {
               setState(() {
-                BookingViewModel().LessonsByBranchName(userLocation);
                 pageIndex = 1;
               });
             },

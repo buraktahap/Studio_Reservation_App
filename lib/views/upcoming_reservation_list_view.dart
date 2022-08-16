@@ -85,7 +85,7 @@ class _UpcomingReservationListViewState
                                                   "You have succesfully checked in!",
                                                   style: TextStyle(
                                                       color: Colors.white,
-                                                      fontSize: 16),
+                                                      fontSize: 20),
                                                 )
                                               : ButtonBar(
                                                   alignment:
@@ -107,13 +107,15 @@ class _UpcomingReservationListViewState
                                                                   .width *
                                                               0.35,
                                                           height: 45,
-                                                          onPressed: () {
+                                                          onPressed: () async {
                                                             viewModel.CheckIn(
                                                                 snapshot
                                                                     .data[index]
                                                                     .lessonId);
                                                             print(viewModel
                                                                 .isCheckin);
+                                                            await viewModel
+                                                                .reservationList();
                                                             setState(() {});
                                                           },
                                                         ),

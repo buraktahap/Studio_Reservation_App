@@ -25,8 +25,7 @@ mixin _$BookingViewModel on _BookingViewModelBase, Store {
     });
   }
 
-  late final _$lessonsAtom =
-      Atom(name: '_BookingViewModelBase.lessons');
+  late final _$lessonsAtom = Atom(name: '_BookingViewModelBase.lessons');
 
   @override
   List<dynamic> get lessons {
@@ -42,10 +41,10 @@ mixin _$BookingViewModel on _BookingViewModelBase, Store {
   }
 
   @override
-  ObservableFuture<List<LessonResponseModel>?> LessonsByBranchName(
+  ObservableFuture<List<GetLessonsByBranchNameWithEnroll>?> LessonsByBranchName(
       String? Location) {
     final _$future = super.LessonsByBranchName(Location);
-    return ObservableFuture<List<LessonResponseModel>?>(_$future);
+    return ObservableFuture<List<GetLessonsByBranchNameWithEnroll>?>(_$future);
   }
 
   @override

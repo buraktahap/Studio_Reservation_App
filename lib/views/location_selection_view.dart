@@ -29,9 +29,11 @@ class _LocationSelectionViewState extends State<LocationSelectionView> {
   @override
   void initState() {
     super.initState();
-    LocationSelectionViewModel().GetAllLocations();
-    branches = LocationSelectionViewModel().cities;
-    setState(() {});
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await LocationSelectionViewModel().GetAllLocations();
+      branches = LocationSelectionViewModel().cities;
+      setState(() {});
+    });
   }
 
   final int? userId =
@@ -101,11 +103,13 @@ class _LocationSelectionViewState extends State<LocationSelectionView> {
     @override
     void initState() {
       super.initState();
-      setState(() {});
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        //   await viewModel.GetAllLocations();
+        //   branches = viewModel.cities;
+        //   setState(() {});
+      });
     }
 
-    String? selectedLocation;
-    LocationSelectionViewModel().GetAllLocations();
     return Container(
       height: 60,
       decoration: BoxDecoration(

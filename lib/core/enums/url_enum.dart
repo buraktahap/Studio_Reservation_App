@@ -25,7 +25,7 @@ extension UrlsExtension on Urls {
       case Urls.GetAllLessons:
         return "/Lessons/GetAllLessons";
       case Urls.LessonsByBranchName:
-        return "/Lessons/LessonsByBranchName";
+        return "/Lessons/GetLessonsByBranchName";
       case Urls.Enroll:
         return "/MemberLessons/Enroll";
       case Urls.GetMemberById:

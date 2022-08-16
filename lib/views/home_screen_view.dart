@@ -30,6 +30,15 @@ class HomeScreenView extends StatefulWidget {
 }
 
 class _HomeScreenViewState extends State<HomeScreenView> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await HomeScreenViewModel().checkInLessonDetails();
+      setState(() {});
+    });
+  }
+
   final int? userId =
       LocaleManager.instance.getIntValue(PreferencesKeys.USER_ID);
 
@@ -128,7 +137,6 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                     snapshot.data != null &&
                     snapshot.data.lesson.id != null &&
                     snapshot.data.isCheckin != true) {
-                  var lesson = viewModel.checkInLesson();
                   print(viewModel.isCheckin);
                   return CheckInLessonCard(
                     lesson_name: snapshot.data.lesson.name,
@@ -145,44 +153,52 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                 ? "Advanced"
                                 : "All",
                     lesson_id: snapshot.data.lesson.id,
-                    isChecked: snapshot.data.isCheckin ? false : true,
-                    buttonBar: ButtonBar(
-                      alignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ColoredButtonWithSize(
-                              text: "Check In",
-                              // onPressed: viewModel.Enroll(memberId, widget.lesson_id),
-                              width: MediaQuery.of(context).size.width * 0.35,
-                              height: 45,
-                              onPressed: () {
-                                setState(() {
-                                  viewModel.CheckIn(snapshot.data.lessonId);
-                                  print(viewModel.isCheckin);
-                                });
-                              },
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            ColoredButtonWithSize(
-                              text: "Cancel",
-                              // onPressed: viewModel.Enroll(memberId, widget.lesson_id),
-                              width: MediaQuery.of(context).size.width * 0.35,
-                              height: 45,
-                              onPressed: () {
-                                setState(() {
-                                  viewModel.EnrollCancel();
-                                });
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                    isChecked: snapshot.data.isCheckin,
+                    buttonBar: snapshot.data.isCheckin == true
+                        ? const Text("You have succesfully checked in!",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ))
+                        : ButtonBar(
+                            alignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  ColoredButtonWithSize(
+                                    text: "Check In",
+                                    // onPressed: viewModel.Enroll(memberId, widget.lesson_id),
+                                    width: MediaQuery.of(context).size.width *
+                                        0.35,
+                                    height: 45,
+                                    onPressed: () async {
+                                      viewModel.CheckIn(snapshot.data.lessonId);
+                                      print(viewModel.isCheckin);
+                                      await viewModel.reservationList();
+                                      setState(() {});
+                                    },
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  ColoredButtonWithSize(
+                                    text: "Cancel",
+                                    // onPressed: viewModel.Enroll(memberId, widget.lesson_id),
+                                    width: MediaQuery.of(context).size.width *
+                                        0.35,
+                                    height: 45,
+                                    onPressed: () {
+                                      viewModel.EnrollCancel();
+                                      setState(() {});
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                   );
                 }
                 return Container();

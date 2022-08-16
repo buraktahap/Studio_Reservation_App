@@ -120,7 +120,7 @@ class _CheckedLessonCardState extends State<CheckedLessonCard> {
                           )
                         : Text(widget.text,
                             style: const TextStyle(
-                                color: Colors.white, fontSize: 16)),
+                                color: Colors.white, fontSize: 20)),
                   ],
                 ),
               ],

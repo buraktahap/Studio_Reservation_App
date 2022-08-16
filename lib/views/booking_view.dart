@@ -10,8 +10,10 @@ import 'package:studio_reservation_app/core/enums/url_enum.dart';
 import 'package:studio_reservation_app/models/member_location_update_response.dart';
 import 'package:studio_reservation_app/models/sign_in_response.dart';
 import 'package:studio_reservation_app/viewmodels/booking_view_model.dart';
+import 'package:studio_reservation_app/viewmodels/home_view_model.dart';
 import 'package:studio_reservation_app/viewmodels/location_selection_view_model.dart';
 
+import '../components/colored_button_with_size.dart';
 import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/init/cache/locale_manager.dart';
 import 'location_selection_view.dart';
@@ -26,7 +28,8 @@ class BookingView extends StatefulWidget {
 class _BookingViewState extends State<BookingView> {
   final String? userLocation =
       LocaleManager.instance.getStringValue(PreferencesKeys.USER_LOCATION);
-
+  final int? userId =
+      LocaleManager.instance.getIntValue(PreferencesKeys.USER_ID);
   @override
   Widget build(BuildContext context) {
     return BaseView<BookingViewModel>(
@@ -70,9 +73,11 @@ class _BookingViewState extends State<BookingView> {
                               itemBuilder: (BuildContext context, int index) {
                                 return EnrollLessonCard(
                                   lesson_name: snapshot.data[index].name,
-                                  lesson_date: snapshot.data[index].startDate,
-                                  lesson_time:
-                                      snapshot.data[index].estimatedTime,
+                                  lesson_date:
+                                      snapshot.data[index].startDate.toString(),
+                                  lesson_time: snapshot
+                                      .data[index].estimatedTime
+                                      .toString(),
                                   lesson_description: snapshot
                                       .data[index].description
                                       .toString(),
@@ -90,6 +95,32 @@ class _BookingViewState extends State<BookingView> {
                                               ? "Advanced"
                                               : "All",
                                   lesson_id: snapshot.data[index].id,
+                                  isEnrolled: snapshot.data[index].isEnrolled,
+                                  location: userLocation,
+                                  buttonOrText:
+                                      snapshot.data[index].isEnrolled == false
+                                          ? ColoredButtonWithSize(
+                                              text: "Enroll",
+                                              onPressed: () async {
+                                                BookingViewModel().Enroll(
+                                                    userId!,
+                                                    snapshot.data[index].id);
+                                                await BookingViewModel()
+                                                    .LessonsByBranchName(
+                                                        userLocation);
+                                                setState(() {});
+                                              },
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.8,
+                                              height: 45)
+                                          : const Text(
+                                              ('You have already enrolled for this lesson!'),
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 20),
+                                            ),
                                 );
                               }),
                         );
