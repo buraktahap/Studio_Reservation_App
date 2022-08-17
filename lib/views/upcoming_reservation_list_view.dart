@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:studio_reservation_app/components/checkin_lesson_card.dart';
 import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
-
 import '../components/background.dart';
 import '../components/colored_button_with_size.dart';
 import '../core/base/base_viewmodel.dart';
-import '../viewmodels/booking_view_model.dart';
 
 class UpcomingReservationListView extends StatefulWidget {
   const UpcomingReservationListView({Key? key}) : super(key: key);
@@ -30,15 +26,33 @@ class _UpcomingReservationListViewState
                 body: Background(
                     child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 45, 15, 0),
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        child: const Text(
-                          "Upcoming Lessons",
-                          style: TextStyle(color: Colors.white, fontSize: 30),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 45, 0, 0),
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                            child: IconButton(
+                              icon: const Icon(Icons.arrow_back,
+                                  color: Colors.white),
+                              onPressed: () async {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ),
                         ),
-                      ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 45, 15, 0),
+                          child: Container(
+                            alignment: Alignment.centerLeft,
+                            child: const Text(
+                              "Upcoming Lessons",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 30),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     FutureBuilder(
                         future: viewModel.reservationList(),
@@ -131,9 +145,13 @@ class _UpcomingReservationListViewState
                                                                   .width *
                                                               0.35,
                                                           height: 45,
-                                                          onPressed: () {
-                                                            viewModel
-                                                                .EnrollCancel();
+                                                          onPressed: () async {
+                                                            viewModel.EnrollCancel(
+                                                                snapshot
+                                                                    .data[index]
+                                                                    .lessonId);
+                                                            await viewModel
+                                                                .reservationList();
                                                             setState(() {});
                                                           },
                                                         ),

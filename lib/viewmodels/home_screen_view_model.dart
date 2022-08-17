@@ -1,15 +1,11 @@
+import 'dart:async';
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:mobx/mobx.dart';
-import 'package:studio_reservation_app/main.dart';
+import 'package:studio_reservation_app/models/enroll_cancel_member_lesson_post.dart';
 import 'package:studio_reservation_app/models/lesson_response_model.dart';
-import 'package:studio_reservation_app/models/member_details_response.dart';
 import 'package:studio_reservation_app/models/member_lesson_response.dart';
-
-import '../classes/lesson.dart';
 import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/constants/network/network_constants.dart';
 import '../core/enums/url_enum.dart';
@@ -108,13 +104,12 @@ abstract class _HomeScreenViewModelBase with Store {
   }
 
   @observable
-  void EnrollCancel() async {
-    MemberLessonResponse? x = await checkInLessonDetails();
+  Future EnrollCancel(int lessonId) async {
     try {
       final response = await dio.post(Urls.EnrollCancel.rawValue,
-          data: jsonEncode(
-              MemberLessonResponse(memberId: userId, lessonId: x?.lessonId)
-                  .toJson()));
+          data: jsonEncode(EnrollCancelMemberLessonPost(
+                  memberId: userId!, lessonId: lessonId)
+              .toJson()));
       print(response.data);
       switch (response.statusCode) {
         case HttpStatus.ok:

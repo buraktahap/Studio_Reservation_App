@@ -1,12 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:get/get.dart';
-import 'package:studio_reservation_app/components/colored_button.dart';
-import 'package:studio_reservation_app/components/colored_button_with_size.dart';
 import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
-import 'package:studio_reservation_app/views/upcoming_reservation_list_view.dart';
 
 class UpcomingLessonCard extends StatefulWidget {
   final String lesson_name;
@@ -16,6 +10,7 @@ class UpcomingLessonCard extends StatefulWidget {
   // final String lesson_image;
   final String lesson_level;
   final String lesson_time;
+  VoidCallback? onPressed;
   UpcomingLessonCard(
       {Key? key,
       required this.lesson_name,
@@ -23,7 +18,8 @@ class UpcomingLessonCard extends StatefulWidget {
       required this.lesson_id,
       required this.lesson_level,
       required this.lesson_time,
-      required this.lesson_date})
+      required this.lesson_date,
+      this.onPressed})
       : super(key: key);
 
   @override
@@ -69,7 +65,7 @@ class _UpcomingLessonCardState extends State<UpcomingLessonCard> {
                     title: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text(widget.lesson_name + " - " + widget.lesson_level,
+                          Text("${widget.lesson_name} - ${widget.lesson_level}",
                               style: const TextStyle(
                                   color: Colors.white, fontSize: 20)),
                         ]),
@@ -77,7 +73,7 @@ class _UpcomingLessonCardState extends State<UpcomingLessonCard> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            formattedDate + " | " + formattedTime,
+                            "$formattedDate | $formattedTime",
                             style:
                                 TextStyle(color: Colors.white.withOpacity(0.6)),
                           ),
@@ -90,23 +86,12 @@ class _UpcomingLessonCardState extends State<UpcomingLessonCard> {
               alignment: MainAxisAlignment.end,
               children: [
                 TextButton(
+                  onPressed: widget.onPressed,
                   child: const Text(
                     "See All",
                     style: TextStyle(
                         color: Color.fromARGB(255, 253, 12, 146), fontSize: 16),
                   ),
-                  // onPressed: viewModel.Enroll(memberId, widget.lesson_id),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const UpcomingReservationListView(),
-                      ),
-                    );
-
-                    setState(() {});
-                  },
                 ),
               ],
             ),

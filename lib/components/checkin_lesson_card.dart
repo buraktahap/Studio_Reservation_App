@@ -1,14 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:studio_reservation_app/components/colored_button.dart';
-import 'package:studio_reservation_app/components/colored_button_with_size.dart';
-import 'package:studio_reservation_app/models/lesson_response_model.dart';
 import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
-import 'package:studio_reservation_app/views/home_screen_view.dart';
-
-import '../classes/lesson.dart';
 import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/init/cache/locale_manager.dart';
 
@@ -99,7 +91,7 @@ class _CheckInLessonCardState extends State<CheckInLessonCard> {
                 ),
               ],
             ),
-           widget.buttonBar,
+            widget.buttonBar,
           ],
         ),
       ),

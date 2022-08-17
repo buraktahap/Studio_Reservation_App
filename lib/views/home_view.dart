@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:studio_reservation_app/components/background.dart';
-import 'package:studio_reservation_app/components/checkin_lesson_card.dart';
 import 'package:studio_reservation_app/core/constants/enums/preferences_keys_enum.dart';
-import 'package:studio_reservation_app/viewmodels/booking_view_model.dart';
-import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
 import 'package:studio_reservation_app/viewmodels/home_view_model.dart';
 import 'package:studio_reservation_app/views/booking_view.dart';
 import 'package:studio_reservation_app/views/home_screen_view.dart';
@@ -13,8 +8,6 @@ import 'package:studio_reservation_app/views/splash_screen.dart';
 
 import 'package:studio_reservation_app/core/base/view/base_view.dart';
 import '../core/init/cache/locale_manager.dart';
-import 'location_selection_view.dart';
-import 'login_view.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -28,6 +21,7 @@ class _HomeViewState extends State<HomeView> {
       LocaleManager.instance.getStringValue(PreferencesKeys.USER_LOCATION);
 
   int pageIndex = 0;
+  final PageController _pageController = PageController(initialPage: 0);
 
   final pages = [
     const HomeScreenView(),
@@ -46,7 +40,16 @@ class _HomeViewState extends State<HomeView> {
         onPageBuilder: (BuildContext context, HomeViewModel viewModel) =>
             Scaffold(
                 extendBody: true,
-                body: Background(child: pages[pageIndex]),
+                body: Background(
+                  child: PageView(
+                      controller: _pageController,
+                      onPageChanged: (index) {
+                        setState(() {
+                          pageIndex = index;
+                        });
+                      },
+                      children: pages),
+                ),
                 bottomNavigationBar: buildMyNavBar(context)));
   }
 
@@ -66,9 +69,9 @@ class _HomeViewState extends State<HomeView> {
           IconButton(
             enableFeedback: false,
             onPressed: () {
-              setState(() {
-                pageIndex = 0;
-              });
+              pageIndex = 0;
+              _pageController.jumpToPage(pageIndex);
+              setState(() {});
             },
             icon: pageIndex == 0
                 ? const Icon(
@@ -88,6 +91,7 @@ class _HomeViewState extends State<HomeView> {
             onPressed: () {
               setState(() {
                 pageIndex = 1;
+                _pageController.jumpToPage(pageIndex);
               });
             },
             icon: pageIndex == 1
@@ -107,6 +111,7 @@ class _HomeViewState extends State<HomeView> {
             onPressed: () {
               setState(() {
                 pageIndex = 2;
+                _pageController.jumpToPage(pageIndex);
               });
             },
             icon: pageIndex == 2

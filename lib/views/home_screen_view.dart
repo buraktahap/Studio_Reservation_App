@@ -14,6 +14,7 @@ import 'package:studio_reservation_app/models/member_location_update_response.da
 import 'package:studio_reservation_app/static_member.dart';
 import 'package:studio_reservation_app/views/booking_view.dart';
 import 'package:studio_reservation_app/views/home_view.dart';
+import 'package:studio_reservation_app/views/upcoming_reservation_list_view.dart';
 
 import '../components/colored_button_with_size.dart';
 import '../components/upcoming_lesson_card.dart';
@@ -190,8 +191,10 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                     width: MediaQuery.of(context).size.width *
                                         0.35,
                                     height: 45,
-                                    onPressed: () {
-                                      viewModel.EnrollCancel();
+                                    onPressed: () async {
+                                      viewModel.EnrollCancel(
+                                          snapshot.data.lessonId);
+                                      await viewModel.reservationList();
                                       setState(() {});
                                     },
                                   ),
@@ -223,6 +226,15 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                 ? "Advanced"
                                 : "All",
                     lesson_id: snapshot.data.lesson.id,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const UpcomingReservationListView(),
+                        ),
+                      ).then((_) => setState(() {}));
+                    },
                   );
                 } else {
                   return const TextLessonCard(

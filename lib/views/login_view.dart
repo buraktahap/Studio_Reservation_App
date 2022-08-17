@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:studio_reservation_app/components/background.dart';
 import 'package:studio_reservation_app/components/colored_button.dart';
 import 'package:studio_reservation_app/components/input_field.dart';
-import 'package:studio_reservation_app/viewmodels/location_selection_view_model.dart';
-import 'package:studio_reservation_app/views/location_selection_view.dart';
 import '../../../../core/base/view/base_view.dart';
 import '../components/logo.dart';
 import '../components/password_field.dart';
@@ -34,7 +29,7 @@ class _LoginViewState extends State<LoginView> {
         resizeToAvoidBottomInset: false,
         body: Observer(builder: (_) {
           return SingleChildScrollView(
-              physics: const ClampingScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               child: ConstrainedBox(
                   constraints: BoxConstraints(
                     minWidth: MediaQuery.of(context).size.width,

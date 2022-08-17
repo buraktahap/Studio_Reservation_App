@@ -15,11 +15,6 @@ abstract class _HomeViewModelBase with Store, BaseViewModel {
   @override
   void setContext(BuildContext context) => this.context = context;
 
-  @override
-  void init() {
-    // TODO: implement init
-  }
-
   final dio = Dio(
     BaseOptions(
       baseUrl: NetworkConstants.BASE_URL,

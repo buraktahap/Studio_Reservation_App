@@ -12,7 +12,7 @@ import 'components/logo.dart';
 Future<void> main() async {
   HttpOverrides.global = MyHttpOverrides();
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         builder: (BuildContext context, Widget? widget) =>
             MaterialApp( debugShowCheckedModeBanner: false, initialRoute: "/", routes: {
               '/': (context) => const LoginView(),
-              '/home': (context) =>  HomeView(),
+              '/home': (context) =>  const HomeView(),
               '/location': (context) => LocationSelectionView(),
               '/splash': (context) => const SplashScreen(),
             }));

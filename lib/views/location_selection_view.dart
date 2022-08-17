@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:studio_reservation_app/classes/member.dart';
 import 'package:studio_reservation_app/components/background.dart';
 import 'package:studio_reservation_app/components/colored_button.dart';
-import 'package:studio_reservation_app/components/enroll_lesson_card.dart';
 import 'package:studio_reservation_app/core/base/view/base_view.dart';
 import 'package:studio_reservation_app/models/branch_location_response.dart';
-import 'package:studio_reservation_app/models/location_selection_model.dart';
-import 'package:studio_reservation_app/models/member_location_update.dart';
 import 'package:studio_reservation_app/models/sign_in_response.dart';
-import 'package:studio_reservation_app/static_member.dart';
-import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
-
 import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/init/cache/locale_manager.dart';
 import '../viewmodels/location_selection_view_model.dart';
@@ -100,16 +92,6 @@ class _LocationSelectionViewState extends State<LocationSelectionView> {
   }
 
   Widget cities(LocationSelectionViewModel viewModel) {
-    @override
-    void initState() {
-      super.initState();
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        //   await viewModel.GetAllLocations();
-        //   branches = viewModel.cities;
-        //   setState(() {});
-      });
-    }
-
     return Container(
       height: 60,
       decoration: BoxDecoration(
@@ -118,7 +100,8 @@ class _LocationSelectionViewState extends State<LocationSelectionView> {
         onTap: () {
           setState(() {});
         },
-        child: Center(
+        child: ButtonTheme(
+          alignedDropdown: true,
           child: DropdownButton(
             underline: Container(),
             isExpanded: true,
@@ -128,7 +111,7 @@ class _LocationSelectionViewState extends State<LocationSelectionView> {
               });
             },
             hint: Padding(
-              padding: const EdgeInsets.only(left: 30.0),
+              padding: const EdgeInsets.only(left: 10.0),
               child: Text(_selectedCity.name.toString()),
             ),
             alignment: Alignment.center,
