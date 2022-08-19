@@ -21,7 +21,10 @@ class GetLessonsByBranchNameWithEnroll {
     this.lessonType,
     this.lessonLevel,
     this.description,
-    this.quota,
+    this.enrollQuota,
+    this.waitingQueueQuota,
+    this.enrollCount,
+    this.waitingQueueCount,
     this.startDate,
     this.estimatedTime,
     this.trainerId,
@@ -36,15 +39,18 @@ class GetLessonsByBranchNameWithEnroll {
   String? name;
   int? lessonType;
   int? lessonLevel;
-  dynamic? description;
-  int? quota;
+  dynamic description;
+  int? enrollQuota;
+  int? waitingQueueQuota;
+  int? enrollCount;
+  int? waitingQueueCount;
   DateTime? startDate;
   DateTime? estimatedTime;
   int? trainerId;
-  dynamic? trainer;
-  dynamic? memberLessons;
+  dynamic trainer;
+  dynamic memberLessons;
   int? classesId;
-  dynamic? classes;
+  dynamic classes;
   bool? isEnrolled;
 
   factory GetLessonsByBranchNameWithEnroll.fromJson(
@@ -55,7 +61,10 @@ class GetLessonsByBranchNameWithEnroll {
         lessonType: json["lessonType"],
         lessonLevel: json["lessonLevel"],
         description: json["description"],
-        quota: json["quota"],
+        enrollQuota: json["enrollQuota"],
+        waitingQueueQuota: json["waitingQueueQuota"],
+        enrollCount: json["enrollCount"],
+        waitingQueueCount: json["waitingQueueCount"],
         startDate: DateTime.parse(json["startDate"]),
         estimatedTime: DateTime.parse(json["estimatedTime"]),
         trainerId: json["trainerId"],
@@ -72,7 +81,10 @@ class GetLessonsByBranchNameWithEnroll {
         "lessonType": lessonType,
         "lessonLevel": lessonLevel,
         "description": description,
-        "quota": quota,
+        "enrollQuota": enrollQuota,
+        "waitingQueueQuota": waitingQueueQuota,
+        "enrollCount": enrollCount,
+        "waitingQueueCount": waitingQueueCount,
         "startDate": startDate?.toIso8601String(),
         "estimatedTime": estimatedTime?.toIso8601String(),
         "trainerId": trainerId,

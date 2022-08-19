@@ -1,19 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:studio_reservation_app/classes/member.dart';
-import 'package:studio_reservation_app/components/background.dart';
 import 'package:studio_reservation_app/components/checked_lesson_card.dart';
 import 'package:studio_reservation_app/components/checkin_lesson_card.dart';
-import 'package:studio_reservation_app/components/enroll_lesson_card.dart';
 import 'package:studio_reservation_app/components/text_lesson_card.dart';
 import 'package:studio_reservation_app/components/text_lesson_card_with_route.dart';
 import 'package:studio_reservation_app/core/base/view/base_view.dart';
-import 'package:studio_reservation_app/models/member_location_update_response.dart';
-import 'package:studio_reservation_app/static_member.dart';
-import 'package:studio_reservation_app/views/booking_view.dart';
-import 'package:studio_reservation_app/views/home_view.dart';
 import 'package:studio_reservation_app/views/upcoming_reservation_list_view.dart';
 
 import '../components/colored_button_with_size.dart';
