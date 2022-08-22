@@ -10,6 +10,7 @@ import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/constants/network/network_constants.dart';
 import '../core/enums/url_enum.dart';
 import '../core/init/cache/locale_manager.dart';
+import '../models/member_lesson_by_member_and_lessonId.dart';
 part 'home_screen_view_model.g.dart';
 
 class HomeScreenViewModel = _HomeScreenViewModelBase with _$HomeScreenViewModel;
@@ -40,7 +41,6 @@ abstract class _HomeScreenViewModelBase with Store {
           final MemberLessonResponse checkInLesson =
               MemberLessonResponse.fromJson(responseBody);
 
-          print(responseBody);
           return checkInLesson;
 
         case HttpStatus.notFound:
@@ -71,7 +71,6 @@ abstract class _HomeScreenViewModelBase with Store {
     try {
       final response = await dio.post(Urls.CheckIn.rawValue,
           queryParameters: {'memberId': userId, 'lessonId': lessonId});
-      print(response.data);
       switch (response.statusCode) {
         case HttpStatus.ok:
           print("checkin completed");
@@ -104,13 +103,30 @@ abstract class _HomeScreenViewModelBase with Store {
   }
 
   @observable
+  Future<MemberLessonByMemberAndLessonId?> getMemberLessonByLessonAndMemberId(
+      int lessonId) async {
+    final response = await dio.get(
+        Urls.GetMemberLessonsByMemberIdByLessonId.rawValue,
+        queryParameters: {'memberId': userId, 'lessonId': lessonId});
+    switch (response.statusCode) {
+      case HttpStatus.ok:
+        final responseBody = await response.data;
+        if (responseBody != null) {
+          return responseBody
+              .map((e) => MemberLessonByMemberAndLessonId.fromJson(e));
+        }
+        return Future.error(responseBody);
+    }
+    return null;
+  }
+
+  @observable
   Future EnrollCancel(int lessonId) async {
     try {
       final response = await dio.post(Urls.EnrollCancel.rawValue,
           data: jsonEncode(EnrollCancelMemberLessonPost(
                   memberId: userId!, lessonId: lessonId)
               .toJson()));
-      print(response.data);
       switch (response.statusCode) {
         case HttpStatus.ok:
           await reservationList();
@@ -147,14 +163,54 @@ abstract class _HomeScreenViewModelBase with Store {
           await dio.get(Urls.GetLessonById.rawValue, queryParameters: {
         'id': ml?.lessonId,
       });
-      print(response.data);
       switch (response.statusCode) {
         case HttpStatus.ok:
           final responseBody = await response.data;
           final LessonResponseModel checkInLesson =
               LessonResponseModel.fromJson(responseBody);
 
-          print(responseBody);
+          return checkInLesson;
+      }
+    } on DioError catch (e) {
+      print("e");
+    }
+    return null;
+  }
+
+  @observable
+  Future<LessonResponseModel?> getLessonById(int lessonId) async {
+    try {
+      final response =
+          await dio.get(Urls.GetLessonById.rawValue, queryParameters: {
+        'id': lessonId,
+      });
+      switch (response.statusCode) {
+        case HttpStatus.ok:
+          final responseBody = await response.data;
+          final LessonResponseModel checkInLesson =
+              LessonResponseModel.fromJson(responseBody);
+
+          return checkInLesson;
+      }
+    } on DioError catch (e) {
+      print("e");
+    }
+    return null;
+  }
+
+  @observable
+  Future<LessonResponseModel?> addToWaitingQueue(int lessonId) async {
+    try {
+      final response = await dio.post(Urls.AddToWaitingQueue.rawValue,
+          data: jsonEncode(EnrollCancelMemberLessonPost(
+                  memberId: userId!, lessonId: lessonId)
+              .toJson()));
+      switch (response.statusCode) {
+        case HttpStatus.ok:
+          final responseBody = await response.data;
+          final LessonResponseModel checkInLesson =
+              LessonResponseModel.fromJson(responseBody);
+
           return checkInLesson;
       }
     } on DioError catch (e) {

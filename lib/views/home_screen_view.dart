@@ -129,7 +129,6 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                     snapshot.data != null &&
                     snapshot.data.lesson.id != null &&
                     snapshot.data.isCheckin != true) {
-                  print(viewModel.isCheckin);
                   return CheckInLessonCard(
                     lesson_name: snapshot.data.lesson.name,
                     lesson_date: snapshot.data.lesson.startDate.toString(),
@@ -168,7 +167,6 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                     height: 45,
                                     onPressed: () async {
                                       viewModel.CheckIn(snapshot.data.lessonId);
-                                      print(viewModel.isCheckin);
                                       await viewModel.reservationList();
                                       setState(() {});
                                     },

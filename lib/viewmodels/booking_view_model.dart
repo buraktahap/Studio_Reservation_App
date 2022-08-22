@@ -60,11 +60,11 @@ abstract class _BookingViewModelBase with Store {
   }
 
   @observable
-  Future Enroll(int memberId, int lessonId) async {
+  Future Enroll( int lessonId) async {
     try {
       final response = await dio.post(Urls.Enroll.rawValue,
           data: json.encode(
-              enrollResponseModel(memberId: memberId, lessonId: lessonId)
+              enrollResponseModel(memberId: userId, lessonId: lessonId)
                   .toJson()));
       switch (response.statusCode) {
         case HttpStatus.created:

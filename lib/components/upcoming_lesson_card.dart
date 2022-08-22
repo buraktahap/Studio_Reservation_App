@@ -39,7 +39,14 @@ class _UpcomingLessonCardState extends State<UpcomingLessonCard> {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const LessonDetailPage(),
+          builder: (context) => LessonDetailPage(
+            lesson_id: widget.lesson_id,
+            lesson_date: widget.lesson_date,
+            lesson_time: widget.lesson_time,
+            lesson_name: widget.lesson_name,
+            lesson_description: widget.lesson_description,
+            lesson_level: widget.lesson_level,
+          ),
         ),
       ),
       child: Card(

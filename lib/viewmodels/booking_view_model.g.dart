@@ -48,8 +48,8 @@ mixin _$BookingViewModel on _BookingViewModelBase, Store {
   }
 
   @override
-  ObservableFuture<dynamic> Enroll(int memberId, int lessonId) {
-    final _$future = super.Enroll(memberId, lessonId);
+  ObservableFuture<dynamic> Enroll( int lessonId) {
+    final _$future = super.Enroll(lessonId);
     return ObservableFuture<dynamic>(_$future);
   }
 

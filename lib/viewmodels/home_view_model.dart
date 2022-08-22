@@ -27,11 +27,9 @@ abstract class _HomeViewModelBase with Store, BaseViewModel {
     try {
       final response = await dio
           .get(Urls.GetMemberById.rawValue, queryParameters: {'id': id});
-      print(response.data);
       switch (response.statusCode) {
         case HttpStatus.ok:
           final responseBody = await response.data;
-          print(responseBody);
           MemberDetailsResponse memberDetailsResponse =
               await MemberDetailsResponse.fromJson(responseBody);
           return memberDetailsResponse;

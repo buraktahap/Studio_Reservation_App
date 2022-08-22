@@ -11,6 +11,8 @@ enum Urls {
   CheckIn,
   EnrollCancel,
   ReservationList,
+  GetMemberLessonsByMemberIdByLessonId,
+  AddToWaitingQueue,
 }
 
 extension UrlsExtension on Urls {
@@ -40,6 +42,10 @@ extension UrlsExtension on Urls {
         return "/MemberLessons/EnrollCancel";
       case Urls.ReservationList:
         return "/MemberLessons/ReservationList";
+      case Urls.GetMemberLessonsByMemberIdByLessonId:
+        return "/MemberLessons/GetMemberLessonsByMemberIdByLessonId";
+      case Urls.AddToWaitingQueue:
+        return "/MemberLessons/AddToWaitingQueue";
     }
   }
 }

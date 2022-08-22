@@ -94,7 +94,6 @@ class _BookingViewState extends State<BookingView> {
                                                 text: "Enroll",
                                                 onPressed: () async {
                                                   BookingViewModel().Enroll(
-                                                      userId!,
                                                       snapshot.data[index].id);
                                                   await BookingViewModel()
                                                       .LessonsByBranchName(
