@@ -23,6 +23,8 @@ class LessonDetailPage extends StatefulWidget {
   final String lesson_level;
   final String lesson_time;
 
+  final VoidCallback onpressed;
+
   const LessonDetailPage({
     Key? key,
     required this.lesson_name,
@@ -31,6 +33,7 @@ class LessonDetailPage extends StatefulWidget {
     required this.lesson_level,
     required this.lesson_time,
     required this.lesson_date,
+    required this.onpressed,
   }) : super(key: key);
 
   @override
@@ -82,9 +85,7 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                                       IconButton(
                                         icon: const Icon(Icons.arrow_back,
                                             color: Colors.white),
-                                        onPressed: () async {
-                                          Navigator.pop(context);
-                                        },
+                                        onPressed: widget.onpressed,
                                       ),
                                       DraggableScrollableSheet(
                                         initialChildSize: 0.55,
@@ -296,12 +297,29 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                                           );
                                         },
                                       ),
-                                      ActionButtons(lessonId: widget.lesson_id),
+                                      Align(
+                                        alignment: Alignment.bottomCenter,
+                                        child: Container(
+                                          width: double.infinity,
+                                          height: 80,
+                                          decoration: const BoxDecoration(
+                                            color: Color(0xff373856),
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(30),
+                                              topRight: Radius.circular(30),
+                                            ),
+                                          ),
+                                          child: ActionButtons(
+                                              lessonId: widget.lesson_id),
+                                        ),
+                                      ),
+
                                       // ...
                                     ],
                                   );
                                 } else {
-                                  return const Center(
+                                  return const Align(
+                                      alignment: Alignment.bottomCenter,
                                       child: CircularProgressIndicator());
                                 }
                               })),

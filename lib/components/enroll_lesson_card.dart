@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:studio_reservation_app/viewmodels/booking_view_model.dart';
 import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/init/cache/locale_manager.dart';
+import '../views/lesson_detail_page.dart';
 
 class EnrollLessonCard extends StatefulWidget {
   final String lesson_name;

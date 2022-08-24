@@ -13,6 +13,7 @@ enum Urls {
   ReservationList,
   GetMemberLessonsByMemberIdByLessonId,
   AddToWaitingQueue,
+  GetWaitingQueueIndexByMemberAndLessonId,
 }
 
 extension UrlsExtension on Urls {
@@ -46,6 +47,8 @@ extension UrlsExtension on Urls {
         return "/MemberLessons/GetMemberLessonsByMemberIdByLessonId";
       case Urls.AddToWaitingQueue:
         return "/MemberLessons/AddToWaitingQueue";
+      case Urls.GetWaitingQueueIndexByMemberAndLessonId:
+        return "/MemberLessons/GetWaitingQueueIndexByMemberAndLessonId";
     }
   }
 }

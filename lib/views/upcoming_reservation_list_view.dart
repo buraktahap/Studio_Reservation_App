@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:studio_reservation_app/components/action_buttons.dart';
 import 'package:studio_reservation_app/components/checkin_lesson_card.dart';
 import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
 import '../components/background.dart';
@@ -94,71 +95,7 @@ class _UpcomingReservationListViewState
                                                       ? "Advanced"
                                                       : "All",
                                           lesson_id: snapshot.data[index].lesson.id,
-                                          buttonBar: snapshot.data[index].isCheckin == true
-                                              ? const Text(
-                                                  "You have succesfully checked in!",
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 20),
-                                                )
-                                              : ButtonBar(
-                                                  alignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        ColoredButtonWithSize(
-                                                          text: "Check In",
-                                                          // onPressed: viewModel.Enroll(memberId, widget.lesson_id),
-                                                          width: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width *
-                                                              0.35,
-                                                          height: 45,
-                                                          onPressed: () async {
-                                                            viewModel.CheckIn(
-                                                                snapshot
-                                                                    .data[index]
-                                                                    .lessonId);
-                                                            print(viewModel
-                                                                .isCheckin);
-                                                            await viewModel
-                                                                .reservationList();
-                                                            setState(() {});
-                                                          },
-                                                        ),
-                                                        const SizedBox(
-                                                          width: 20,
-                                                        ),
-                                                        ColoredButtonWithSize(
-                                                          text: "Cancel",
-                                                          // onPressed: viewModel.Enroll(memberId, widget.lesson_id),
-                                                          width: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width *
-                                                              0.35,
-                                                          height: 45,
-                                                          onPressed: () async {
-                                                            viewModel.EnrollCancel(
-                                                                snapshot
-                                                                    .data[index]
-                                                                    .lessonId);
-                                                            await viewModel
-                                                                .reservationList();
-                                                            setState(() {});
-                                                          },
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
+                                          buttonBar: ActionButtons(lessonId: snapshot.data[index].lesson.id),
                                           isChecked: snapshot.data[index].isCheckin);
                                     } else {
                                       return const CircularProgressIndicator();

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
+import 'package:studio_reservation_app/views/home_screen_view.dart';
 import 'package:studio_reservation_app/views/lesson_detail_page.dart';
 
 class UpcomingLessonCard extends StatefulWidget {
@@ -12,6 +13,7 @@ class UpcomingLessonCard extends StatefulWidget {
   final String lesson_level;
   final String lesson_time;
   VoidCallback? onPressed;
+  VoidCallback? detailSetState;
   UpcomingLessonCard(
       {Key? key,
       required this.lesson_name,
@@ -20,7 +22,8 @@ class UpcomingLessonCard extends StatefulWidget {
       required this.lesson_level,
       required this.lesson_time,
       required this.lesson_date,
-      this.onPressed})
+      this.onPressed,
+      this.detailSetState})
       : super(key: key);
 
   @override
@@ -35,85 +38,68 @@ class _UpcomingLessonCardState extends State<UpcomingLessonCard> {
     String formattedDate = DateFormat('dd-MM-yyyy  HH:mm').format(selectedDate);
     var selectedTime = DateTime.parse(widget.lesson_time);
     String formattedTime = DateFormat('HH:mm').format(selectedTime);
-    return GestureDetector(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => LessonDetailPage(
-            lesson_id: widget.lesson_id,
-            lesson_date: widget.lesson_date,
-            lesson_time: widget.lesson_time,
-            lesson_name: widget.lesson_name,
-            lesson_description: widget.lesson_description,
-            lesson_level: widget.lesson_level,
-          ),
-        ),
-      ),
-      child: Card(
-        color: const Color(0xff373856),
-        margin: const EdgeInsets.fromLTRB(15, 0, 15, 20),
-        clipBehavior: Clip.antiAlias,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-          child: Column(
-            children: [
-              Container(
-                alignment: Alignment.topLeft,
-                child: const Text("Upcoming Lesson",
+    return Card(
+      color: const Color(0xff373856),
+      margin: const EdgeInsets.fromLTRB(15, 0, 15, 20),
+      clipBehavior: Clip.antiAlias,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+        child: Column(
+          children: [
+            Container(
+              alignment: Alignment.topLeft,
+              child: const Text("Upcoming Lesson",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                  )),
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: CircleAvatar(
+                      backgroundImage:
+                          Image.asset('assets/images/trainer1.png').image,
+                      radius: MediaQuery.of(context).size.width * 0.05),
+                ),
+                Expanded(
+                  child: ListTile(
+                    title: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text("${widget.lesson_name} - ${widget.lesson_level}",
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 20)),
+                        ]),
+                    subtitle: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "$formattedDate | $formattedTime",
+                            style:
+                                TextStyle(color: Colors.white.withOpacity(0.6)),
+                          ),
+                        ]),
+                  ),
+                ),
+              ],
+            ),
+            ButtonBar(
+              alignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: widget.onPressed,
+                  child: const Text(
+                    "See All",
                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                    )),
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: CircleAvatar(
-                        backgroundImage:
-                            Image.asset('assets/images/trainer1.png').image,
-                        radius: MediaQuery.of(context).size.width * 0.05),
+                        color: Color.fromARGB(255, 253, 12, 146), fontSize: 16),
                   ),
-                  Expanded(
-                    child: ListTile(
-                      title: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                                "${widget.lesson_name} - ${widget.lesson_level}",
-                                style: const TextStyle(
-                                    color: Colors.white, fontSize: 20)),
-                          ]),
-                      subtitle: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "$formattedDate | $formattedTime",
-                              style: TextStyle(
-                                  color: Colors.white.withOpacity(0.6)),
-                            ),
-                          ]),
-                    ),
-                  ),
-                ],
-              ),
-              ButtonBar(
-                alignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                    onPressed: widget.onPressed,
-                    child: const Text(
-                      "See All",
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 253, 12, 146),
-                          fontSize: 16),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

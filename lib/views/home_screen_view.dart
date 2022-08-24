@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:studio_reservation_app/components/action_buttons.dart';
 import 'package:studio_reservation_app/components/checked_lesson_card.dart';
 import 'package:studio_reservation_app/components/checkin_lesson_card.dart';
 import 'package:studio_reservation_app/components/text_lesson_card.dart';
@@ -13,6 +14,7 @@ import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/init/cache/locale_manager.dart';
 import '../viewmodels/home_screen_view_model.dart';
 import '../viewmodels/home_view_model.dart';
+import 'lesson_detail_page.dart';
 
 class HomeScreenView extends StatefulWidget {
   const HomeScreenView({Key? key}) : super(key: key);
@@ -105,93 +107,58 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                           recognizer: TapGestureRecognizer()..onTap = () {}),
                     ),
                   );
-                } else if (snapshot.data != null &&
-                    snapshot.data.isCheckin == true) {
-                  return CheckedLessonCard(
-                    lesson_name: snapshot.data.lesson.name,
-                    lesson_date: snapshot.data.lesson.startDate.toString(),
-                    lesson_time: snapshot.data.lesson.estimatedTime.toString(),
-                    lesson_description:
-                        snapshot.data.lesson.description.toString(),
-                    lesson_level: snapshot.data.lesson.lessonLevel.toString() ==
-                            "1"
-                        ? "Beginner"
-                        : snapshot.data.lesson.lessonLevel.toString() == "2"
-                            ? "Intermediate"
-                            : snapshot.data.lesson.lessonLevel.toString() == "3"
-                                ? "Advanced"
-                                : "All",
-                    lesson_id: snapshot.data.lesson.id,
-                    text: "You have succesfully checked in!",
-                    isChecked: snapshot.data.isCheckin,
-                  );
                 } else if (snapshot.connectionState == ConnectionState.done &&
                     snapshot.data != null &&
                     snapshot.data.lesson.id != null &&
-                    snapshot.data.isCheckin != true) {
-                  return CheckInLessonCard(
-                    lesson_name: snapshot.data.lesson.name,
-                    lesson_date: snapshot.data.lesson.startDate.toString(),
-                    lesson_time: snapshot.data.lesson.estimatedTime.toString(),
-                    lesson_description:
-                        snapshot.data.lesson.description.toString(),
-                    lesson_level: snapshot.data.lesson.lessonLevel.toString() ==
-                            "1"
-                        ? "Beginner"
-                        : snapshot.data.lesson.lessonLevel.toString() == "2"
-                            ? "Intermediate"
-                            : snapshot.data.lesson.lessonLevel.toString() == "3"
-                                ? "Advanced"
-                                : "All",
-                    lesson_id: snapshot.data.lesson.id,
-                    isChecked: snapshot.data.isCheckin,
-                    buttonBar: snapshot.data.isCheckin == true
-                        ? const Text("You have succesfully checked in!",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                            ))
-                        : ButtonBar(
-                            alignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  ColoredButtonWithSize(
-                                    text: "Check In",
-                                    // onPressed: viewModel.Enroll(memberId, widget.lesson_id),
-                                    width: MediaQuery.of(context).size.width *
-                                        0.35,
-                                    height: 45,
-                                    onPressed: () async {
-                                      viewModel.CheckIn(snapshot.data.lessonId);
-                                      await viewModel.reservationList();
-                                      setState(() {});
-                                    },
-                                  ),
-                                  const SizedBox(
-                                    width: 20,
-                                  ),
-                                  ColoredButtonWithSize(
-                                    text: "Cancel",
-                                    // onPressed: viewModel.Enroll(memberId, widget.lesson_id),
-                                    width: MediaQuery.of(context).size.width *
-                                        0.35,
-                                    height: 45,
-                                    onPressed: () async {
-                                      viewModel.EnrollCancel(
-                                          snapshot.data.lessonId);
-                                      await viewModel.reservationList();
-                                      setState(() {});
-                                    },
-                                  ),
-                                ],
+                    snapshot.data.isEnrolled == true) {
+                  return GestureDetector(
+                      onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LessonDetailPage(
+                                lesson_id: snapshot.data.lesson.id,
+                                lesson_date:
+                                    snapshot.data.lesson.startDate.toString(),
+                                lesson_time: snapshot.data.lesson.estimatedTime
+                                    .toString(),
+                                lesson_name: snapshot.data.lesson.name,
+                                lesson_description:
+                                    snapshot.data.lesson.description ?? " ",
+                                lesson_level:
+                                    snapshot.data.lesson.lessonLevel.toString(),
+                                onpressed: () async {
+                                  Navigator.pop(context, true);
+                                  setState(() {});
+                                },
                               ),
-                            ],
-                          ),
-                  );
+                            ),
+                          ).then((_) {
+                            setState(() {});
+                          }),
+                      child: CheckInLessonCard(
+                          lesson_name: snapshot.data.lesson.name,
+                          lesson_date:
+                              snapshot.data.lesson.startDate.toString(),
+                          lesson_time:
+                              snapshot.data.lesson.estimatedTime.toString(),
+                          lesson_description:
+                              snapshot.data.lesson.description.toString(),
+                          lesson_level:
+                              snapshot.data.lesson.lessonLevel.toString() == "1"
+                                  ? "Beginner"
+                                  : snapshot.data.lesson.lessonLevel
+                                              .toString() ==
+                                          "2"
+                                      ? "Intermediate"
+                                      : snapshot.data.lesson.lessonLevel
+                                                  .toString() ==
+                                              "3"
+                                          ? "Advanced"
+                                          : "All",
+                          lesson_id: snapshot.data.lesson.id,
+                          isChecked: snapshot.data.isCheckin,
+                          buttonBar: ActionButtons(
+                              lessonId: snapshot.data.lesson.id)));
                 }
                 return Container();
               }),
@@ -200,31 +167,61 @@ class _HomeScreenViewState extends State<HomeScreenView> {
               builder: (context, AsyncSnapshot snapshot) {
                 if (snapshot.connectionState == ConnectionState.done &&
                     snapshot.data != null) {
-                  return UpcomingLessonCard(
-                    lesson_name: snapshot.data.lesson.name,
-                    lesson_date: snapshot.data.lesson.startDate.toString(),
-                    lesson_time: snapshot.data.lesson.estimatedTime.toString(),
-                    lesson_description:
-                        snapshot.data.lesson.description.toString(),
-                    lesson_level: snapshot.data.lesson.lessonLevel.toString() ==
-                            "1"
-                        ? "Beginner"
-                        : snapshot.data.lesson.lessonLevel.toString() == "2"
-                            ? "Intermediate"
-                            : snapshot.data.lesson.lessonLevel.toString() == "3"
-                                ? "Advanced"
-                                : "All",
-                    lesson_id: snapshot.data.lesson.id,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const UpcomingReservationListView(),
-                        ),
-                      ).then((_) => setState(() {}));
-                    },
-                  );
+                  return GestureDetector(
+                      onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LessonDetailPage(
+                                lesson_id: snapshot.data.lesson.id,
+                                lesson_date:
+                                    snapshot.data.lesson.startDate.toString(),
+                                lesson_time: snapshot.data.lesson.estimatedTime
+                                    .toString(),
+                                lesson_name: snapshot.data.lesson.name,
+                                lesson_description:
+                                    snapshot.data.lesson.description ?? " ",
+                                lesson_level:
+                                    snapshot.data.lesson.lessonLevel.toString(),
+                                onpressed: () async {
+                                  Navigator.pop(context, true);
+                                  setState(() {});
+                                },
+                              ),
+                            ),
+                          ).then((_) {
+                            setState(() {});
+                          }),
+                      child: UpcomingLessonCard(
+                        lesson_name: snapshot.data.lesson.name,
+                        lesson_date: snapshot.data.lesson.startDate.toString(),
+                        lesson_time:
+                            snapshot.data.lesson.estimatedTime.toString(),
+                        lesson_description:
+                            snapshot.data.lesson.description.toString(),
+                        lesson_level: snapshot.data.lesson.lessonLevel
+                                    .toString() ==
+                                "1"
+                            ? "Beginner"
+                            : snapshot.data.lesson.lessonLevel.toString() == "2"
+                                ? "Intermediate"
+                                : snapshot.data.lesson.lessonLevel.toString() ==
+                                        "3"
+                                    ? "Advanced"
+                                    : "All",
+                        lesson_id: snapshot.data.lesson.id,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const UpcomingReservationListView(),
+                            ),
+                          ).then((_) => setState(() {}));
+                        },
+                        detailSetState: () {
+                          setState(() {});
+                        },
+                      ));
                 } else {
                   return const TextLessonCard(
                       text:

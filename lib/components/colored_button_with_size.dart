@@ -18,7 +18,7 @@ class ColoredButtonWithSize extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        width: 135,
+        width: 150,
         height: 35,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30.0),

@@ -51,14 +51,6 @@ class _CheckInLessonCardState extends State<CheckInLessonCard> {
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
         child: Column(
           children: [
-            Container(
-              alignment: Alignment.topLeft,
-              child: const Text("Check In",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                  )),
-            ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
