@@ -6,6 +6,7 @@ import 'package:mobx/mobx.dart';
 import 'package:studio_reservation_app/models/enroll_cancel_member_lesson_post.dart';
 import 'package:studio_reservation_app/models/lesson_response_model.dart';
 import 'package:studio_reservation_app/models/member_lesson_response.dart';
+import 'package:studio_reservation_app/models/waiting_queue_index_response.dart';
 import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/constants/network/network_constants.dart';
 import '../core/enums/url_enum.dart';
@@ -102,6 +103,18 @@ abstract class _HomeScreenViewModelBase with Store {
   }
 
   @observable
+  List x = [];
+  @action
+  Future<List> MemberLessonByMemberAndLessonIdWithIndex(int lessonId) async {
+    final LessonResponseModel? a = await getLessonById(lessonId);
+    x.add(a);
+    int b = await GetWaitingQueueIndexByMemberAndLessonId(lessonId);
+    x.add(b);
+    print(x);
+    return x;
+  }
+
+  @action
   Future<MemberLessonByMemberAndLessonId?> getMemberLessonByLessonAndMemberId(
       int lessonId) async {
     final response = await dio.get(
@@ -215,12 +228,12 @@ abstract class _HomeScreenViewModelBase with Store {
   @computed
   int waitingQueueIndex = 0;
 
-  @observable
+  @action
   Future<int> GetWaitingQueueIndexByMemberAndLessonId(int lessonId) async {
     final response = await dio.get(
         Urls.GetWaitingQueueIndexByMemberAndLessonId.rawValue,
         queryParameters: {'memberId': userId, 'lessonId': lessonId});
-    waitingQueueIndex = await response.data;
-    return waitingQueueIndex;
+    final int index = response.data;
+    return index;
   }
 }

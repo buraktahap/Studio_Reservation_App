@@ -9,6 +9,7 @@ import 'package:studio_reservation_app/viewmodels/booking_view_model.dart';
 import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
 import 'package:studio_reservation_app/views/home_screen_view.dart';
 
+import '../models/waiting_queue_index_response.dart';
 import '../views/home_view.dart';
 
 class ActionButtons extends StatefulWidget {
@@ -57,7 +58,7 @@ class _ActionButtonsState extends State<ActionButtons> {
                         width: 150,
                         text: "Cancel",
                         onPressed: () async {
-                           HomeScreenViewModel().EnrollCancel(widget.lessonId);
+                          HomeScreenViewModel().EnrollCancel(widget.lessonId);
                           await viewModel.getMemberLessonByLessonAndMemberId(
                               widget.lessonId);
                           setState(() {});
@@ -75,13 +76,18 @@ class _ActionButtonsState extends State<ActionButtons> {
                       textAlign: TextAlign.center,
                     ),
                   );
+                } else if (snapshot.data != null && snapshot.data[1] != 0) {
+                  return Text("$snapshot.data[1]");
                 }
               }
+
               return FutureBuilder(
-                future: HomeScreenViewModel().getLessonById(widget.lessonId),
+                future: HomeScreenViewModel()
+                    .MemberLessonByMemberAndLessonIdWithIndex(widget.lessonId),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
-                    if (snapshot.data.enrollCount < snapshot.data.enrollQuota) {
+                    if (snapshot.data[0].enrollCount <
+                        snapshot.data[0].enrollQuota) {
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -92,17 +98,18 @@ class _ActionButtonsState extends State<ActionButtons> {
                             onPressed: () async {
                               await BookingViewModel().Enroll(widget.lessonId);
                               await viewModel
-                                  .getMemberLessonByLessonAndMemberId(
+                                  .MemberLessonByMemberAndLessonIdWithIndex(
                                       widget.lessonId);
                               setState(() {});
                             },
                           ),
                         ],
                       );
-                    } else if (snapshot.data.enrollCount ==
-                            snapshot.data.enrollQuota &&
-                        snapshot.data.waitingQueueCount <
-                            snapshot.data.waitingQueueQuota) {
+                    } else if (snapshot.data[0].enrollCount ==
+                            snapshot.data[0].enrollQuota &&
+                        snapshot.data[0].waitingQueueCount <
+                            snapshot.data[0].waitingQueueQuota &&
+                        snapshot.data[1] == 0) {
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -117,7 +124,7 @@ class _ActionButtonsState extends State<ActionButtons> {
                                   await HomeScreenViewModel()
                                       .addToWaitingQueue(widget.lessonId);
                                   await viewModel
-                                      .getMemberLessonByLessonAndMemberId(
+                                      .MemberLessonByMemberAndLessonIdWithIndex(
                                           widget.lessonId);
                                   setState(() {});
                                 },
@@ -126,7 +133,7 @@ class _ActionButtonsState extends State<ActionButtons> {
                                 height: 7,
                               ),
                               Text(
-                                "${snapshot.data.waitingQueueCount}/${snapshot.data.waitingQueueQuota} people added to waiting list",
+                                "${snapshot.data[0].waitingQueueCount}/${snapshot.data[0].waitingQueueQuota} people added to waiting list",
                                 style: TextStyle(
                                   color: Colors.blue,
                                   fontSize: 14,
@@ -135,6 +142,11 @@ class _ActionButtonsState extends State<ActionButtons> {
                             ],
                           ),
                         ],
+                      );
+                    } else if (snapshot.data[1] != 0) {
+                      return Text(
+                        "You are on the ${snapshot.data[1]}/${snapshot.data[0].waitingQueueCount} place in the waiting list",
+                        style: TextStyle(color: Colors.white),
                       );
                     } else {
                       return const Center(
