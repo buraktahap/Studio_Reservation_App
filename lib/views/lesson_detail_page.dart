@@ -309,8 +309,12 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                                               topRight: Radius.circular(30),
                                             ),
                                           ),
-                                          child: ActionButtons(
-                                              lessonId: widget.lesson_id),
+                                          child: Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                20, 0, 20, 0),
+                                            child: ActionButtons(
+                                                lessonId: widget.lesson_id),
+                                          ),
                                         ),
                                       ),
 

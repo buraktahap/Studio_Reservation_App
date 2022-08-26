@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:studio_reservation_app/components/background.dart';
 import 'package:studio_reservation_app/core/constants/enums/preferences_keys_enum.dart';
+import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
 import 'package:studio_reservation_app/viewmodels/home_view_model.dart';
 import 'package:studio_reservation_app/views/booking_view.dart';
 import 'package:studio_reservation_app/views/home_screen_view.dart';
@@ -20,8 +21,18 @@ class _HomeViewState extends State<HomeView> {
   final String? userLocation =
       LocaleManager.instance.getStringValue(PreferencesKeys.USER_LOCATION);
 
-  int pageIndex = 0;
-  final PageController _pageController = PageController(initialPage: 0);
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      var p = HomeScreenViewModel().reservationList();
+      setState(() {});
+    });
+  }
+
+  var x = HomeScreenViewModel().reservations;
+  int pageIndex = 1;
+  late final PageController _pageController = PageController(initialPage: 1);
 
   final pages = [
     const HomeScreenView(),

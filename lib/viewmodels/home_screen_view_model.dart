@@ -108,7 +108,7 @@ abstract class _HomeScreenViewModelBase with Store {
   Future<List> MemberLessonByMemberAndLessonIdWithIndex(int lessonId) async {
     final LessonResponseModel? a = await getLessonById(lessonId);
     x.add(a);
-    int b = await GetWaitingQueueIndexByMemberAndLessonId(lessonId);
+    int? b = await GetWaitingQueueIndexByMemberAndLessonId(lessonId);
     x.add(b);
     print(x);
     return x;
@@ -211,11 +211,7 @@ abstract class _HomeScreenViewModelBase with Store {
               .toJson()));
       switch (response.statusCode) {
         case HttpStatus.ok:
-          final responseBody = await response.data;
-          final LessonResponseModel checkInLesson =
-              LessonResponseModel.fromJson(responseBody);
-
-          return checkInLesson;
+          return null;
         case HttpStatus.unauthorized:
           return null;
       }
@@ -225,15 +221,23 @@ abstract class _HomeScreenViewModelBase with Store {
     return null;
   }
 
-  @computed
-  int waitingQueueIndex = 0;
-
   @action
-  Future<int> GetWaitingQueueIndexByMemberAndLessonId(int lessonId) async {
-    final response = await dio.get(
-        Urls.GetWaitingQueueIndexByMemberAndLessonId.rawValue,
-        queryParameters: {'memberId': userId, 'lessonId': lessonId});
-    final int index = response.data;
-    return index;
+  Future<int?> GetWaitingQueueIndexByMemberAndLessonId(int lessonId) async {
+    try {
+      final response = await dio.get(
+          Urls.GetWaitingQueueIndexByMemberAndLessonId.rawValue,
+          queryParameters: {'memberId': userId, 'lessonId': lessonId});
+      switch (response.statusCode) {
+        case HttpStatus.ok:
+          final responseBody = await response.data;
+          int waitingQueueIndex = responseBody;
+          return waitingQueueIndex;
+        case HttpStatus.notFound:
+          return 0;
+      }
+    } on DioError catch (e) {
+      print("e");
+    }
+    return null;
   }
 }

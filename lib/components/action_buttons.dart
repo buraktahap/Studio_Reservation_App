@@ -1,16 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:studio_reservation_app/components/colored_button.dart';
 import 'package:studio_reservation_app/components/colored_button_with_size.dart';
 import 'package:studio_reservation_app/core/base/base_viewmodel.dart';
 import 'package:studio_reservation_app/viewmodels/booking_view_model.dart';
 import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
-import 'package:studio_reservation_app/views/home_screen_view.dart';
-
-import '../models/waiting_queue_index_response.dart';
-import '../views/home_view.dart';
 
 class ActionButtons extends StatefulWidget {
   final int lessonId;
@@ -50,17 +42,18 @@ class _ActionButtonsState extends State<ActionButtons> {
                           setState(() {});
                         },
                       ),
-                      const SizedBox(
-                        width: 10,
-                      ),
                       ColoredButtonWithSize(
                         height: 50,
                         width: 150,
                         text: "Cancel",
                         onPressed: () async {
-                          HomeScreenViewModel().EnrollCancel(widget.lessonId);
-                          await viewModel.getMemberLessonByLessonAndMemberId(
-                              widget.lessonId);
+                          await HomeScreenViewModel()
+                              .EnrollCancel(widget.lessonId);
+
+                          await viewModel
+                              .MemberLessonByMemberAndLessonIdWithIndex(
+                                  widget.lessonId);
+                          viewModel.reservationList();
                           setState(() {});
                         },
                       ),
@@ -69,11 +62,11 @@ class _ActionButtonsState extends State<ActionButtons> {
                 } else if (snapshot.hasData &&
                     snapshot.data.isEnrolled == true &&
                     snapshot.data.isCheckin == true) {
-                  return const Center(
+                  return const Align(
+                    alignment: Alignment.centerLeft,
                     child: Text(
                       'Checked In',
-                      style: TextStyle(fontSize: 20, color: Colors.green),
-                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 15, color: Colors.green),
                     ),
                   );
                 } else if (snapshot.data != null && snapshot.data[1] != 0) {
@@ -82,86 +75,101 @@ class _ActionButtonsState extends State<ActionButtons> {
               }
 
               return FutureBuilder(
-                future: HomeScreenViewModel()
-                    .MemberLessonByMemberAndLessonIdWithIndex(widget.lessonId),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                    if (snapshot.data[0].enrollCount <
-                        snapshot.data[0].enrollQuota) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ColoredButtonWithSize(
-                            height: 50,
-                            width: 150,
-                            text: "Enroll",
-                            onPressed: () async {
-                              await BookingViewModel().Enroll(widget.lessonId);
-                              await viewModel
-                                  .MemberLessonByMemberAndLessonIdWithIndex(
-                                      widget.lessonId);
-                              setState(() {});
-                            },
+                  future: HomeScreenViewModel()
+                      .MemberLessonByMemberAndLessonIdWithIndex(
+                          widget.lessonId),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.hasData) {
+                      if (snapshot.data[0].enrollCount <
+                          snapshot.data[0].enrollQuota) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ColoredButtonWithSize(
+                              height: 50,
+                              width: 150,
+                              text: "Enroll",
+                              onPressed: () async {
+                                await BookingViewModel()
+                                    .Enroll(widget.lessonId);
+                                await HomeScreenViewModel()
+                                    .getMemberLessonByLessonAndMemberId(
+                                        widget.lessonId);
+                                setState(() {});
+                              },
+                            ),
+                          ],
+                        );
+                      } else if (snapshot.data[0].enrollCount ==
+                              snapshot.data[0].enrollQuota &&
+                          snapshot.data[0].waitingQueueCount ==
+                              snapshot.data[0].waitingQueueQuota &&
+                          (snapshot.data[1] == 0 || snapshot.data[1] == null)) {
+                        return const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Full Capacity",
+                            style: TextStyle(fontSize: 15, color: Colors.red),
                           ),
-                        ],
-                      );
-                    } else if (snapshot.data[0].enrollCount ==
-                            snapshot.data[0].enrollQuota &&
-                        snapshot.data[0].waitingQueueCount <
-                            snapshot.data[0].waitingQueueQuota &&
-                        snapshot.data[1] == 0) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ColoredButtonWithSize(
-                                height: 50,
-                                width: 150,
-                                text: "Join Waiting Queue",
-                                onPressed: () async {
-                                  await HomeScreenViewModel()
-                                      .addToWaitingQueue(widget.lessonId);
-                                  await viewModel
-                                      .MemberLessonByMemberAndLessonIdWithIndex(
-                                          widget.lessonId);
-                                  setState(() {});
-                                },
+                        );
+                      } else if (snapshot.data[0].enrollCount ==
+                              snapshot.data[0].enrollQuota &&
+                          snapshot.data[0].waitingQueueCount <
+                              snapshot.data[0].waitingQueueQuota &&
+                          (snapshot.data[1] == 0 || snapshot.data[1] == null)) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ColoredButtonWithSize(
+                              height: 50,
+                              width: 150,
+                              text: "Join Waiting Queue",
+                              onPressed: () async {
+                                await HomeScreenViewModel()
+                                    .addToWaitingQueue(widget.lessonId);
+                                await HomeScreenViewModel()
+                                    .MemberLessonByMemberAndLessonIdWithIndex(
+                                        widget.lessonId);
+                                setState(() {});
+                              },
+                            ),
+                            const SizedBox(
+                              height: 7,
+                            ),
+                            Text(
+                              "${snapshot.data[0].waitingQueueCount}/${snapshot.data[0].waitingQueueQuota} people added to waiting list",
+                              style: const TextStyle(
+                                color: Colors.blue,
+                                fontSize: 14,
                               ),
-                              const SizedBox(
-                                height: 7,
-                              ),
-                              Text(
-                                "${snapshot.data[0].waitingQueueCount}/${snapshot.data[0].waitingQueueQuota} people added to waiting list",
-                                style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ],
+                            ),
+                          ],
+                        );
+                      } else if (snapshot.data[1] != 0 ||
+                          snapshot.data[1] != null) {
+                        return const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "In waiting list",
+                            style: TextStyle(
+                              color: Colors.blue,
+                              fontSize: 15,
+                            ),
                           ),
-                        ],
-                      );
-                    } else if (snapshot.data[1] != 0) {
-                      return Text(
-                        "You are on the ${snapshot.data[1]}/${snapshot.data[0].waitingQueueCount} place in the waiting list",
-                        style: TextStyle(color: Colors.white),
-                      );
+                        );
+                      } else {
+                        return const Center(
+                          child: Text(
+                            'else',
+                            style: TextStyle(fontSize: 20, color: Colors.red),
+                            textAlign: TextAlign.center,
+                          ),
+                        );
+                      }
                     } else {
-                      return const Center(
-                        child: Text(
-                          'This Lesson is Full',
-                          style: TextStyle(fontSize: 20, color: Colors.red),
-                          textAlign: TextAlign.center,
-                        ),
-                      );
+                      return const Center(child: CircularProgressIndicator());
                     }
-                  } else {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                },
-              );
+                  });
 
               // return const Center(child: CircularProgressIndicator());
             });

@@ -3,7 +3,6 @@ import 'package:studio_reservation_app/components/action_buttons.dart';
 import 'package:studio_reservation_app/components/checkin_lesson_card.dart';
 import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
 import '../components/background.dart';
-import '../components/colored_button_with_size.dart';
 import '../core/base/base_viewmodel.dart';
 
 class UpcomingReservationListView extends StatefulWidget {

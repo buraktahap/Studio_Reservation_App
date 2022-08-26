@@ -46,14 +46,6 @@ class _UpcomingLessonCardState extends State<UpcomingLessonCard> {
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
         child: Column(
           children: [
-            Container(
-              alignment: Alignment.topLeft,
-              child: const Text("Upcoming Lesson",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                  )),
-            ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

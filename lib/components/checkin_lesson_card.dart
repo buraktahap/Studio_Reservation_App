@@ -45,7 +45,7 @@ class _CheckInLessonCardState extends State<CheckInLessonCard> {
     String formattedTime = DateFormat('HH:mm').format(selectedTime);
     return Card(
       color: const Color(0xff373856),
-      margin: const EdgeInsets.fromLTRB(15, 20, 15, 20),
+      margin: const EdgeInsets.fromLTRB(15, 0, 15, 20),
       clipBehavior: Clip.antiAlias,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),

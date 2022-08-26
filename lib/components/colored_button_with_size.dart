@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ColoredButtonWithSize extends StatelessWidget {
+class ColoredButtonWithSize extends StatefulWidget {
   const ColoredButtonWithSize(
       {Key? key,
       required this.text,
@@ -13,10 +13,16 @@ class ColoredButtonWithSize extends StatelessWidget {
   final VoidCallback onPressed;
   final double width;
   final double height;
+
+  @override
+  State<ColoredButtonWithSize> createState() => _ColoredButtonWithSizeState();
+}
+
+class _ColoredButtonWithSizeState extends State<ColoredButtonWithSize> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onPressed,
+      onTap: widget.onPressed,
       child: Container(
         width: 150,
         height: 35,
@@ -34,7 +40,7 @@ class ColoredButtonWithSize extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            text,
+            widget.text,
             style: const TextStyle(color: Colors.white, fontSize: 16),
           ),
         ),
