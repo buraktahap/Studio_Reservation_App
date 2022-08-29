@@ -1,17 +1,8 @@
-import 'dart:ffi';
-
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:studio_reservation_app/components/action_buttons.dart';
 import 'package:studio_reservation_app/components/background.dart';
-import 'package:studio_reservation_app/components/colored_button.dart';
 import 'package:studio_reservation_app/core/base/base_viewmodel.dart';
-import 'package:studio_reservation_app/viewmodels/booking_view_model.dart';
-
 import '../viewmodels/home_screen_view_model.dart';
 
 class LessonDetailPage extends StatefulWidget {
@@ -25,7 +16,7 @@ class LessonDetailPage extends StatefulWidget {
 
   final VoidCallback onpressed;
 
-  const LessonDetailPage({
+  LessonDetailPage({
     Key? key,
     required this.lesson_name,
     required this.lesson_description,
@@ -40,7 +31,35 @@ class LessonDetailPage extends StatefulWidget {
   State<LessonDetailPage> createState() => _LessonDetailPageState();
 }
 
+late Widget waitingList = Container();
+
 class _LessonDetailPageState extends State<LessonDetailPage> {
+  FutureBuilder<List> waitingListWidget() {
+    return FutureBuilder(
+        initialData: [waitingList],
+        future: HomeScreenViewModel()
+            .MemberLessonByMemberAndLessonIdWithIndex(widget.lesson_id),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.data[1] != null &&
+              snapshot.data[1] != 0) {
+            waitingList = Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "You are on the ${snapshot.data[1]}. place in the waiting list. ",
+                style: const TextStyle(
+                  color: Colors.blue,
+                  fontSize: 16,
+                ),
+              ),
+            );
+            return waitingList;
+          } else {
+            return Container();
+          }
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return BaseView<HomeScreenViewModel>(
@@ -83,8 +102,11 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                                     children: [
                                       Image.asset('assets/images/asset01.png'),
                                       IconButton(
-                                        icon: const Icon(Icons.arrow_back,
-                                            color: Colors.white),
+                                        icon: Icon(Icons.arrow_back,
+                                            color: Theme.of(context)
+                                                .buttonTheme
+                                                .colorScheme
+                                                ?.onSurface),
                                         onPressed: widget.onpressed,
                                       ),
                                       DraggableScrollableSheet(
@@ -93,23 +115,27 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                                         maxChildSize: 1,
                                         builder: (context, scrollController) {
                                           return Container(
-                                            decoration: const BoxDecoration(
-                                              color: Color(0xff212338),
-                                              borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.circular(30),
-                                                  topRight:
-                                                      Radius.circular(30)),
+                                            decoration: BoxDecoration(
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                      topLeft:
+                                                          Radius.circular(30),
+                                                      topRight:
+                                                          Radius.circular(30)),
                                               gradient: LinearGradient(
-                                                begin: Alignment(
+                                                begin: const Alignment(
                                                     0.9999982118745121,
                                                     0.999980688244732),
-                                                end: Alignment(
+                                                end: const Alignment(
                                                     0.9999982118745121,
                                                     -1.0000038146677073),
-                                                stops: [0.0, 1.0],
+                                                stops: const [0.75, 1.0],
                                                 colors: [
-                                                  Color.fromRGBO(33, 35, 56, 1),
-                                                  Color.fromRGBO(54, 54, 103, 1)
+                                                  Theme.of(context)
+                                                      .primaryColor,
+                                                  const Color(0xffFF89B6)
                                                 ],
                                               ),
                                             ),
@@ -132,7 +158,6 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                                                               TextAlign.left,
                                                           style:
                                                               const TextStyle(
-                                                            color: Colors.white,
                                                             fontSize: 25,
                                                           ),
                                                         ),
@@ -147,8 +172,6 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                                                           snapshot.data.classes
                                                               .name,
                                                           style: const TextStyle(
-                                                              color:
-                                                                  Colors.white,
                                                               fontSize: 14,
                                                               fontStyle:
                                                                   FontStyle
@@ -168,11 +191,7 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                                                               '',
                                                           textAlign:
                                                               TextAlign.left,
-                                                          style: TextStyle(
-                                                              color: Colors
-                                                                  .white
-                                                                  .withOpacity(
-                                                                      0.7),
+                                                          style: const TextStyle(
                                                               fontSize: 16,
                                                               fontWeight:
                                                                   FontWeight
@@ -247,7 +266,8 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                                                         height: 20,
                                                       ),
                                                       Divider(
-                                                        color: Colors.white
+                                                        color: Theme.of(context)
+                                                            .primaryColor
                                                             .withOpacity(0.1),
                                                         thickness: 1,
                                                       ),
@@ -283,14 +303,18 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                                                                       .data
                                                                       .trainer
                                                                       .lastName,
-                                                              style: const TextStyle(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize: 22),
+                                                              style:
+                                                                  const TextStyle(
+                                                                      fontSize:
+                                                                          22),
                                                             ),
                                                           ],
                                                         ),
                                                       ),
+                                                      const SizedBox(
+                                                        height: 20,
+                                                      ),
+                                                      waitingListWidget(),
                                                     ],
                                                   ),
                                                 )),
@@ -302,18 +326,34 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                                         child: Container(
                                           width: double.infinity,
                                           height: 80,
-                                          decoration: const BoxDecoration(
-                                            color: Color(0xff373856),
-                                            borderRadius: BorderRadius.only(
+                                          decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.5),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: const Offset(0,
+                                                    3), // changes position of shadow
+                                              ),
+                                            ],
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            borderRadius:
+                                                const BorderRadius.only(
                                               topLeft: Radius.circular(30),
                                               topRight: Radius.circular(30),
                                             ),
                                           ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                20, 0, 20, 0),
-                                            child: ActionButtons(
-                                                lessonId: widget.lesson_id),
+                                          child: Center(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      20, 0, 20, 0),
+                                              child: ActionButtons(
+                                                  align: Alignment.center,
+                                                  lessonId: widget.lesson_id),
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -366,13 +406,11 @@ class DetailWithIcon extends StatelessWidget {
               children: [
                 Text(
                   icon_description,
-                  style: TextStyle(
-                      color: Colors.white.withOpacity(0.3), fontSize: 12),
+                  style: const TextStyle(fontSize: 12),
                 ),
                 Text(
                   icon_status,
                   style: const TextStyle(
-                    color: Colors.white,
                     fontSize: 16,
                   ),
                 )

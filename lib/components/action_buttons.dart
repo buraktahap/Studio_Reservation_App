@@ -6,7 +6,10 @@ import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
 
 class ActionButtons extends StatefulWidget {
   final int lessonId;
-  const ActionButtons({Key? key, required this.lessonId}) : super(key: key);
+  final Alignment align;
+
+  const ActionButtons({Key? key, required this.lessonId, required this.align})
+      : super(key: key);
 
   @override
   State<ActionButtons> createState() => _ActionButtonsState();
@@ -62,8 +65,8 @@ class _ActionButtonsState extends State<ActionButtons> {
                 } else if (snapshot.hasData &&
                     snapshot.data.isEnrolled == true &&
                     snapshot.data.isCheckin == true) {
-                  return const Align(
-                    alignment: Alignment.centerLeft,
+                  return  Align(
+                    alignment: widget.align,
                     child: Text(
                       'Checked In',
                       style: TextStyle(fontSize: 15, color: Colors.green),
@@ -105,8 +108,8 @@ class _ActionButtonsState extends State<ActionButtons> {
                           snapshot.data[0].waitingQueueCount ==
                               snapshot.data[0].waitingQueueQuota &&
                           (snapshot.data[1] == 0 || snapshot.data[1] == null)) {
-                        return const Align(
-                          alignment: Alignment.centerLeft,
+                        return  Align(
+                          alignment: widget.align,
                           child: Text(
                             "Full Capacity",
                             style: TextStyle(fontSize: 15, color: Colors.red),
@@ -147,8 +150,8 @@ class _ActionButtonsState extends State<ActionButtons> {
                         );
                       } else if (snapshot.data[1] != 0 ||
                           snapshot.data[1] != null) {
-                        return const Align(
-                          alignment: Alignment.centerLeft,
+                        return  Align(
+                          alignment: widget.align,
                           child: Text(
                             "In waiting list",
                             style: TextStyle(

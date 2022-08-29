@@ -54,6 +54,7 @@ dependencies:
   qr_code_scanner: ^1.0.0
   vexana: ^3.0.1
   intl: ^0.17.0
+  google_fonts: ^3.0.1
 dependency_overrides:
   analyzer: ^4.3.1
   meta: ^1.8.0
@@ -73,9 +74,12 @@ dev_dependencies:
 
 
 flutter:
-
   uses-material-design: true
 
   assets:
     - assets/images/
+  
+
+
+  
 

@@ -39,7 +39,9 @@ class _UpcomingLessonCardState extends State<UpcomingLessonCard> {
     var selectedTime = DateTime.parse(widget.lesson_time);
     String formattedTime = DateFormat('HH:mm').format(selectedTime);
     return Card(
-      color: const Color(0xff373856),
+      elevation: 5,
+      shadowColor: Colors.black.withOpacity(0.3),
+      color: Theme.of(context).primaryColor,
       margin: const EdgeInsets.fromLTRB(15, 0, 15, 20),
       clipBehavior: Clip.antiAlias,
       child: Padding(
@@ -62,16 +64,13 @@ class _UpcomingLessonCardState extends State<UpcomingLessonCard> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text("${widget.lesson_name} - ${widget.lesson_level}",
-                              style: const TextStyle(
-                                  color: Colors.white, fontSize: 20)),
+                              style: const TextStyle(fontSize: 20)),
                         ]),
                     subtitle: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
                             "$formattedDate | $formattedTime",
-                            style:
-                                TextStyle(color: Colors.white.withOpacity(0.6)),
                           ),
                         ]),
                   ),

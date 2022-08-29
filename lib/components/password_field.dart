@@ -30,13 +30,12 @@ class _PasswordFieldState extends State<PasswordField> {
           borderRadius: BorderRadius.circular(30.0),
           border: Border.all(
             width: 1.0,
-            color: const Color.fromARGB(255, 255, 255, 255),
+            color: Theme.of(context).shadowColor,
           ),
         ),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(25, 10, 0, 10),
           child: TextFormField(
-              style: const TextStyle(color: Colors.white),
               obscureText: widget.isObscure! == null ? false : true,
               inputFormatters: const [],
               controller: widget.controller,
@@ -45,9 +44,7 @@ class _PasswordFieldState extends State<PasswordField> {
               keyboardType: TextInputType.visiblePassword,
               decoration: InputDecoration(
                   hintText: widget.hint,
-                  hintStyle: TextStyle(
-                    color: Colors.white.withOpacity(0.7),
-                  ),
+                  hintStyle: TextStyle(),
                   suffixIcon: GestureDetector(
                     onTap: () {
                       setState(() {

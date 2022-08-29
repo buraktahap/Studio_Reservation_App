@@ -56,7 +56,6 @@ class _LoginViewState extends State<LoginView> {
                               child: const Text("SIGN IN",
                                   style: TextStyle(
                                     fontSize: 30,
-                                    color: Colors.white,
                                     fontWeight: FontWeight.normal,
                                     fontFamily: 'Quicksand',
                                   )),
@@ -77,7 +76,6 @@ class _LoginViewState extends State<LoginView> {
                                   "I am alone, and feel the charm of existence in this spot, which was created for mine. ",
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: Colors.white.withOpacity(0.7),
                                     fontWeight: FontWeight.normal,
                                     fontFamily: 'Quicksand',
                                   )),
@@ -103,8 +101,7 @@ class _LoginViewState extends State<LoginView> {
                             onPressed: () {},
                             child: const Text(
                               'Forget Password?',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 14),
+                              style: TextStyle(fontSize: 14),
                             ),
                           ),
                           ColoredButton(
@@ -171,7 +168,7 @@ class SignInBackground extends StatelessWidget {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/sign_in_background.png'),
+          image: AssetImage('assets/images/backgroundLight.png'),
           fit: BoxFit.cover,
         ),
       ),

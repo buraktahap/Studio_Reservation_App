@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:studio_reservation_app/components/background.dart';
 import 'package:studio_reservation_app/components/colored_button.dart';
 import 'package:studio_reservation_app/core/base/view/base_view.dart';
+import 'package:studio_reservation_app/core/init/notifier/theme_notifier.dart';
 import 'package:studio_reservation_app/models/branch_location_response.dart';
 import 'package:studio_reservation_app/models/sign_in_response.dart';
 import '../core/constants/enums/preferences_keys_enum.dart';
@@ -58,7 +59,6 @@ class _LocationSelectionViewState extends State<LocationSelectionView> {
                                   "Please select your branch to continue.",
                                   style: TextStyle(
                                     fontSize: 19,
-                                    color: Colors.white,
                                     fontWeight: FontWeight.normal,
                                     fontFamily: 'Quicksand',
                                   )),
@@ -95,7 +95,9 @@ class _LocationSelectionViewState extends State<LocationSelectionView> {
     return Container(
       height: 60,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30), color: Colors.white),
+          borderRadius: BorderRadius.circular(30),
+          color: Colors.white,
+          border: Border.all(width: 1, color: const Color(0xffFF34C6))),
       child: GestureDetector(
         onTap: () {
           setState(() {});
@@ -118,7 +120,9 @@ class _LocationSelectionViewState extends State<LocationSelectionView> {
             elevation: 16,
             itemHeight: 60,
             borderRadius: BorderRadius.circular(30),
-            style: const TextStyle(color: Colors.black, fontSize: 18),
+            style: TextStyle(
+                color: ThemeNotifier().currentTheme.textTheme.bodyText1?.color,
+                fontSize: 18),
             icon: const Padding(
               padding: EdgeInsets.only(right: 30.0),
               child: Icon(

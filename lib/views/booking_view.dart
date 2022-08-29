@@ -3,8 +3,11 @@ import 'package:studio_reservation_app/components/enroll_lesson_Card.dart';
 import 'package:studio_reservation_app/core/base/view/base_view.dart';
 import 'package:studio_reservation_app/viewmodels/booking_view_model.dart';
 import '../components/action_buttons.dart';
+import '../core/base/theme/theme_notifier.dart';
 import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/init/cache/locale_manager.dart';
+import '../models/branch_location_response.dart';
+import '../viewmodels/location_selection_view_model.dart';
 import 'lesson_detail_page.dart';
 import 'location_selection_view.dart';
 
@@ -35,11 +38,11 @@ class _BookingViewState extends State<BookingView> {
                         children: [
                           Text(
                             userLocation!,
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 30),
+                            style: const TextStyle(fontSize: 30),
                           ),
-                          const Icon(Icons.arrow_drop_down,
-                              color: Colors.white),
+                          const Icon(
+                            Icons.arrow_drop_down,
+                          ),
                         ],
                       ),
                     ),
@@ -121,7 +124,9 @@ class _BookingViewState extends State<BookingView> {
                                           snapshot.data[index].isEnrolled,
                                       location: userLocation,
                                       buttonOrText: ActionButtons(
-                                          lessonId: snapshot.data[index].id),
+                                        lessonId: snapshot.data[index].id,
+                                        align: Alignment.centerLeft,
+                                      ),
 
                                       //     snapshot.data[index].isEnrolled == false
                                       //         ? ColoredButtonWithSize(
@@ -156,8 +161,7 @@ class _BookingViewState extends State<BookingView> {
                           alignment: Alignment.center,
                           child: Text(
                             "$userLocation doesn't have any lesson at the moment. Please check later.",
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 20),
+                            style: const TextStyle(fontSize: 20),
                             textAlign: TextAlign.center,
                           ),
                         );

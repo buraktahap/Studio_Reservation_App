@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:studio_reservation_app/core/base/theme/theme.dart';
 import 'package:studio_reservation_app/views/home_view.dart';
 import 'package:studio_reservation_app/views/location_selection_view.dart';
 import 'package:studio_reservation_app/views/login_view.dart';
@@ -18,13 +19,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-        builder: (BuildContext context, Widget? widget) =>
-            MaterialApp( debugShowCheckedModeBanner: false, initialRoute: "/", routes: {
-              '/': (context) => const LoginView(),
-              '/home': (context) =>  const HomeView(),
-              '/location': (context) => LocationSelectionView(),
-              '/splash': (context) => const SplashScreen(),
-            }));
+        builder: (BuildContext context, Widget? widget) => MaterialApp(
+              debugShowCheckedModeBanner: false,
+              initialRoute: "/",
+              routes: {
+                '/': (context) => const LoginView(),
+                '/home': (context) => const HomeView(),
+                '/location': (context) => LocationSelectionView(),
+                '/splash': (context) => const SplashScreen(),
+              },
+              theme: lightTheme,
+            ));
   }
 }
 

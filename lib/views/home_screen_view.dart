@@ -1,15 +1,8 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:studio_reservation_app/components/action_buttons.dart';
-import 'package:studio_reservation_app/components/checked_lesson_card.dart';
 import 'package:studio_reservation_app/components/checkin_lesson_card.dart';
-import 'package:studio_reservation_app/components/text_lesson_card.dart';
-import 'package:studio_reservation_app/components/text_lesson_card_with_route.dart';
 import 'package:studio_reservation_app/core/base/view/base_view.dart';
-import 'package:studio_reservation_app/views/splash_screen.dart';
 import 'package:studio_reservation_app/views/upcoming_reservation_list_view.dart';
-
-import '../components/colored_button_with_size.dart';
 import '../components/upcoming_lesson_card.dart';
 import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/init/cache/locale_manager.dart';
@@ -59,14 +52,11 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                               children: [
                                 Text(
                                   "Hello ${snapshot.data.name}, welcome to ${snapshot.data.location}.",
-                                  style: TextStyle(
-                                      color: Colors.white.withOpacity(0.7),
-                                      fontSize: 16),
+                                  style: const TextStyle(fontSize: 16),
                                 ),
                                 const Text(
                                   "Let's Get Exercise",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 30),
+                                  style: TextStyle(fontSize: 30),
                                 ),
                               ],
                             ),
@@ -74,7 +64,6 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                               alignment: Alignment.topRight,
                               child: Icon(
                                 Icons.notifications,
-                                color: Colors.white,
                                 size: 35,
                               ),
                             ),
@@ -94,7 +83,6 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                   alignment: Alignment.centerLeft,
                                   child: Text("Next Lesson",
                                       style: TextStyle(
-                                        color: Colors.white,
                                         fontSize: 22,
                                       )),
                                 ),
@@ -163,6 +151,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                       lesson_id: snapshot.data.lesson.id,
                                       isChecked: snapshot.data.isCheckin,
                                       buttonBar: ActionButtons(
+                                          align: Alignment.centerLeft,
                                           lessonId: snapshot.data.lesson.id))),
                               const Padding(
                                 padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
@@ -170,7 +159,6 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                   alignment: Alignment.centerLeft,
                                   child: Text("Upcoming Lesson",
                                       style: TextStyle(
-                                        color: Colors.white,
                                         fontSize: 22,
                                       )),
                                 ),
@@ -260,7 +248,6 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                   const Text(
                                     "You haven't enrolled in any lesson yet,\nyou can enroll from the booking page.",
                                     style: TextStyle(
-                                      color: Colors.white,
                                       fontSize: 20,
                                     ),
                                   ),

@@ -28,24 +28,21 @@ class InputField extends StatelessWidget {
           borderRadius: BorderRadius.circular(30.0),
           border: Border.all(
             width: 1.0,
-            color: const Color.fromARGB(255, 255, 255, 255),
+            color: Theme.of(context).shadowColor,
           ),
         ),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(25, 10, 0, 10),
           child: TextFormField(
-              style: const TextStyle(color: Colors.white),
               obscureText: isObscure == null ? false : true,
               inputFormatters: const [],
               controller: controller,
               showCursor: true,
-              cursorColor: Colors.white,
+              cursorColor: Theme.of(context).primaryColor,
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                   hintText: hint,
-                  hintStyle: TextStyle(
-                    color: Colors.white.withOpacity(0.7),
-                  ),
+                  hintStyle: TextStyle(),
                   floatingLabelBehavior: FloatingLabelBehavior.always,
                   border: InputBorder.none,
                   suffixIcon: icon)),
