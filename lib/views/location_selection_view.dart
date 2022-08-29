@@ -99,9 +99,7 @@ class _LocationSelectionViewState extends State<LocationSelectionView> {
           color: Colors.white,
           border: Border.all(width: 1, color: const Color(0xffFF34C6))),
       child: GestureDetector(
-        onTap: () {
-          setState(() {});
-        },
+        onTap: () {},
         child: ButtonTheme(
           alignedDropdown: true,
           child: DropdownButton(
@@ -144,15 +142,6 @@ class _LocationSelectionViewState extends State<LocationSelectionView> {
     );
   }
 
-  // List<DropdownMenuItem<Object>> branchLocationList(
-  //     LocationSelectionViewModel viewModel) {
-  //   return viewModel.cities.map((item) {
-  //     return DropdownMenuItem(
-  //       value: item,
-  //       child: Text(item.name),
-  //     );
-  //   }).toList();
-  // }
   List<DropdownMenuItem<String>> branchLocations(
       LocationSelectionViewModel viewModel) {
     viewModel.GetAllLocations();

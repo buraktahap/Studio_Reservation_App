@@ -38,11 +38,10 @@ class InputField extends StatelessWidget {
               inputFormatters: const [],
               controller: controller,
               showCursor: true,
-              cursorColor: Theme.of(context).primaryColor,
+              cursorColor: Theme.of(context).buttonTheme.colorScheme?.onSurface,
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                   hintText: hint,
-                  hintStyle: TextStyle(),
                   floatingLabelBehavior: FloatingLabelBehavior.always,
                   border: InputBorder.none,
                   suffixIcon: icon)),

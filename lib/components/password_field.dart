@@ -40,11 +40,10 @@ class _PasswordFieldState extends State<PasswordField> {
               inputFormatters: const [],
               controller: widget.controller,
               showCursor: true,
-              cursorColor: Colors.white,
+              cursorColor: Theme.of(context).buttonTheme.colorScheme?.onSurface,
               keyboardType: TextInputType.visiblePassword,
               decoration: InputDecoration(
                   hintText: widget.hint,
-                  hintStyle: TextStyle(),
                   suffixIcon: GestureDetector(
                     onTap: () {
                       setState(() {

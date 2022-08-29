@@ -26,7 +26,7 @@ abstract class _BookingViewModelBase with Store {
     LessonsByBranchName(branchName);
   }
 
-  late String branchName;
+  String branchName = "";
   final dio = Dio(
     BaseOptions(
       baseUrl: NetworkConstants.BASE_URL,
