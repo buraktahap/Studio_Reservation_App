@@ -64,10 +64,22 @@ class _ActionButtonsState extends State<ActionButtons> {
                   );
                 } else if (snapshot.hasData &&
                     snapshot.data.isEnrolled == true &&
-                    snapshot.data.isCheckin == true) {
-                  return  Align(
+                    snapshot.data.isCheckin == true &&
+                    snapshot.data.isCompleted == true) {
+                  return Align(
                     alignment: widget.align,
-                    child: Text(
+                    child: const Text(
+                      'Completed',
+                      style: TextStyle(fontSize: 15, color: Colors.purple),
+                    ),
+                  );
+                } else if (snapshot.hasData &&
+                    snapshot.data.isEnrolled == true &&
+                    snapshot.data.isCheckin == true &&
+                    snapshot.data.isCompleted != true) {
+                  return Align(
+                    alignment: widget.align,
+                    child: const Text(
                       'Checked In',
                       style: TextStyle(fontSize: 15, color: Colors.green),
                     ),
@@ -108,9 +120,9 @@ class _ActionButtonsState extends State<ActionButtons> {
                           snapshot.data[0].waitingQueueCount ==
                               snapshot.data[0].waitingQueueQuota &&
                           (snapshot.data[1] == 0 || snapshot.data[1] == null)) {
-                        return  Align(
+                        return Align(
                           alignment: widget.align,
-                          child: Text(
+                          child: const Text(
                             "Full Capacity",
                             style: TextStyle(fontSize: 15, color: Colors.red),
                           ),
@@ -135,24 +147,14 @@ class _ActionButtonsState extends State<ActionButtons> {
                                         widget.lessonId);
                                 setState(() {});
                               },
-                            ),
-                            const SizedBox(
-                              height: 7,
-                            ),
-                            Text(
-                              "${snapshot.data[0].waitingQueueCount}/${snapshot.data[0].waitingQueueQuota} people added to waiting list",
-                              style: const TextStyle(
-                                color: Colors.blue,
-                                fontSize: 14,
-                              ),
-                            ),
+                            )
                           ],
                         );
                       } else if (snapshot.data[1] != 0 ||
                           snapshot.data[1] != null) {
-                        return  Align(
+                        return Align(
                           alignment: widget.align,
-                          child: Text(
+                          child: const Text(
                             "In waiting list",
                             style: TextStyle(
                               color: Colors.blue,

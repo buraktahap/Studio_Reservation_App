@@ -12,7 +12,6 @@ class UpcomingLessonCard extends StatefulWidget {
   // final String lesson_image;
   final String lesson_level;
   final String lesson_time;
-  VoidCallback? onPressed;
   VoidCallback? detailSetState;
   UpcomingLessonCard(
       {Key? key,
@@ -22,7 +21,6 @@ class UpcomingLessonCard extends StatefulWidget {
       required this.lesson_level,
       required this.lesson_time,
       required this.lesson_date,
-      this.onPressed,
       this.detailSetState})
       : super(key: key);
 
@@ -40,7 +38,7 @@ class _UpcomingLessonCardState extends State<UpcomingLessonCard> {
     String formattedTime = DateFormat('HH:mm').format(selectedTime);
     return Card(
       elevation: 5,
-      shadowColor: Colors.black.withOpacity(0.3),
+      shadowColor: Colors.black,
       color: Theme.of(context).primaryColor,
       margin: const EdgeInsets.fromLTRB(15, 0, 15, 20),
       clipBehavior: Clip.antiAlias,
@@ -73,19 +71,6 @@ class _UpcomingLessonCardState extends State<UpcomingLessonCard> {
                             "$formattedDate | $formattedTime",
                           ),
                         ]),
-                  ),
-                ),
-              ],
-            ),
-            ButtonBar(
-              alignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                  onPressed: widget.onPressed,
-                  child: const Text(
-                    "See All",
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 253, 12, 146), fontSize: 16),
                   ),
                 ),
               ],

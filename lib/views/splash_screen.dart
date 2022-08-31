@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../components/background.dart';
 import '../components/logo.dart';
 
@@ -13,7 +12,7 @@ class SplashScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: [
-          Logo(),
+          const Logo(),
           SizedBox(
             width: MediaQuery.of(context).size.width,
           )

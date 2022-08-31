@@ -9,12 +9,10 @@ class InputField extends StatelessWidget {
     required this.controller,
     required this.hint,
     this.icon,
-    this.isObscure,
   }) : super(key: key);
 
   final TextEditingController controller;
   final String hint;
-  final bool? isObscure;
   final Icon? icon;
 
   @override
@@ -34,12 +32,11 @@ class InputField extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(25, 10, 0, 10),
           child: TextFormField(
-              obscureText: isObscure == null ? false : true,
               inputFormatters: const [],
               controller: controller,
               showCursor: true,
               cursorColor: Theme.of(context).buttonTheme.colorScheme?.onSurface,
-              keyboardType: TextInputType.text,
+              keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                   hintText: hint,
                   floatingLabelBehavior: FloatingLabelBehavior.always,

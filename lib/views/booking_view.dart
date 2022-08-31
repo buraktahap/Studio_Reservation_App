@@ -128,14 +128,17 @@ class _BookingViewState extends State<BookingView> {
                                 );
                               });
                         }
-                        return Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.75,
-                          alignment: Alignment.center,
-                          child: Text(
-                            "${_selectedCity.name.toString()} doesn't have any lesson at the moment. Please check later.",
-                            style: const TextStyle(fontSize: 20),
-                            textAlign: TextAlign.center,
+                        return Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 45, 15, 0),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height * 0.75,
+                            alignment: Alignment.center,
+                            child: Text(
+                              "${_selectedCity.name.toString()} doesn't have any lesson at the moment. Please check later.",
+                              style: const TextStyle(fontSize: 20),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                         );
                       } else {
@@ -147,55 +150,42 @@ class _BookingViewState extends State<BookingView> {
   }
 
   Widget cities(LocationSelectionViewModel viewModel) {
-    return Container(
-      width: 200,
-      height: 60,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: const Offset(0, 3), // changes position of shadow
-          ),
-        ],
-      ),
-      child: GestureDetector(
-        onTap: () {},
-        child: ButtonTheme(
-          alignedDropdown: true,
-          child: DropdownButton(
-            underline: Container(),
-            isExpanded: true,
-            onTap: () {},
-            hint: Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Text(_selectedCity.name.toString()),
-            ),
-            alignment: AlignmentDirectional.topStart,
-            elevation: 16,
-            itemHeight: 60,
-            borderRadius: BorderRadius.circular(30),
+    return GestureDetector(
+      onTap: () {},
+      child: ButtonTheme(
+        alignedDropdown: true,
+        child: DropdownButton(
+          underline: Container(),
+          isExpanded: false,
+          onTap: () {},
+          hint: Text(
+            _selectedCity.name.toString(),
             style: TextStyle(
                 color: Theme.of(context).textTheme.bodyText1?.color,
-                fontSize: 18),
-            icon: const Padding(
-              padding: EdgeInsets.only(right: 30.0),
-              child: Icon(
-                Icons.expand_more,
-              ),
-            ),
-            items: branchLocations(viewModel),
-            onChanged: (item) {
-              _selectedCity.name = item.toString();
-              BranchLocationResponseModel(
-                name: _selectedCity.name,
-              );
-              setState(() {});
-            },
+                fontSize: 25),
           ),
+          alignment: AlignmentDirectional.topStart,
+          elevation: 16,
+          itemHeight: 60,
+          borderRadius: BorderRadius.circular(30),
+          style: TextStyle(
+              color: Theme.of(context).textTheme.bodyText1?.color,
+              fontSize: 18),
+          icon: Padding(
+            padding: const EdgeInsets.only(right: 30.0),
+            child: Icon(
+              Icons.expand_more,
+              color: Theme.of(context).textTheme.bodyText1?.color,
+            ),
+          ),
+          items: branchLocations(viewModel),
+          onChanged: (item) {
+            _selectedCity.name = item.toString();
+            BranchLocationResponseModel(
+              name: _selectedCity.name,
+            );
+            setState(() {});
+          },
         ),
       ),
     );
@@ -207,7 +197,20 @@ class _BookingViewState extends State<BookingView> {
     return viewModel.cities.map((item) {
       return DropdownMenuItem(
         value: item.name.toString(),
-        child: Text(item.name.toString()),
+        child: item.name.toString() == _selectedCity.name.toString()
+            ? Text(
+                item.name.toString(),
+                style: TextStyle(
+                    color: Theme.of(context).shadowColor, fontSize: 18),
+              )
+            : Text(
+                item.name.toString(),
+                style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyText1?.color,
+                    fontSize: 18),
+              ),
+
+        // child: Text(item.name.toString()),
       );
     }).toList();
   }

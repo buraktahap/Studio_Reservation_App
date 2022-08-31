@@ -5,6 +5,8 @@ import 'package:studio_reservation_app/components/background.dart';
 import 'package:studio_reservation_app/core/base/base_viewmodel.dart';
 import '../viewmodels/home_screen_view_model.dart';
 
+Widget waitingList = Container();
+
 class LessonDetailPage extends StatefulWidget {
   final String lesson_name;
   final String lesson_date;
@@ -31,8 +33,6 @@ class LessonDetailPage extends StatefulWidget {
   State<LessonDetailPage> createState() => _LessonDetailPageState();
 }
 
-late Widget waitingList = Container();
-
 class _LessonDetailPageState extends State<LessonDetailPage> {
   FutureBuilder<List> waitingListWidget() {
     return FutureBuilder(
@@ -50,6 +50,23 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                 style: const TextStyle(
                   color: Colors.blue,
                   fontSize: 16,
+                ),
+              ),
+            );
+            return waitingList;
+          } else if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.data[0] != null &&
+              snapshot.data[1] == null &&
+              snapshot.data[0].enrollCount == snapshot.data[0].enrollQuota &&
+              snapshot.data[0].waitingQueueCount !=
+                  snapshot.data[0].waitingQueueQuota) {
+            waitingList = Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "${snapshot.data[0].waitingQueueCount}/${snapshot.data[0].waitingQueueQuota} people added to waiting list",
+                style: const TextStyle(
+                  color: Colors.blue,
+                  fontSize: 14,
                 ),
               ),
             );
@@ -331,10 +348,10 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                                               BoxShadow(
                                                 color: Colors.grey
                                                     .withOpacity(0.5),
-                                                spreadRadius: 5,
+                                                spreadRadius: 1,
                                                 blurRadius: 7,
                                                 offset: const Offset(0,
-                                                    3), // changes position of shadow
+                                                    0), // changes position of shadow
                                               ),
                                             ],
                                             color:

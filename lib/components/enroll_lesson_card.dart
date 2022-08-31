@@ -46,12 +46,12 @@ class _EnrollLessonCardState extends State<EnrollLessonCard> {
   @override
   Widget build(BuildContext context) {
     var selectedDate = DateTime.parse(widget.lesson_date);
-    String formattedDate = DateFormat('dd-MM-yyyy').format(selectedDate);
+    String formattedDate = DateFormat('dd-MM-yyyy  HH:mm').format(selectedDate);
     var selectedTime = DateTime.parse(widget.lesson_time);
     String formattedTime = DateFormat('HH:mm').format(selectedTime);
     return Card(
       elevation: 5,
-      shadowColor: Colors.black.withOpacity(0.3),
+      shadowColor: Colors.black,
       color: Theme.of(context).primaryColor,
       margin: const EdgeInsets.fromLTRB(15, 0, 15, 20),
       clipBehavior: Clip.antiAlias,

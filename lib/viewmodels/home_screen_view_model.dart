@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:mobx/mobx.dart';
 import 'package:studio_reservation_app/models/enroll_cancel_member_lesson_post.dart';
+import 'package:studio_reservation_app/models/last_completed_lesson_response.dart';
 import 'package:studio_reservation_app/models/lesson_response_model.dart';
 import 'package:studio_reservation_app/models/member_lesson_response.dart';
 import 'package:studio_reservation_app/models/waiting_queue_index_response.dart';
@@ -110,25 +111,27 @@ abstract class _HomeScreenViewModelBase with Store {
     x.add(a);
     int? b = await GetWaitingQueueIndexByMemberAndLessonId(lessonId);
     x.add(b);
-    print(x);
     return x;
   }
 
   @action
   Future<MemberLessonByMemberAndLessonId?> getMemberLessonByLessonAndMemberId(
       int lessonId) async {
-    final response = await dio.get(
-        Urls.GetMemberLessonsByMemberIdByLessonId.rawValue,
-        queryParameters: {'memberId': userId, 'lessonId': lessonId});
-    switch (response.statusCode) {
-      case HttpStatus.ok:
-        final responseBody = await response.data;
-        if (responseBody != null) {
-          MemberLessonByMemberAndLessonId responseData =
-              MemberLessonByMemberAndLessonId.fromJson(responseBody);
-          return responseData;
-        }
-        return Future.error(responseBody);
+    try {
+      final response = await dio.get(
+          Urls.GetMemberLessonsByMemberIdByLessonId.rawValue,
+          queryParameters: {'memberId': userId, 'lessonId': lessonId});
+      switch (response.statusCode) {
+        case HttpStatus.ok:
+          final responseBody = response.data;
+          if (responseBody != null) {
+            MemberLessonByMemberAndLessonId responseData =
+                MemberLessonByMemberAndLessonId.fromJson(responseBody);
+            return responseData;
+          }
+      }
+    } on DioError catch (e) {
+      print("eee");
     }
     return null;
   }
@@ -237,6 +240,28 @@ abstract class _HomeScreenViewModelBase with Store {
       }
     } on DioError catch (e) {
       print("e");
+    }
+    return null;
+  }
+
+  @action
+  Future<LastCompletedLessonResponse?> getLastCompletedLesson(
+      int memberId) async {
+    try {
+      final response =
+          await dio.get(Urls.GetLastCompletedLesson.rawValue, queryParameters: {
+        'memberId': memberId,
+      });
+      switch (response.statusCode) {
+        case HttpStatus.ok:
+          final responseBody = await response.data;
+          final LastCompletedLessonResponse lastCompletedLesson =
+              LastCompletedLessonResponse.fromJson(responseBody);
+
+          return lastCompletedLesson;
+      }
+    } on DioError catch (e) {
+      print("last completed lesson failed");
     }
     return null;
   }

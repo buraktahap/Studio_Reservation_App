@@ -5,6 +5,7 @@ import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
 import 'package:studio_reservation_app/viewmodels/home_view_model.dart';
 import 'package:studio_reservation_app/views/booking_view.dart';
 import 'package:studio_reservation_app/views/home_screen_view.dart';
+import 'package:studio_reservation_app/views/profile_page.dart';
 import 'package:studio_reservation_app/views/splash_screen.dart';
 
 import 'package:studio_reservation_app/core/base/view/base_view.dart';
@@ -37,7 +38,7 @@ class _HomeViewState extends State<HomeView> {
   final pages = [
     const HomeScreenView(),
     const BookingView(),
-    const SplashScreen(),
+    const ProfilePage(),
   ];
 
   @override
@@ -73,11 +74,11 @@ class _HomeViewState extends State<HomeView> {
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 5,
             blurRadius: 7,
-            offset: Offset(0, 3), // changes position of shadow
+            offset: const Offset(0, 0), // changes position of shadow
           ),
         ],
         color: Theme.of(context).primaryColor,
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(30),
           topRight: Radius.circular(30),
         ),
@@ -124,6 +125,7 @@ class _HomeViewState extends State<HomeView> {
                   ),
           ),
           IconButton(
+            tooltip: "Profile",
             enableFeedback: false,
             onPressed: () {
               setState(() {
