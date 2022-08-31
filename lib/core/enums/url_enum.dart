@@ -14,7 +14,7 @@ enum Urls {
   GetMemberLessonsByMemberIdByLessonId,
   AddToWaitingQueue,
   GetWaitingQueueIndexByMemberAndLessonId,
-  GetLastCompletedLesson,
+  GetCompletedLesson,
 }
 
 extension UrlsExtension on Urls {
@@ -50,8 +50,8 @@ extension UrlsExtension on Urls {
         return "/MemberLessons/AddToWaitingQueue";
       case Urls.GetWaitingQueueIndexByMemberAndLessonId:
         return "/MemberLessons/GetWaitingQueueIndexByMemberAndLessonId";
-      case Urls.GetLastCompletedLesson:
-        return "/MemberLessons/GetLastCompletedLesson";
+      case Urls.GetCompletedLesson:
+        return "/MemberLessons/GetCompletedLesson";
     }
   }
 }

@@ -245,20 +245,20 @@ abstract class _HomeScreenViewModelBase with Store {
   }
 
   @action
-  Future<LastCompletedLessonResponse?> getLastCompletedLesson(
-      int memberId) async {
+  Future<List?> getLastCompletedLesson(int memberId) async {
     try {
       final response =
-          await dio.get(Urls.GetLastCompletedLesson.rawValue, queryParameters: {
+          await dio.get(Urls.GetCompletedLesson.rawValue, queryParameters: {
         'memberId': memberId,
       });
       switch (response.statusCode) {
         case HttpStatus.ok:
           final responseBody = await response.data;
-          final LastCompletedLessonResponse lastCompletedLesson =
-              LastCompletedLessonResponse.fromJson(responseBody);
+          final completedLessons = responseBody
+              .map((e) => LastCompletedLessonResponse.fromJson(e))
+              .toList();
 
-          return lastCompletedLesson;
+          return completedLessons;
       }
     } on DioError catch (e) {
       print("last completed lesson failed");

@@ -298,33 +298,34 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                                                 LessonDetailPage(
                                                               lesson_id:
                                                                   snapshot
-                                                                      .data
+                                                                      .data[0]
                                                                       .lesson
                                                                       .id,
                                                               lesson_date:
                                                                   snapshot
-                                                                      .data
+                                                                      .data[0]
                                                                       .lesson
                                                                       .startDate
                                                                       .toString(),
                                                               lesson_time: snapshot
-                                                                  .data
+                                                                  .data[0]
                                                                   .lesson
                                                                   .estimatedTime
                                                                   .toString(),
                                                               lesson_name:
                                                                   snapshot
-                                                                      .data
+                                                                      .data[0]
                                                                       .lesson
                                                                       .name,
                                                               lesson_description:
                                                                   snapshot
-                                                                          .data
+                                                                          .data[
+                                                                              0]
                                                                           .lesson
                                                                           .description ??
                                                                       " ",
                                                               lesson_level: snapshot
-                                                                  .data
+                                                                  .data[0]
                                                                   .lesson
                                                                   .lessonLevel
                                                                   .toString(),
@@ -342,31 +343,40 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                                         }),
                                                     child: CheckInLessonCard(
                                                       lesson_name: snapshot
-                                                          .data.lesson.name,
+                                                          .data[0].lesson.name,
                                                       lesson_date: snapshot
-                                                          .data.lesson.startDate
+                                                          .data[0]
+                                                          .lesson
+                                                          .startDate
                                                           .toString(),
-                                                      lesson_time: snapshot.data
-                                                          .lesson.estimatedTime
+                                                      lesson_time: snapshot
+                                                          .data[0]
+                                                          .lesson
+                                                          .estimatedTime
                                                           .toString(),
                                                       lesson_description:
-                                                          snapshot.data.lesson
+                                                          snapshot
+                                                              .data[0]
+                                                              .lesson
                                                               .description
                                                               .toString(),
                                                       lesson_level: snapshot
-                                                                  .data
+                                                                  .data[0]
                                                                   .lesson
                                                                   .lessonLevel
                                                                   .toString() ==
                                                               "1"
                                                           ? "Beginner"
-                                                          : snapshot.data.lesson
+                                                          : snapshot
+                                                                      .data[0]
+                                                                      .lesson
                                                                       .lessonLevel
                                                                       .toString() ==
                                                                   "2"
                                                               ? "Intermediate"
                                                               : snapshot
-                                                                          .data
+                                                                          .data[
+                                                                              0]
                                                                           .lesson
                                                                           .lessonLevel
                                                                           .toString() ==
@@ -374,12 +384,12 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                                                   ? "Advanced"
                                                                   : "All",
                                                       lesson_id: snapshot
-                                                          .data.lesson.id,
+                                                          .data[0].lesson.id,
                                                       isChecked: snapshot
-                                                          .data.isCheckin,
+                                                          .data[0].isCheckin,
                                                       buttonBar: ActionButtons(
                                                           lessonId: snapshot
-                                                              .data.lessonId,
+                                                              .data[0].lessonId,
                                                           align: Alignment
                                                               .centerLeft),
                                                     )),
