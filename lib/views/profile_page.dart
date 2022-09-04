@@ -41,8 +41,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         Stack(alignment: Alignment.center, children: [
                           Container(
-                            height: 135,
-                            width: 135,
+                            height: 120,
+                            width: 120,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               border: Border.all(
@@ -52,11 +52,27 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ),
                           CircleAvatar(
-                            radius: 60,
+                            radius: 50,
                             backgroundImage:
                                 AssetImage("assets/images/trainer1.png"),
                           ),
                         ]),
+                        const SizedBox(height: 10),
+                        Text(
+                          snapshot.data!.name + " " + snapshot.data!.surname,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                            snapshot.data!.memberType == 1
+                                ? "Online"
+                                : "Onsite",
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            )),
                       ],
                     ),
                   ),
