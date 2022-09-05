@@ -1,48 +1,91 @@
+// To parse this JSON data, do
+//
+//     final memberDetailsResponse = memberDetailsResponseFromJson(jsonString);
+
+import 'dart:convert';
+
+MemberDetailsResponse memberDetailsResponseFromJson(String str) => MemberDetailsResponse.fromJson(json.decode(str));
+
+String memberDetailsResponseToJson(MemberDetailsResponse data) => json.encode(data.toJson());
+
 class MemberDetailsResponse {
-  int? id;
-  String? name;
-  String? surname;
-  String? picture;
-  String? email;
-  String? password;
-  int? memberType;
-  String? location;
-  int? subscriptionsId;
+    MemberDetailsResponse({
+        this.name,
+        this.surname,
+        this.picture,
+        this.email,
+        this.password,
+        this.memberType,
+        this.location,
+        this.memberLessons,
+        this.subscriptionsId,
+        this.subscriptions,
+        this.id,
+    });
 
-  MemberDetailsResponse(
-      {this.id,
-      this.name,
-      this.surname,
-      this.picture,
-      this.email,
-      this.password,
-      this.memberType,
-      this.location,
-      this.subscriptionsId});
+    String? name;
+    String? surname;
+    dynamic picture;
+    String? email;
+    String? password;
+    int? memberType;
+    String? location;
+    List<dynamic>? memberLessons;
+    int? subscriptionsId;
+    Subscriptions? subscriptions;
+    int? id;
 
-  MemberDetailsResponse.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    surname = json['surname'];
-    picture = json['picture'];
-    email = json['email'];
-    password = json['password'];
-    memberType = json['memberType'];
-    location = json['location'];
-    subscriptionsId = json['subscriptionsId'];
-  }
+    factory MemberDetailsResponse.fromJson(Map<String, dynamic> json) => MemberDetailsResponse(
+        name: json["name"],
+        surname: json["surname"],
+        picture: json["picture"],
+        email: json["email"],
+        password: json["password"],
+        memberType: json["memberType"],
+        location: json["location"],
+        subscriptionsId: json["subscriptionsId"],
+        subscriptions: Subscriptions.fromJson(json["subscriptions"]),
+        id: json["id"],
+    );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['surname'] = this.surname;
-    data['picture'] = this.picture;
-    data['email'] = this.email;
-    data['password'] = this.password;
-    data['memberType'] = this.memberType;
-    data['location'] = this.location;
-    data['subscriptionsId'] = this.subscriptionsId;
-    return data;
-  }
+    Map<String, dynamic> toJson() => {
+        "name": name,
+        "surname": surname,
+        "picture": picture,
+        "email": email,
+        "password": password,
+        "memberType": memberType,
+        "location": location,
+        "subscriptionsId": subscriptionsId,
+        "subscriptions": subscriptions?.toJson(),
+        "id": id,
+    };
+}
+
+class Subscriptions {
+    Subscriptions({
+        this.subsType,
+        this.startDate,
+        this.endDate,
+        this.id,
+    });
+
+    int? subsType;
+    DateTime? startDate;
+    DateTime? endDate;
+    int? id;
+
+    factory Subscriptions.fromJson(Map<String, dynamic> json) => Subscriptions(
+        subsType: json["subsType"],
+        startDate: DateTime.parse(json["startDate"]),
+        endDate: DateTime.parse(json["endDate"]),
+        id: json["id"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "subsType": subsType,
+        "startDate": startDate?.toIso8601String(),
+        "endDate": endDate?.toIso8601String(),
+        "id": id,
+    };
 }

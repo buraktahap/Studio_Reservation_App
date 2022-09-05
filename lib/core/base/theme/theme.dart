@@ -28,11 +28,9 @@ final lightTheme = ThemeData(
   iconTheme: IconThemeData(
     color: Color(0xff212338),
   ),
-  primarySwatch: Colors.grey,
   primaryColor: Colors.white,
   brightness: Brightness.light,
   backgroundColor: Colors.white,
-  accentColor: Color(0xff212338),
   accentIconTheme: IconThemeData(color: Colors.white),
-  dividerColor: Colors.white54,
+  dividerColor: Colors.white54, colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.grey).copyWith(secondary: Color(0xff212338)),
 );

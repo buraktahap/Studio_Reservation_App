@@ -55,96 +55,102 @@ class _BookingViewState extends State<BookingView> {
                   padding: const EdgeInsets.fromLTRB(15, 45, 15, 0),
                   child: cities(locationViewModel),
                 ),
-                FutureBuilder(
-                    future: BookingViewModel()
-                        .LessonsByBranchName(_selectedCity.name),
-                    builder: (context, AsyncSnapshot snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: snapshot.data.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return GestureDetector(
-                                  onTap: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => LessonDetailPage(
-                                        lesson_id: snapshot.data[index].id,
-                                        lesson_date: snapshot
-                                            .data[index].startDate
-                                            .toString(),
-                                        lesson_time: snapshot
-                                            .data[index].estimatedTime
-                                            .toString(),
-                                        lesson_name: snapshot.data[index].name,
-                                        lesson_description:
-                                            snapshot.data[index].description ??
-                                                " ",
-                                        lesson_level: snapshot
-                                            .data[index].lessonLevel
-                                            .toString(),
-                                        onpressed: () async {
-                                          Navigator.pop(context, true);
-                                          setState(() {});
-                                        },
+                Expanded(
+                  child: FutureBuilder(
+                      future: BookingViewModel()
+                          .LessonsByBranchName(_selectedCity.name),
+                      builder: (context, AsyncSnapshot snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          if (snapshot.hasData) {
+                            return ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: snapshot.data.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return GestureDetector(
+                                    onTap: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => LessonDetailPage(
+                                          lesson_id: snapshot.data[index].id,
+                                          lesson_date: snapshot
+                                              .data[index].startDate
+                                              .toString(),
+                                          lesson_time: snapshot
+                                              .data[index].estimatedTime
+                                              .toString(),
+                                          lesson_name:
+                                              snapshot.data[index].name,
+                                          lesson_description: snapshot
+                                                  .data[index].description ??
+                                              " ",
+                                          lesson_level: snapshot
+                                              .data[index].lessonLevel
+                                              .toString(),
+                                          onpressed: () async {
+                                            Navigator.pop(context, true);
+                                            setState(() {});
+                                          },
+                                        ),
+                                      ),
+                                    ).then((_) {
+                                      setState(() {});
+                                    }),
+                                    child: EnrollLessonCard(
+                                      lesson_name: snapshot.data[index].name,
+                                      lesson_date: snapshot
+                                          .data[index].startDate
+                                          .toString(),
+                                      lesson_time: snapshot
+                                          .data[index].estimatedTime
+                                          .toString(),
+                                      lesson_description: snapshot
+                                          .data[index].description
+                                          .toString(),
+                                      lesson_level: snapshot
+                                                  .data[index].lessonLevel
+                                                  .toString() ==
+                                              "1"
+                                          ? "Beginner"
+                                          : snapshot.data[0].lessonLevel
+                                                      .toString() ==
+                                                  "2"
+                                              ? "Intermediate"
+                                              : snapshot.data[0].lessonLevel
+                                                          .toString() ==
+                                                      "3"
+                                                  ? "Advanced"
+                                                  : "All",
+                                      lesson_id: snapshot.data[index].id,
+                                      isEnrolled:
+                                          snapshot.data[index].isEnrolled,
+                                      location: userLocation,
+                                      buttonOrText: ActionButtons(
+                                        lessonId: snapshot.data[index].id,
+                                        align: Alignment.centerLeft,
                                       ),
                                     ),
-                                  ).then((_) {
-                                    setState(() {});
-                                  }),
-                                  child: EnrollLessonCard(
-                                    lesson_name: snapshot.data[index].name,
-                                    lesson_date: snapshot.data[index].startDate
-                                        .toString(),
-                                    lesson_time: snapshot
-                                        .data[index].estimatedTime
-                                        .toString(),
-                                    lesson_description: snapshot
-                                        .data[index].description
-                                        .toString(),
-                                    lesson_level: snapshot
-                                                .data[index].lessonLevel
-                                                .toString() ==
-                                            "1"
-                                        ? "Beginner"
-                                        : snapshot.data[0].lessonLevel
-                                                    .toString() ==
-                                                "2"
-                                            ? "Intermediate"
-                                            : snapshot.data[0].lessonLevel
-                                                        .toString() ==
-                                                    "3"
-                                                ? "Advanced"
-                                                : "All",
-                                    lesson_id: snapshot.data[index].id,
-                                    isEnrolled: snapshot.data[index].isEnrolled,
-                                    location: userLocation,
-                                    buttonOrText: ActionButtons(
-                                      lessonId: snapshot.data[index].id,
-                                      align: Alignment.centerLeft,
-                                    ),
-                                  ),
-                                );
-                              });
-                        }
-                        return Padding(
-                          padding: const EdgeInsets.fromLTRB(15, 45, 15, 0),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height * 0.75,
-                            alignment: Alignment.center,
-                            child: Text(
-                              "${_selectedCity.name.toString()} doesn't have any lesson at the moment. Please check later.",
-                              style: const TextStyle(fontSize: 20),
-                              textAlign: TextAlign.center,
+                                  );
+                                });
+                          }
+                          return Padding(
+                            padding: const EdgeInsets.fromLTRB(15, 45, 15, 0),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height * 0.75,
+                              alignment: Alignment.center,
+                              child: Text(
+                                "${_selectedCity.name.toString()} doesn't have any lesson at the moment. Please check later.",
+                                style: const TextStyle(fontSize: 20),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
-                          ),
-                        );
-                      } else {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                    }),
+                          );
+                        } else {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        }
+                      }),
+                ),
               ],
             ));
   }

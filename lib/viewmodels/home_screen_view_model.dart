@@ -245,7 +245,7 @@ abstract class _HomeScreenViewModelBase with Store {
   }
 
   @action
-  Future<List?> getLastCompletedLesson(int memberId) async {
+  Future<List?> getCompletedLessons(int memberId) async {
     try {
       final response =
           await dio.get(Urls.GetCompletedLesson.rawValue, queryParameters: {
@@ -262,6 +262,25 @@ abstract class _HomeScreenViewModelBase with Store {
       }
     } on DioError catch (e) {
       print("last completed lesson failed");
+    }
+    return null;
+  }
+
+  @action
+  Future<int?> GetCompletedLessonCount(int lessonId) async {
+    try {
+      final response = await dio.get(Urls.GetCompletedLessonCount.rawValue,
+          queryParameters: {'memberId': userId});
+      switch (response.statusCode) {
+        case HttpStatus.ok:
+          final responseBody = await response.data;
+          int count = responseBody;
+          return count;
+        case HttpStatus.notFound:
+          return null;
+      }
+    } on DioError catch (e) {
+      print("e");
     }
     return null;
   }

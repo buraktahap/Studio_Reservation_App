@@ -22,8 +22,8 @@ abstract class _LocationSelectionViewModelBase with Store, BaseViewModel {
 
   @override
   void setContext(BuildContext context) => this.context = context;
+  @override
   Future<void> init() async {
-    var cities = (await GetAllLocations()) ?? [];
   }
 
   final int? userId =

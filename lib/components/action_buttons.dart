@@ -34,31 +34,42 @@ class _ActionButtonsState extends State<ActionButtons> {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      ColoredButtonWithSize(
-                        height: 50,
-                        width: 150,
-                        text: "Check In",
-                        onPressed: () async {
-                          HomeScreenViewModel().CheckIn(widget.lessonId);
-                          await viewModel.getMemberLessonByLessonAndMemberId(
-                              widget.lessonId);
-                          setState(() {});
-                        },
+                      InkWell(
+                        highlightColor: Colors.transparent,
+                        child: ColoredButtonWithSize(
+                          height: 50,
+                          width: 150,
+                          text: "Check In",
+                          onPressed: () async {
+                            HomeScreenViewModel().CheckIn(widget.lessonId);
+                            await viewModel.getMemberLessonByLessonAndMemberId(
+                                widget.lessonId);
+                            setState(() {});
+                          },
+                        ),
                       ),
-                      ColoredButtonWithSize(
-                        height: 50,
-                        width: 150,
-                        text: "Cancel",
-                        onPressed: () async {
-                          await HomeScreenViewModel()
-                              .EnrollCancel(widget.lessonId);
+                      InkWell(
+                        highlightColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        focusColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        overlayColor:
+                            MaterialStateProperty.all(Colors.transparent),
+                        child: ColoredButtonWithSize(
+                          height: 50,
+                          width: 150,
+                          text: "Cancel",
+                          onPressed: () async {
+                            await HomeScreenViewModel()
+                                .EnrollCancel(widget.lessonId);
 
-                          await viewModel
-                              .MemberLessonByMemberAndLessonIdWithIndex(
-                                  widget.lessonId);
-                          viewModel.reservationList();
-                          setState(() {});
-                        },
+                            await viewModel
+                                .MemberLessonByMemberAndLessonIdWithIndex(
+                                    widget.lessonId);
+                            viewModel.reservationList();
+                            setState(() {});
+                          },
+                        ),
                       ),
                     ],
                   );

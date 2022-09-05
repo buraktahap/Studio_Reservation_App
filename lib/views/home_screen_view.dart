@@ -269,7 +269,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
 
                                     FutureBuilder(
                                         future: HomeScreenViewModel()
-                                            .getLastCompletedLesson(userId!),
+                                            .getCompletedLessons(userId!),
                                         builder:
                                             (context, AsyncSnapshot snapshot) {
                                           if (snapshot.connectionState ==
@@ -279,7 +279,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                               children: [
                                                 const Padding(
                                                   padding: EdgeInsets.fromLTRB(
-                                                      20, 0, 20, 10),
+                                                      20, 0, 20, 0),
                                                   child: Align(
                                                     alignment:
                                                         Alignment.centerLeft,
