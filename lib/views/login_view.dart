@@ -10,10 +10,10 @@ import '../viewmodels/login_view_model.dart';
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
   @override
-  _LoginViewState createState() => _LoginViewState();
+  LoginViewState createState() => LoginViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return BaseView<LoginViewModel>(

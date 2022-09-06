@@ -30,7 +30,7 @@ abstract class _LoginViewModelBase with Store, BaseViewModel {
 
   final dio = Dio(
     BaseOptions(
-      baseUrl: NetworkConstants.BASE_URL,
+      baseUrl: NetworkConstants.baseUrl,
       headers: {"Content-Type": "application/json"},
     ),
   );
@@ -39,7 +39,7 @@ abstract class _LoginViewModelBase with Store, BaseViewModel {
   Future<String?> signIn(String email, String password) async {
     try {
       final response = await dio.post(
-        Urls.SignIn.rawValue,
+        Urls.signIn.rawValue,
         data: json.encode(SignInModel(
                 email: emailController.text, password: passwordController.text)
             .toJson()),
@@ -47,13 +47,14 @@ abstract class _LoginViewModelBase with Store, BaseViewModel {
       switch (response.statusCode) {
         case HttpStatus.ok:
           final SignInResponseModel appSignInResponse =
-              await SignInResponseModel.fromJson(response.data);
-          await LocaleManager.instance.setIntValue(
-              PreferencesKeys.USER_ID, appSignInResponse.id as int);
+              SignInResponseModel.fromJson(response.data);
+          await LocaleManager.instance
+              .setIntValue(PreferencesKeys.userId, appSignInResponse.id as int);
 
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => LocationSelectionView()),
+              MaterialPageRoute(
+                  builder: (context) => const LocationSelectionView()),
               (r) => false);
 
           break;
@@ -63,7 +64,7 @@ abstract class _LoginViewModelBase with Store, BaseViewModel {
           ));
           break;
       }
-    } on DioError catch (e) {
+    } on DioError {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Please enter registered email and password")));
     }

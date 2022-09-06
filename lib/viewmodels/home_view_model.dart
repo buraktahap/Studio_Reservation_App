@@ -17,7 +17,7 @@ abstract class _HomeViewModelBase with Store, BaseViewModel {
 
   final dio = Dio(
     BaseOptions(
-      baseUrl: NetworkConstants.BASE_URL,
+      baseUrl: NetworkConstants.baseUrl,
       headers: {"Content-Type": "application/json"},
     ),
   );
@@ -26,16 +26,16 @@ abstract class _HomeViewModelBase with Store, BaseViewModel {
   Future<MemberDetailsResponse?> memberDetails(int id) async {
     try {
       final response = await dio
-          .get(Urls.GetMemberById.rawValue, queryParameters: {'id': id});
+          .get(Urls.getMemberById.rawValue, queryParameters: {'id': id});
       switch (response.statusCode) {
         case HttpStatus.ok:
           final responseBody = await response.data;
           MemberDetailsResponse memberDetailsResponse =
-              await MemberDetailsResponse.fromJson(responseBody);
+              MemberDetailsResponse.fromJson(responseBody);
           return memberDetailsResponse;
       }
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
     return null;
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../constants/app/app_contansts.dart';
 import 'app_theme.dart';
 import 'light/light_theme_interface.dart';
 
@@ -8,6 +7,7 @@ class AppThemeLight extends AppTheme with ILightTheme {
 
   AppThemeLight._init();
 
+  @override
   ThemeData get theme => ThemeData(
         colorScheme: _appColorScheme,
         textTheme: buildTextTheme(),
@@ -40,7 +40,6 @@ class AppThemeLight extends AppTheme with ILightTheme {
           ),
         ),
         scaffoldBackgroundColor: colorSchemeLight.lightTileColor,
-        fontFamily: ApplicationConstants.FONT_FAMILY,
         floatingActionButtonTheme: ThemeData.light()
             .floatingActionButtonTheme
             .copyWith(

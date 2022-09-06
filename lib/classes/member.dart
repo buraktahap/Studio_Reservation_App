@@ -33,16 +33,16 @@ class Member {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['surname'] = this.surname;
-    data['picture'] = this.picture;
-    data['email'] = this.email;
-    data['password'] = this.password;
-    data['memberType'] = this.memberType;
-    data['location'] = this.location;
-    data['subscriptionsId'] = this.subscriptionsId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['surname'] = surname;
+    data['picture'] = picture;
+    data['email'] = email;
+    data['password'] = password;
+    data['memberType'] = memberType;
+    data['location'] = location;
+    data['subscriptionsId'] = subscriptionsId;
     return data;
   }
 

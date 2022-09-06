@@ -22,7 +22,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final int? userId =
-      LocaleManager.instance.getIntValue(PreferencesKeys.USER_ID);
+      LocaleManager.instance.getIntValue(PreferencesKeys.userId);
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +150,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   FutureBuilder(
                       future: HomeScreenViewModel()
-                          .GetCompletedLessonCount(userId!),
+                          .getCompletedLessonCount(userId!),
                       builder: (context, AsyncSnapshot snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
                           return Row(
@@ -178,7 +178,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     height: 20,
                   ),
                   FutureBuilder(
-                      future: HomeScreenViewModel().GetUngradedLessons(userId!),
+                      future: HomeScreenViewModel().getUngradedLessons(userId!),
                       builder: (context, AsyncSnapshot snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
                           if (snapshot.hasData) {
@@ -208,31 +208,30 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   MaterialPageRoute(
                                                     builder: (context) =>
                                                         LessonDetailPage(
-                                                      lesson_id: snapshot
+                                                      lessonId: snapshot
                                                           .data[index]
                                                           .lesson
                                                           .id,
-                                                      lesson_date: snapshot
+                                                      lessonDate: snapshot
                                                           .data[index]
                                                           .lesson
                                                           .startDate
                                                           .toString(),
-                                                      lesson_time: snapshot
+                                                      lessonTime: snapshot
                                                           .data[index]
                                                           .lesson
                                                           .estimatedTime
                                                           .toString(),
-                                                      lesson_name: snapshot
+                                                      lessonName: snapshot
                                                           .data[index]
                                                           .lesson
                                                           .name,
-                                                      lesson_description:
-                                                          snapshot
-                                                                  .data[index]
-                                                                  .lesson
-                                                                  .description ??
-                                                              " ",
-                                                      lesson_level: snapshot
+                                                      lessonDescription: snapshot
+                                                              .data[index]
+                                                              .lesson
+                                                              .description ??
+                                                          " ",
+                                                      lessonLevel: snapshot
                                                           .data[index]
                                                           .lesson
                                                           .lessonLevel
@@ -309,31 +308,30 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   MaterialPageRoute(
                                                     builder: (context) =>
                                                         LessonDetailPage(
-                                                      lesson_id: snapshot
+                                                      lessonId: snapshot
                                                           .data[index]
                                                           .lesson
                                                           .id,
-                                                      lesson_date: snapshot
+                                                      lessonDate: snapshot
                                                           .data[index]
                                                           .lesson
                                                           .startDate
                                                           .toString(),
-                                                      lesson_time: snapshot
+                                                      lessonTime: snapshot
                                                           .data[index]
                                                           .lesson
                                                           .estimatedTime
                                                           .toString(),
-                                                      lesson_name: snapshot
+                                                      lessonName: snapshot
                                                           .data[index]
                                                           .lesson
                                                           .name,
-                                                      lesson_description:
-                                                          snapshot
-                                                                  .data[index]
-                                                                  .lesson
-                                                                  .description ??
-                                                              " ",
-                                                      lesson_level: snapshot
+                                                      lessonDescription: snapshot
+                                                              .data[index]
+                                                              .lesson
+                                                              .description ??
+                                                          " ",
+                                                      lessonLevel: snapshot
                                                           .data[index]
                                                           .lesson
                                                           .lessonLevel
@@ -408,31 +406,30 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   MaterialPageRoute(
                                                     builder: (context) =>
                                                         LessonDetailPage(
-                                                      lesson_id: snapshot
+                                                      lessonId: snapshot
                                                           .data[index]
                                                           .lesson
                                                           .id,
-                                                      lesson_date: snapshot
+                                                      lessonDate: snapshot
                                                           .data[index]
                                                           .lesson
                                                           .startDate
                                                           .toString(),
-                                                      lesson_time: snapshot
+                                                      lessonTime: snapshot
                                                           .data[index]
                                                           .lesson
                                                           .estimatedTime
                                                           .toString(),
-                                                      lesson_name: snapshot
+                                                      lessonName: snapshot
                                                           .data[index]
                                                           .lesson
                                                           .name,
-                                                      lesson_description:
-                                                          snapshot
-                                                                  .data[index]
-                                                                  .lesson
-                                                                  .description ??
-                                                              " ",
-                                                      lesson_level: snapshot
+                                                      lessonDescription: snapshot
+                                                              .data[index]
+                                                              .lesson
+                                                              .description ??
+                                                          " ",
+                                                      lessonLevel: snapshot
                                                           .data[index]
                                                           .lesson
                                                           .lessonLevel

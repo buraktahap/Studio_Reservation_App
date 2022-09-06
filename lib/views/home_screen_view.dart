@@ -28,7 +28,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
   }
 
   final int? userId =
-      LocaleManager.instance.getIntValue(PreferencesKeys.USER_ID);
+      LocaleManager.instance.getIntValue(PreferencesKeys.userId);
 
   @override
   Widget build(BuildContext context) {
@@ -106,22 +106,22 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                               MaterialPageRoute(
                                                 builder: (context) =>
                                                     LessonDetailPage(
-                                                  lesson_id:
+                                                  lessonId:
                                                       snapshot.data.lesson.id,
-                                                  lesson_date: snapshot
+                                                  lessonDate: snapshot
                                                       .data.lesson.startDate
                                                       .toString(),
-                                                  lesson_time: snapshot
+                                                  lessonTime: snapshot
                                                       .data.lesson.estimatedTime
                                                       .toString(),
-                                                  lesson_name:
+                                                  lessonName:
                                                       snapshot.data.lesson.name,
-                                                  lesson_description: snapshot
+                                                  lessonDescription: snapshot
                                                           .data
                                                           .lesson
                                                           .description ??
                                                       " ",
-                                                  lesson_level: snapshot
+                                                  lessonLevel: snapshot
                                                       .data.lesson.lessonLevel
                                                       .toString(),
                                                   onpressed: () async {
@@ -135,18 +135,18 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                               setState(() {});
                                             }),
                                         child: CheckInLessonCard(
-                                            lesson_name:
+                                            lessonName:
                                                 snapshot.data.lesson.name,
-                                            lesson_date: snapshot
+                                            lessonDate: snapshot
                                                 .data.lesson.startDate
                                                 .toString(),
-                                            lesson_time: snapshot
+                                            lessonTime: snapshot
                                                 .data.lesson.estimatedTime
                                                 .toString(),
-                                            lesson_description: snapshot
+                                            lessonDescription: snapshot
                                                 .data.lesson.description
                                                 .toString(),
-                                            lesson_level: snapshot
+                                            lessonLevel: snapshot
                                                         .data.lesson.lessonLevel
                                                         .toString() ==
                                                     "1"
@@ -162,7 +162,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                                             "3"
                                                         ? "Advanced"
                                                         : "All",
-                                            lesson_id: snapshot.data.lesson.id,
+                                            lessonId: snapshot.data.lesson.id,
                                             isChecked: snapshot.data.isCheckin,
                                             buttonBar: ActionButtons(
                                                 align: Alignment.centerLeft,
@@ -206,22 +206,22 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                               MaterialPageRoute(
                                                 builder: (context) =>
                                                     LessonDetailPage(
-                                                  lesson_id:
+                                                  lessonId:
                                                       snapshot.data.lesson.id,
-                                                  lesson_date: snapshot
+                                                  lessonDate: snapshot
                                                       .data.lesson.startDate
                                                       .toString(),
-                                                  lesson_time: snapshot
+                                                  lessonTime: snapshot
                                                       .data.lesson.estimatedTime
                                                       .toString(),
-                                                  lesson_name:
+                                                  lessonName:
                                                       snapshot.data.lesson.name,
-                                                  lesson_description: snapshot
+                                                  lessonDescription: snapshot
                                                           .data
                                                           .lesson
                                                           .description ??
                                                       " ",
-                                                  lesson_level: snapshot
+                                                  lessonLevel: snapshot
                                                       .data.lesson.lessonLevel
                                                       .toString(),
                                                   onpressed: () async {
@@ -235,18 +235,17 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                               setState(() {});
                                             }),
                                         child: UpcomingLessonCard(
-                                          lesson_name:
-                                              snapshot.data.lesson.name,
-                                          lesson_date: snapshot
+                                          lessonName: snapshot.data.lesson.name,
+                                          lessonDate: snapshot
                                               .data.lesson.startDate
                                               .toString(),
-                                          lesson_time: snapshot
+                                          lessonTime: snapshot
                                               .data.lesson.estimatedTime
                                               .toString(),
-                                          lesson_description: snapshot
+                                          lessonDescription: snapshot
                                               .data.lesson.description
                                               .toString(),
-                                          lesson_level: snapshot
+                                          lessonLevel: snapshot
                                                       .data.lesson.lessonLevel
                                                       .toString() ==
                                                   "1"
@@ -261,7 +260,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                                           "3"
                                                       ? "Advanced"
                                                       : "All",
-                                          lesson_id: snapshot.data.lesson.id,
+                                          lessonId: snapshot.data.lesson.id,
                                           detailSetState: () {
                                             setState(() {});
                                           },
@@ -296,35 +295,33 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                                           MaterialPageRoute(
                                                             builder: (context) =>
                                                                 LessonDetailPage(
-                                                              lesson_id:
-                                                                  snapshot
-                                                                      .data[0]
-                                                                      .lesson
-                                                                      .id,
-                                                              lesson_date:
-                                                                  snapshot
-                                                                      .data[0]
-                                                                      .lesson
-                                                                      .startDate
-                                                                      .toString(),
-                                                              lesson_time: snapshot
+                                                              lessonId: snapshot
+                                                                  .data[0]
+                                                                  .lesson
+                                                                  .id,
+                                                              lessonDate: snapshot
+                                                                  .data[0]
+                                                                  .lesson
+                                                                  .startDate
+                                                                  .toString(),
+                                                              lessonTime: snapshot
                                                                   .data[0]
                                                                   .lesson
                                                                   .estimatedTime
                                                                   .toString(),
-                                                              lesson_name:
+                                                              lessonName:
                                                                   snapshot
                                                                       .data[0]
                                                                       .lesson
                                                                       .name,
-                                                              lesson_description:
+                                                              lessonDescription:
                                                                   snapshot
                                                                           .data[
                                                                               0]
                                                                           .lesson
                                                                           .description ??
                                                                       " ",
-                                                              lesson_level: snapshot
+                                                              lessonLevel: snapshot
                                                                   .data[0]
                                                                   .lesson
                                                                   .lessonLevel
@@ -342,25 +339,25 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                                           setState(() {});
                                                         }),
                                                     child: CheckInLessonCard(
-                                                      lesson_name: snapshot
+                                                      lessonName: snapshot
                                                           .data[0].lesson.name,
-                                                      lesson_date: snapshot
+                                                      lessonDate: snapshot
                                                           .data[0]
                                                           .lesson
                                                           .startDate
                                                           .toString(),
-                                                      lesson_time: snapshot
+                                                      lessonTime: snapshot
                                                           .data[0]
                                                           .lesson
                                                           .estimatedTime
                                                           .toString(),
-                                                      lesson_description:
+                                                      lessonDescription:
                                                           snapshot
                                                               .data[0]
                                                               .lesson
                                                               .description
                                                               .toString(),
-                                                      lesson_level: snapshot
+                                                      lessonLevel: snapshot
                                                                   .data[0]
                                                                   .lesson
                                                                   .lessonLevel
@@ -383,7 +380,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                                                       "3"
                                                                   ? "Advanced"
                                                                   : "All",
-                                                      lesson_id: snapshot
+                                                      lessonId: snapshot
                                                           .data[0].lesson.id,
                                                       isChecked: snapshot
                                                           .data[0].isCheckin,

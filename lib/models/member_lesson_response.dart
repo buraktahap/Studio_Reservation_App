@@ -24,11 +24,11 @@ class MemberLessonResponse {
   });
 
   bool? isEnrolled;
-  dynamic? enrollCount;
-  dynamic? isCheckin;
+  dynamic enrollCount;
+  dynamic isCheckin;
   bool? isCompleted;
   int? memberId;
-  dynamic? member;
+  dynamic member;
   int? lessonId;
   Lesson? lesson;
   int? id;
@@ -79,14 +79,14 @@ class Lesson {
   String? name;
   int? lessonType;
   int? lessonLevel;
-  dynamic? description;
+  dynamic description;
   int? quota;
   DateTime? startDate;
   DateTime? estimatedTime;
   int? trainerId;
-  dynamic? trainer;
+  dynamic trainer;
   int? classesId;
-  dynamic? classes;
+  dynamic classes;
 
   factory Lesson.fromJson(Map<String, dynamic> json) => Lesson(
         id: json["id"],

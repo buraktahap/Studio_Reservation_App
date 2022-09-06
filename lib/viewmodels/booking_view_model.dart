@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:mobx/mobx.dart';
 import 'package:studio_reservation_app/core/constants/network/network_constants.dart';
 import 'package:studio_reservation_app/core/enums/url_enum.dart';
-import 'package:studio_reservation_app/models/enrollResponseModel.dart';
+import 'package:studio_reservation_app/models/enroll_response_model.dart';
 import 'package:studio_reservation_app/models/get_lessons_by_branc_by_enroll.dart';
-import 'package:studio_reservation_app/models/member_details_response.dart';
 import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/init/cache/locale_manager.dart';
 part 'booking_view_model.g.dart';
@@ -15,21 +15,20 @@ class BookingViewModel = _BookingViewModelBase with _$BookingViewModel;
 
 abstract class _BookingViewModelBase with Store {
   final int? userId =
-      LocaleManager.instance.getIntValue(PreferencesKeys.USER_ID);
+      LocaleManager.instance.getIntValue(PreferencesKeys.userId);
 
   @observable
   String enrollStatus = "Enroll";
   // @override
   // void setContext(BuildContext context) =>  this.context= context;
-  @override
   void init() {
-    LessonsByBranchName(branchName);
+    lessonsByBranchName(branchName);
   }
 
   String branchName = "";
   final dio = Dio(
     BaseOptions(
-      baseUrl: NetworkConstants.BASE_URL,
+      baseUrl: NetworkConstants.baseUrl,
       headers: {"Content-Type": "application/json"},
     ),
   );
@@ -37,13 +36,13 @@ abstract class _BookingViewModelBase with Store {
   List lessons = [];
 
   @observable
-  Future<List<GetLessonsByBranchNameWithEnroll>?> LessonsByBranchName(
-      String? Location) async {
+  Future<List<GetLessonsByBranchNameWithEnroll>?> lessonsByBranchName(
+      String? location) async {
     try {
       final response =
-          await dio.post(Urls.LessonsByBranchName.rawValue, queryParameters: {
+          await dio.post(Urls.lessonsByBranchName.rawValue, queryParameters: {
         'memberId': userId,
-        'branchName': Location,
+        'branchName': location,
       });
       switch (response.statusCode) {
         case HttpStatus.ok:
@@ -54,24 +53,25 @@ abstract class _BookingViewModelBase with Store {
                 .toList();
           }
       }
-    } on DioError catch (e) {
-      print("e");
+    } on DioError {
+      debugPrint("LessonsByBranchName error");
     }
+    return null;
   }
 
   @observable
-  Future Enroll(int lessonId) async {
+  Future enroll(int lessonId) async {
     try {
-      final response = await dio.post(Urls.Enroll.rawValue,
+      final response = await dio.post(Urls.enroll.rawValue,
           data: json.encode(
-              enrollResponseModel(memberId: userId, lessonId: lessonId)
+              EnrollResponseModel(memberId: userId, lessonId: lessonId)
                   .toJson()));
       switch (response.statusCode) {
         case HttpStatus.ok:
           return null;
       }
-    } on DioError catch (e) {
-      print("e");
+    } on DioError {
+      debugPrint("enroll error");
       return null;
     }
   }

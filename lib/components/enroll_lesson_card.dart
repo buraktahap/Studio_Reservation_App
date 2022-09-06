@@ -3,33 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:studio_reservation_app/viewmodels/booking_view_model.dart';
 import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/init/cache/locale_manager.dart';
-import '../views/lesson_detail_page.dart';
 
 class EnrollLessonCard extends StatefulWidget {
-  final String lesson_name;
-  late String lesson_date;
-  final String lesson_description;
-  final int lesson_id;
-  // final String lesson_image;
-  final String lesson_level;
-  final String lesson_time;
-  late bool isEnrolled;
-  final String? location;
+  var data;
 
   Widget? buttonOrText;
   // late Widget buttonBar;
   EnrollLessonCard({
     Key? key,
-    required this.lesson_name,
-    required this.lesson_date,
-    required this.lesson_description, // required this.lesson_image,
-    required this.lesson_level,
-    required this.lesson_time,
-    this.location,
-    required this.lesson_id,
-    required this.isEnrolled,
     required this.buttonOrText,
-    // required this.buttonBar,
+    required this.data,
   }) : super(key: key);
 
   @override
@@ -41,13 +24,13 @@ State<EnrollLessonCard> createState() => _EnrollLessonCardState();
 
 class _EnrollLessonCardState extends State<EnrollLessonCard> {
   final int? userId =
-      LocaleManager.instance.getIntValue(PreferencesKeys.USER_ID);
+      LocaleManager.instance.getIntValue(PreferencesKeys.userId);
   BookingViewModel viewModel = BookingViewModel();
   @override
   Widget build(BuildContext context) {
-    var selectedDate = DateTime.parse(widget.lesson_date);
+    var selectedDate = DateTime.parse(widget.data.startDate.toString());
     String formattedDate = DateFormat('dd-MM-yyyy  HH:mm').format(selectedDate);
-    var selectedTime = DateTime.parse(widget.lesson_time);
+    var selectedTime = DateTime.parse(widget.data.estimatedTime.toString());
     String formattedTime = DateFormat('HH:mm').format(selectedTime);
     return Card(
       elevation: 5,
@@ -74,7 +57,8 @@ class _EnrollLessonCardState extends State<EnrollLessonCard> {
                     title: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text("${widget.lesson_name} - ${widget.lesson_level}",
+                          Text(
+                              "${widget.data.name} - ${widget.data.lessonLevel}",
                               style: const TextStyle(fontSize: 20)),
                         ]),
                     subtitle: Row(

@@ -8,7 +8,6 @@ class Lesson {
   DateTime? startDate;
   String? estimatedTime;
   int? trainerId;
-  Null? memberLessons;
   int? classesId;
 
   Lesson({
@@ -21,7 +20,6 @@ class Lesson {
     this.startDate,
     this.estimatedTime,
     this.trainerId,
-    this.memberLessons,
     this.classesId,
   });
 
@@ -35,23 +33,21 @@ class Lesson {
     startDate = json['startDate'];
     estimatedTime = json['estimatedTime'];
     trainerId = json['trainerId'];
-    memberLessons = json['memberLessons'];
     classesId = json['classesId'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['lessonType'] = this.lessonType;
-    data['lessonLevel'] = this.lessonLevel;
-    data['description'] = this.description;
-    data['quota'] = this.quota;
-    data['startDate'] = this.startDate;
-    data['estimatedTime'] = this.estimatedTime;
-    data['trainerId'] = this.trainerId;
-    data['memberLessons'] = this.memberLessons;
-    data['classesId'] = this.classesId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['lessonType'] = lessonType;
+    data['lessonLevel'] = lessonLevel;
+    data['description'] = description;
+    data['quota'] = quota;
+    data['startDate'] = startDate;
+    data['estimatedTime'] = estimatedTime;
+    data['trainerId'] = trainerId;
+    data['classesId'] = classesId;
     return data;
   }
 }

@@ -10,7 +10,7 @@ import '../core/init/cache/locale_manager.dart';
 import '../viewmodels/location_selection_view_model.dart';
 
 class LocationSelectionView extends StatefulWidget {
-  LocationSelectionView({Key? key}) : super(key: key);
+  const LocationSelectionView({Key? key}) : super(key: key);
 
   @override
   State<LocationSelectionView> createState() => _LocationSelectionViewState();
@@ -23,14 +23,14 @@ class _LocationSelectionViewState extends State<LocationSelectionView> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await LocationSelectionViewModel().GetAllLocations();
+      await LocationSelectionViewModel().getAllLocations();
       branches = LocationSelectionViewModel().cities;
       setState(() {});
     });
   }
 
   final int? userId =
-      LocaleManager.instance.getIntValue(PreferencesKeys.USER_ID);
+      LocaleManager.instance.getIntValue(PreferencesKeys.userId);
 
   final BranchLocationResponseModel _selectedCity =
       BranchLocationResponseModel(name: "Select Branch");
@@ -78,7 +78,7 @@ class _LocationSelectionViewState extends State<LocationSelectionView> {
                                 ColoredButton(
                                     text: "Approve",
                                     onPressed: () {
-                                      viewModel.MemberLocationUpdate(
+                                      viewModel.memberLocationUpdate(
                                           userId!, _selectedCity.name);
                                     })
                               ],
@@ -107,7 +107,7 @@ class _LocationSelectionViewState extends State<LocationSelectionView> {
             isExpanded: true,
             onTap: () {
               setState(() {
-                viewModel.GetAllLocations();
+                viewModel.getAllLocations();
               });
             },
             hint: Padding(
@@ -144,7 +144,7 @@ class _LocationSelectionViewState extends State<LocationSelectionView> {
 
   List<DropdownMenuItem<String>> branchLocations(
       LocationSelectionViewModel viewModel) {
-    viewModel.GetAllLocations();
+    viewModel.getAllLocations();
     return viewModel.cities.map((item) {
       return DropdownMenuItem(
         value: item.name.toString(),

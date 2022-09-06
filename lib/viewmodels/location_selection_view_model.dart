@@ -23,11 +23,10 @@ abstract class _LocationSelectionViewModelBase with Store, BaseViewModel {
   @override
   void setContext(BuildContext context) => this.context = context;
   @override
-  Future<void> init() async {
-  }
+  Future<void> init() async {}
 
   final int? userId =
-      LocaleManager.instance.getIntValue(PreferencesKeys.USER_ID);
+      LocaleManager.instance.getIntValue(PreferencesKeys.userId);
 
   @observable
   List<BranchLocationResponseModel>? categories =
@@ -42,13 +41,13 @@ abstract class _LocationSelectionViewModelBase with Store, BaseViewModel {
 
   final dio = Dio(
     BaseOptions(
-      baseUrl: NetworkConstants.BASE_URL,
+      baseUrl: NetworkConstants.baseUrl,
       headers: {"Content-Type": "application/json"},
     ),
   );
   @observable
-  Future<List<BranchLocationResponseModel>?> GetAllLocations() async {
-    final response = await dio.get(Urls.GetAllLocations.rawValue);
+  Future<List<BranchLocationResponseModel>?> getAllLocations() async {
+    final response = await dio.get(Urls.getAllLocations.rawValue);
     switch (response.statusCode) {
       case HttpStatus.ok:
         final responseBody = await response.data;
@@ -63,9 +62,9 @@ abstract class _LocationSelectionViewModelBase with Store, BaseViewModel {
   }
 
   @observable
-  void MemberLocationUpdate(int userId, String? location) async {
+  void memberLocationUpdate(int userId, String? location) async {
     try {
-      final response = await dio.post(Urls.MemberLocationUpdate.rawValue,
+      final response = await dio.post(Urls.memberLocationUpdate.rawValue,
           data: jsonEncode(
               SignInResponseModel(id: userId, location: location).toJson()));
 
@@ -74,12 +73,12 @@ abstract class _LocationSelectionViewModelBase with Store, BaseViewModel {
           // ignore: use_build_context_synchronously
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => HomeView()),
+              MaterialPageRoute(builder: (context) => const HomeView()),
               ((r) => false));
-          await LocaleManager.instance.setStringValue(
-              PreferencesKeys.USER_LOCATION, location as String);
+          await LocaleManager.instance
+              .setStringValue(PreferencesKeys.userLocation, location as String);
       }
-    } on DioError catch (e) {
+    } on DioError {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Please select a location")));
     }

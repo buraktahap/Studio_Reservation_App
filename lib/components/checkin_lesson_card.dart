@@ -7,24 +7,24 @@ import '../core/init/cache/locale_manager.dart';
 HomeScreenViewModel viewModel = HomeScreenViewModel();
 
 class CheckInLessonCard extends StatefulWidget {
-  final String lesson_date;
+  final String lessonDate;
 
-  final String lesson_time;
+  final String lessonTime;
 
-  final String lesson_level;
+  final String lessonLevel;
 
-  final String lesson_name;
+  final String lessonName;
   late bool isChecked;
   late Widget buttonBar;
-  final int lesson_id;
+  final int lessonId;
   CheckInLessonCard({
     Key? key,
-    required this.lesson_date,
-    required this.lesson_time,
-    required this.lesson_level,
-    required this.lesson_name,
-    required String lesson_description,
-    required this.lesson_id,
+    required this.lessonDate,
+    required this.lessonTime,
+    required this.lessonLevel,
+    required this.lessonName,
+    required String lessonDescription,
+    required this.lessonId,
     required this.isChecked,
     required this.buttonBar,
   }) : super(key: key);
@@ -35,13 +35,13 @@ class CheckInLessonCard extends StatefulWidget {
 
 class _CheckInLessonCardState extends State<CheckInLessonCard> {
   final int? userId =
-      LocaleManager.instance.getIntValue(PreferencesKeys.USER_ID);
+      LocaleManager.instance.getIntValue(PreferencesKeys.userId);
 
   @override
   Widget build(BuildContext context) {
-    var selectedDate = DateTime.parse(widget.lesson_date);
+    var selectedDate = DateTime.parse(widget.lessonDate);
     String formattedDate = DateFormat('dd-MM-yyyy  HH:mm').format(selectedDate);
-    var selectedTime = DateTime.parse(widget.lesson_time);
+    var selectedTime = DateTime.parse(widget.lessonTime);
     String formattedTime = DateFormat('HH:mm').format(selectedTime);
     return Card(
       elevation: 5,
@@ -68,7 +68,7 @@ class _CheckInLessonCardState extends State<CheckInLessonCard> {
                     title: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text("${widget.lesson_name} - ${widget.lesson_level}",
+                          Text("${widget.lessonName} - ${widget.lessonLevel}",
                               style: const TextStyle(fontSize: 20)),
                         ]),
                     subtitle: Row(

@@ -41,15 +41,15 @@ mixin _$BookingViewModel on _BookingViewModelBase, Store {
   }
 
   @override
-  ObservableFuture<List<GetLessonsByBranchNameWithEnroll>?> LessonsByBranchName(
+  ObservableFuture<List<GetLessonsByBranchNameWithEnroll>?> lessonsByBranchName(
       String? Location) {
-    final _$future = super.LessonsByBranchName(Location);
+    final _$future = super.lessonsByBranchName(Location);
     return ObservableFuture<List<GetLessonsByBranchNameWithEnroll>?>(_$future);
   }
 
   @override
-  ObservableFuture<dynamic> Enroll( int lessonId) {
-    final _$future = super.Enroll(lessonId);
+  ObservableFuture<dynamic> enroll(int lessonId) {
+    final _$future = super.enroll(lessonId);
     return ObservableFuture<dynamic>(_$future);
   }
 

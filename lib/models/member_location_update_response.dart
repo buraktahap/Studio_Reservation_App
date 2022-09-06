@@ -33,16 +33,16 @@ class MemberLocationUpdateResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['surname'] = this.surname;
-    data['picture'] = this.picture;
-    data['email'] = this.email;
-    data['password'] = this.password;
-    data['memberType'] = this.memberType;
-    data['location'] = this.location;
-    data['subscriptionsId'] = this.subscriptionsId;
-    data['id'] = this.id;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['surname'] = surname;
+    data['picture'] = picture;
+    data['email'] = email;
+    data['password'] = password;
+    data['memberType'] = memberType;
+    data['location'] = location;
+    data['subscriptionsId'] = subscriptionsId;
+    data['id'] = id;
     return data;
   }
 }

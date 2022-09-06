@@ -6,8 +6,6 @@ import 'package:studio_reservation_app/viewmodels/home_view_model.dart';
 import 'package:studio_reservation_app/views/booking_view.dart';
 import 'package:studio_reservation_app/views/home_screen_view.dart';
 import 'package:studio_reservation_app/views/profile_page.dart';
-import 'package:studio_reservation_app/views/splash_screen.dart';
-
 import 'package:studio_reservation_app/core/base/view/base_view.dart';
 import '../core/init/cache/locale_manager.dart';
 
@@ -20,13 +18,13 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final String? userLocation =
-      LocaleManager.instance.getStringValue(PreferencesKeys.USER_LOCATION);
+      LocaleManager.instance.getStringValue(PreferencesKeys.userLocation);
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      var p = HomeScreenViewModel().reservationList();
+      // var p = HomeScreenViewModel().reservationList();
       setState(() {});
     });
   }

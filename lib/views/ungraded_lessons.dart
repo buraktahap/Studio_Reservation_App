@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:studio_reservation_app/components/action_buttons.dart';
-import 'package:studio_reservation_app/components/checkin_lesson_card.dart';
 import 'package:studio_reservation_app/components/completed_lesson_card.dart';
 import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
 import '../components/background.dart';
@@ -19,7 +17,7 @@ class UngradedLessons extends StatefulWidget {
 
 class _UngradedLessonsState extends State<UngradedLessons> {
   final int? userId =
-      LocaleManager.instance.getIntValue(PreferencesKeys.USER_ID);
+      LocaleManager.instance.getIntValue(PreferencesKeys.userId);
   @override
   Widget build(BuildContext context) {
     return BaseView<HomeScreenViewModel>(
@@ -62,7 +60,7 @@ class _UngradedLessonsState extends State<UngradedLessons> {
                       ],
                     ),
                     FutureBuilder(
-                        future: viewModel.GetUngradedLessons(userId!),
+                        future: viewModel.getUngradedLessons(userId!),
                         builder: (context, AsyncSnapshot snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.done) {
@@ -79,22 +77,22 @@ class _UngradedLessonsState extends State<UngradedLessons> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 LessonDetailPage(
-                                              lesson_id: snapshot
+                                              lessonId: snapshot
                                                   .data[index].lesson.id,
-                                              lesson_date: snapshot
+                                              lessonDate: snapshot
                                                   .data[index].lesson.startDate
                                                   .toString(),
-                                              lesson_time: snapshot.data[index]
+                                              lessonTime: snapshot.data[index]
                                                   .lesson.estimatedTime
                                                   .toString(),
-                                              lesson_name: snapshot
+                                              lessonName: snapshot
                                                   .data[index].lesson.name,
-                                              lesson_description: snapshot
+                                              lessonDescription: snapshot
                                                       .data[index]
                                                       .lesson
                                                       .description ??
                                                   " ",
-                                              lesson_level: snapshot.data[index]
+                                              lessonLevel: snapshot.data[index]
                                                   .lesson.lessonLevel
                                                   .toString(),
                                               onpressed: () async {
@@ -109,13 +107,13 @@ class _UngradedLessonsState extends State<UngradedLessons> {
                                         child: CompletedLessonCard(
                                             data: snapshot.data[index],
                                             buttonBar: RatingBar.builder(
+                                              allowHalfRating: true,
                                               itemSize: 30,
                                               initialRating:
                                                   snapshot.data[index].rate ??
                                                       0,
                                               minRating: 1,
                                               direction: Axis.horizontal,
-                                              allowHalfRating: true,
                                               itemCount: 5,
                                               itemPadding:
                                                   const EdgeInsets.symmetric(
@@ -128,7 +126,7 @@ class _UngradedLessonsState extends State<UngradedLessons> {
                                               onRatingUpdate: (rating) async {
                                                 debugPrint(rating.toString());
                                                 await HomeScreenViewModel()
-                                                    .PostLessonRate(
+                                                    .postLessonRate(
                                                         userId!,
                                                         snapshot.data[index]
                                                             .lesson.id,

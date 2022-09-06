@@ -1,26 +1,24 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
-import 'package:studio_reservation_app/views/home_screen_view.dart';
-import 'package:studio_reservation_app/views/lesson_detail_page.dart';
 
 class UpcomingLessonCard extends StatefulWidget {
-  final String lesson_name;
-  final String lesson_date;
-  final String lesson_description;
-  final int lesson_id;
+  final String lessonName;
+  final String lessonDate;
+  final String lessonDescription;
+  final int lessonId;
   // final String lesson_image;
-  final String lesson_level;
-  final String lesson_time;
+  final String lessonLevel;
+  final String lessonTime;
   VoidCallback? detailSetState;
   UpcomingLessonCard(
       {Key? key,
-      required this.lesson_name,
-      required this.lesson_description,
-      required this.lesson_id,
-      required this.lesson_level,
-      required this.lesson_time,
-      required this.lesson_date,
+      required this.lessonName,
+      required this.lessonDescription,
+      required this.lessonId,
+      required this.lessonLevel,
+      required this.lessonTime,
+      required this.lessonDate,
       this.detailSetState})
       : super(key: key);
 
@@ -32,9 +30,9 @@ class _UpcomingLessonCardState extends State<UpcomingLessonCard> {
   HomeScreenViewModel viewModel = HomeScreenViewModel();
   @override
   Widget build(BuildContext context) {
-    var selectedDate = DateTime.parse(widget.lesson_date);
+    var selectedDate = DateTime.parse(widget.lessonDate);
     String formattedDate = DateFormat('dd-MM-yyyy  HH:mm').format(selectedDate);
-    var selectedTime = DateTime.parse(widget.lesson_time);
+    var selectedTime = DateTime.parse(widget.lessonTime);
     String formattedTime = DateFormat('HH:mm').format(selectedTime);
     return Card(
       elevation: 5,
@@ -61,7 +59,7 @@ class _UpcomingLessonCardState extends State<UpcomingLessonCard> {
                     title: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text("${widget.lesson_name} - ${widget.lesson_level}",
+                          Text("${widget.lessonName} - ${widget.lessonLevel}",
                               style: const TextStyle(fontSize: 20)),
                         ]),
                     subtitle: Row(

@@ -12,9 +12,9 @@ final darkTheme = ThemeData(
 
 final lightTheme = ThemeData(
   fontFamily: GoogleFonts.raleway().fontFamily,
-  cardTheme: CardTheme(elevation: 5, shadowColor: Colors.black),
+  cardTheme: const CardTheme(elevation: 5, shadowColor: Colors.black),
   shadowColor: const Color(0xffFF34C6),
-  buttonTheme: ButtonThemeData(
+  buttonTheme: const ButtonThemeData(
     buttonColor: Colors.black,
   ),
   primaryColorLight: Colors.white,
@@ -25,12 +25,13 @@ final lightTheme = ThemeData(
       fontWeight: FontWeight.w700,
     ),
   ),
-  iconTheme: IconThemeData(
+  iconTheme: const IconThemeData(
     color: Color(0xff212338),
   ),
   primaryColor: Colors.white,
   brightness: Brightness.light,
   backgroundColor: Colors.white,
-  accentIconTheme: IconThemeData(color: Colors.white),
-  dividerColor: Colors.white54, colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.grey).copyWith(secondary: Color(0xff212338)),
+  dividerColor: Colors.white54,
+  colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.grey)
+      .copyWith(secondary: const Color(0xff212338)),
 );

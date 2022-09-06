@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:studio_reservation_app/components/action_buttons.dart';
-import 'package:studio_reservation_app/components/checkin_lesson_card.dart';
 import 'package:studio_reservation_app/components/completed_lesson_card.dart';
 import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
 import '../components/background.dart';
@@ -19,7 +17,7 @@ class CompletedLessonsList extends StatefulWidget {
 
 class _CompletedLessonsListState extends State<CompletedLessonsList> {
   final int? userId =
-      LocaleManager.instance.getIntValue(PreferencesKeys.USER_ID);
+      LocaleManager.instance.getIntValue(PreferencesKeys.userId);
   @override
   Widget build(BuildContext context) {
     return BaseView<HomeScreenViewModel>(
@@ -79,28 +77,28 @@ class _CompletedLessonsListState extends State<CompletedLessonsList> {
                                                 MaterialPageRoute(
                                                   builder: (context) =>
                                                       LessonDetailPage(
-                                                    lesson_id: snapshot
+                                                    lessonId: snapshot
                                                         .data[index].lesson.id,
-                                                    lesson_date: snapshot
+                                                    lessonDate: snapshot
                                                         .data[index]
                                                         .lesson
                                                         .startDate
                                                         .toString(),
-                                                    lesson_time: snapshot
+                                                    lessonTime: snapshot
                                                         .data[index]
                                                         .lesson
                                                         .estimatedTime
                                                         .toString(),
-                                                    lesson_name: snapshot
+                                                    lessonName: snapshot
                                                         .data[index]
                                                         .lesson
                                                         .name,
-                                                    lesson_description: snapshot
+                                                    lessonDescription: snapshot
                                                             .data[index]
                                                             .lesson
                                                             .description ??
                                                         " ",
-                                                    lesson_level: snapshot
+                                                    lessonLevel: snapshot
                                                         .data[index]
                                                         .lesson
                                                         .lessonLevel
@@ -119,7 +117,7 @@ class _CompletedLessonsListState extends State<CompletedLessonsList> {
                                               data: snapshot.data[index],
                                               buttonBar: RatingBarIndicator(
                                                 itemBuilder: (context, index) =>
-                                                    Icon(
+                                                    const Icon(
                                                   Icons.star,
                                                   color: Colors.amber,
                                                 ),

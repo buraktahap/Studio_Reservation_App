@@ -8,24 +8,24 @@ import '../viewmodels/home_screen_view_model.dart';
 Widget waitingList = Container();
 
 class LessonDetailPage extends StatefulWidget {
-  final String lesson_name;
-  final String lesson_date;
-  final String lesson_description;
-  final int lesson_id;
+  final String lessonName;
+  final String lessonDate;
+  final String lessonDescription;
+  final int lessonId;
   // final String lesson_image;
-  final String lesson_level;
-  final String lesson_time;
+  final String lessonLevel;
+  final String lessonTime;
 
   final VoidCallback onpressed;
 
-  LessonDetailPage({
+  const LessonDetailPage({
     Key? key,
-    required this.lesson_name,
-    required this.lesson_description,
-    required this.lesson_id,
-    required this.lesson_level,
-    required this.lesson_time,
-    required this.lesson_date,
+    required this.lessonName,
+    required this.lessonDescription,
+    required this.lessonId,
+    required this.lessonLevel,
+    required this.lessonTime,
+    required this.lessonDate,
     required this.onpressed,
   }) : super(key: key);
 
@@ -38,7 +38,7 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
     return FutureBuilder(
         initialData: [waitingList],
         future: HomeScreenViewModel()
-            .MemberLessonByMemberAndLessonIdWithIndex(widget.lesson_id),
+            .memberLessonByMemberAndLessonIdWithIndex(widget.lessonId),
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done &&
               snapshot.data[1] != null &&
@@ -82,7 +82,7 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
     return BaseView<HomeScreenViewModel>(
         viewModel: HomeScreenViewModel(),
         onModelReady: (HomeScreenViewModel model) async {
-          await HomeScreenViewModel().getLessonById(widget.lesson_id);
+          await HomeScreenViewModel().getLessonById(widget.lessonId);
         },
         onPageBuilder: (BuildContext context, HomeScreenViewModel viewModel) =>
             Scaffold(
@@ -96,9 +96,9 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                       child: Padding(
                           padding: const EdgeInsets.fromLTRB(0, 45, 0, 0),
                           child: FutureBuilder(
-                              future: viewModel.getLessonById(widget.lesson_id),
+                              future: viewModel.getLessonById(widget.lessonId),
                               initialData:
-                                  viewModel.getLessonById(widget.lesson_id),
+                                  viewModel.getLessonById(widget.lessonId),
                               builder: (context, AsyncSnapshot snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.done) {
@@ -226,16 +226,16 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                                                           DetailWithIcon(
                                                               icon:
                                                                   "assets/images/date.png",
-                                                              icon_description:
+                                                              iconDescription:
                                                                   "Date ",
-                                                              icon_status:
+                                                              iconStatus:
                                                                   formattedDate),
                                                           DetailWithIcon(
                                                               icon:
                                                                   "assets/images/startDate.png",
-                                                              icon_description:
+                                                              iconDescription:
                                                                   "Start Time",
-                                                              icon_status:
+                                                              iconStatus:
                                                                   formattedTime),
                                                         ],
                                                       ),
@@ -250,9 +250,9 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                                                           DetailWithIcon(
                                                             icon:
                                                                 "assets/images/level2.png",
-                                                            icon_description:
+                                                            iconDescription:
                                                                 "Level",
-                                                            icon_status: snapshot
+                                                            iconStatus: snapshot
                                                                         .data
                                                                         .lessonLevel
                                                                         .toString() ==
@@ -273,9 +273,9 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                                                           DetailWithIcon(
                                                               icon:
                                                                   "assets/images/duration.png",
-                                                              icon_description:
+                                                              iconDescription:
                                                                   "Duration",
-                                                              icon_status:
+                                                              iconStatus:
                                                                   duration),
                                                         ],
                                                       ),
@@ -369,7 +369,7 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                                                       20, 0, 20, 0),
                                               child: ActionButtons(
                                                   align: Alignment.center,
-                                                  lessonId: widget.lesson_id),
+                                                  lessonId: widget.lessonId),
                                             ),
                                           ),
                                         ),
@@ -393,15 +393,15 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
 class DetailWithIcon extends StatelessWidget {
   final String icon;
 
-  final String icon_description;
+  final String iconDescription;
 
-  final String icon_status;
+  final String iconStatus;
 
   const DetailWithIcon({
     Key? key,
     required this.icon,
-    required this.icon_description,
-    required this.icon_status,
+    required this.iconDescription,
+    required this.iconStatus,
   }) : super(key: key);
 
   @override
@@ -422,11 +422,11 @@ class DetailWithIcon extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  icon_description,
+                  iconDescription,
                   style: const TextStyle(fontSize: 12),
                 ),
                 Text(
-                  icon_status,
+                  iconStatus,
                   style: const TextStyle(
                     fontSize: 16,
                   ),

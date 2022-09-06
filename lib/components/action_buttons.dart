@@ -41,7 +41,7 @@ class _ActionButtonsState extends State<ActionButtons> {
                           width: 150,
                           text: "Check In",
                           onPressed: () async {
-                            HomeScreenViewModel().CheckIn(widget.lessonId);
+                            HomeScreenViewModel().checkIn(widget.lessonId);
                             await viewModel.getMemberLessonByLessonAndMemberId(
                                 widget.lessonId);
                             setState(() {});
@@ -61,10 +61,10 @@ class _ActionButtonsState extends State<ActionButtons> {
                           text: "Cancel",
                           onPressed: () async {
                             await HomeScreenViewModel()
-                                .EnrollCancel(widget.lessonId);
+                                .enrollCancel(widget.lessonId);
 
                             await viewModel
-                                .MemberLessonByMemberAndLessonIdWithIndex(
+                                .memberLessonByMemberAndLessonIdWithIndex(
                                     widget.lessonId);
                             viewModel.reservationList();
                             setState(() {});
@@ -102,7 +102,7 @@ class _ActionButtonsState extends State<ActionButtons> {
 
               return FutureBuilder(
                   future: HomeScreenViewModel()
-                      .MemberLessonByMemberAndLessonIdWithIndex(
+                      .memberLessonByMemberAndLessonIdWithIndex(
                           widget.lessonId),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.hasData) {
@@ -117,7 +117,7 @@ class _ActionButtonsState extends State<ActionButtons> {
                               text: "Enroll",
                               onPressed: () async {
                                 await BookingViewModel()
-                                    .Enroll(widget.lessonId);
+                                    .enroll(widget.lessonId);
                                 await HomeScreenViewModel()
                                     .getMemberLessonByLessonAndMemberId(
                                         widget.lessonId);
@@ -154,7 +154,7 @@ class _ActionButtonsState extends State<ActionButtons> {
                                 await HomeScreenViewModel()
                                     .addToWaitingQueue(widget.lessonId);
                                 await HomeScreenViewModel()
-                                    .MemberLessonByMemberAndLessonIdWithIndex(
+                                    .memberLessonByMemberAndLessonIdWithIndex(
                                         widget.lessonId);
                                 setState(() {});
                               },

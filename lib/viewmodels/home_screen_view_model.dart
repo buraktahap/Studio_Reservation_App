@@ -5,16 +5,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:mobx/mobx.dart';
 import 'package:studio_reservation_app/models/enroll_cancel_member_lesson_post.dart';
-import 'package:studio_reservation_app/models/last_completed_lesson_response.dart';
 import 'package:studio_reservation_app/models/lesson_response_model.dart';
 import 'package:studio_reservation_app/models/member_lesson_response.dart';
 import 'package:studio_reservation_app/models/member_lesson_with_lesson_included.dart';
-import 'package:studio_reservation_app/models/waiting_queue_index_response.dart';
 import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/constants/network/network_constants.dart';
 import '../core/enums/url_enum.dart';
 import '../core/init/cache/locale_manager.dart';
-import '../models/member_lesson_by_member_and_lessonId.dart';
+import '../models/member_lesson_by_member_and_lesson_id.dart';
 part 'home_screen_view_model.g.dart';
 
 class HomeScreenViewModel = _HomeScreenViewModelBase with _$HomeScreenViewModel;
@@ -22,7 +20,7 @@ class HomeScreenViewModel = _HomeScreenViewModelBase with _$HomeScreenViewModel;
 abstract class _HomeScreenViewModelBase with Store {
   final dio = Dio(
     BaseOptions(
-      baseUrl: NetworkConstants.BASE_URL,
+      baseUrl: NetworkConstants.baseUrl,
       headers: {"Content-Type": "application/json"},
     ),
   );
@@ -36,7 +34,7 @@ abstract class _HomeScreenViewModelBase with Store {
   Future<MemberLessonResponse?> checkInLessonDetails() async {
     try {
       var response =
-          await dio.get(Urls.CheckInLessonDetails.rawValue, queryParameters: {
+          await dio.get(Urls.checkInLessonDetails.rawValue, queryParameters: {
         'id': userId,
       });
       switch (response.statusCode) {
@@ -58,30 +56,30 @@ abstract class _HomeScreenViewModelBase with Store {
         //   return checkInLesson;
       }
     } on DioError catch (e) {
-      print("e");
+      debugPrint(e.toString());
     }
     return null;
   }
 
   final int? userId =
-      LocaleManager.instance.getIntValue(PreferencesKeys.USER_ID);
+      LocaleManager.instance.getIntValue(PreferencesKeys.userId);
 
   final int? checkInId =
-      LocaleManager.instance.getIntValue(PreferencesKeys.CHECKIN_ID);
+      LocaleManager.instance.getIntValue(PreferencesKeys.checkinId);
 
   @observable
-  Future CheckIn(int lessonId) async {
+  Future checkIn(int lessonId) async {
     try {
-      final response = await dio.post(Urls.CheckIn.rawValue,
+      final response = await dio.post(Urls.checkIn.rawValue,
           queryParameters: {'memberId': userId, 'lessonId': lessonId});
       switch (response.statusCode) {
         case HttpStatus.ok:
-          print("checkin completed");
+          debugPrint("checkin completed");
       }
-    } on DioError catch (e) {
-      print("checkIn failed");
+    } on DioError {
+      debugPrint("checkIn failed");
 
-      await LocaleManager.instance.setIntValue(PreferencesKeys.CHECKIN_ID, 0);
+      await LocaleManager.instance.setIntValue(PreferencesKeys.checkinId, 0);
     }
   }
 
@@ -91,7 +89,7 @@ abstract class _HomeScreenViewModelBase with Store {
   @observable
   Future<List<MemberLessonResponse>?> reservationList() async {
     final response = await dio
-        .get(Urls.ReservationList.rawValue, queryParameters: {'id': userId});
+        .get(Urls.reservationList.rawValue, queryParameters: {'id': userId});
     switch (response.statusCode) {
       case HttpStatus.ok:
         final responseBody = await response.data;
@@ -108,10 +106,10 @@ abstract class _HomeScreenViewModelBase with Store {
   @observable
   List x = [];
   @action
-  Future<List> MemberLessonByMemberAndLessonIdWithIndex(int lessonId) async {
+  Future<List> memberLessonByMemberAndLessonIdWithIndex(int lessonId) async {
     final LessonResponseModel? a = await getLessonById(lessonId);
     x.add(a);
-    int? b = await GetWaitingQueueIndexByMemberAndLessonId(lessonId);
+    int? b = await getWaitingQueueIndexByMemberAndLessonId(lessonId);
     x.add(b);
     return x;
   }
@@ -121,7 +119,7 @@ abstract class _HomeScreenViewModelBase with Store {
       int lessonId) async {
     try {
       final response = await dio.get(
-          Urls.GetMemberLessonsByMemberIdByLessonId.rawValue,
+          Urls.getMemberLessonsByMemberIdByLessonId.rawValue,
           queryParameters: {'memberId': userId, 'lessonId': lessonId});
       switch (response.statusCode) {
         case HttpStatus.ok:
@@ -133,24 +131,24 @@ abstract class _HomeScreenViewModelBase with Store {
           }
       }
     } on DioError catch (e) {
-      print("eee");
+      debugPrint(e.toString());
     }
     return null;
   }
 
   @observable
-  Future EnrollCancel(int lessonId) async {
+  Future enrollCancel(int lessonId) async {
     try {
-      final response = await dio.post(Urls.EnrollCancel.rawValue,
+      final response = await dio.post(Urls.enrollCancel.rawValue,
           data: jsonEncode(EnrollCancelMemberLessonPost(
                   memberId: userId!, lessonId: lessonId)
               .toJson()));
       switch (response.statusCode) {
         case HttpStatus.ok:
-          print("enroll canceled");
+          debugPrint("enroll canceled");
       }
-    } on DioError catch (e) {
-      print("cancel failed");
+    } on DioError {
+      debugPrint("cancel failed");
     }
   }
 
@@ -169,7 +167,7 @@ abstract class _HomeScreenViewModelBase with Store {
     MemberLessonResponse? ml = await checkInLessonDetails();
     try {
       final response =
-          await dio.get(Urls.GetLessonById.rawValue, queryParameters: {
+          await dio.get(Urls.getLessonById.rawValue, queryParameters: {
         'id': ml?.lessonId,
       });
       switch (response.statusCode) {
@@ -180,8 +178,8 @@ abstract class _HomeScreenViewModelBase with Store {
 
           return checkInLesson;
       }
-    } on DioError catch (e) {
-      print("e");
+    } on DioError {
+      debugPrint("e");
     }
     return null;
   }
@@ -190,7 +188,7 @@ abstract class _HomeScreenViewModelBase with Store {
   Future<LessonResponseModel?> getLessonById(int lessonId) async {
     try {
       final response =
-          await dio.get(Urls.GetLessonById.rawValue, queryParameters: {
+          await dio.get(Urls.getLessonById.rawValue, queryParameters: {
         'id': lessonId,
       });
       switch (response.statusCode) {
@@ -202,7 +200,7 @@ abstract class _HomeScreenViewModelBase with Store {
           return checkInLesson;
       }
     } on DioError catch (e) {
-      print("e");
+      debugPrint(e.toString());
     }
     return null;
   }
@@ -210,7 +208,7 @@ abstract class _HomeScreenViewModelBase with Store {
   @observable
   Future<LessonResponseModel?> addToWaitingQueue(int lessonId) async {
     try {
-      final response = await dio.post(Urls.AddToWaitingQueue.rawValue,
+      final response = await dio.post(Urls.addToWaitingQueue.rawValue,
           data: jsonEncode(EnrollCancelMemberLessonPost(
                   memberId: userId!, lessonId: lessonId)
               .toJson()));
@@ -221,16 +219,16 @@ abstract class _HomeScreenViewModelBase with Store {
           return null;
       }
     } on DioError catch (e) {
-      print("e");
+      debugPrint(e.toString());
     }
     return null;
   }
 
   @action
-  Future<int?> GetWaitingQueueIndexByMemberAndLessonId(int lessonId) async {
+  Future<int?> getWaitingQueueIndexByMemberAndLessonId(int lessonId) async {
     try {
       final response = await dio.get(
-          Urls.GetWaitingQueueIndexByMemberAndLessonId.rawValue,
+          Urls.getWaitingQueueIndexByMemberAndLessonId.rawValue,
           queryParameters: {'memberId': userId, 'lessonId': lessonId});
       switch (response.statusCode) {
         case HttpStatus.ok:
@@ -241,7 +239,7 @@ abstract class _HomeScreenViewModelBase with Store {
           return 0;
       }
     } on DioError catch (e) {
-      print("e");
+      debugPrint(e.toString());
     }
     return null;
   }
@@ -250,7 +248,7 @@ abstract class _HomeScreenViewModelBase with Store {
   Future<List?> getCompletedLessons(int memberId) async {
     try {
       final response =
-          await dio.get(Urls.GetCompletedLesson.rawValue, queryParameters: {
+          await dio.get(Urls.getCompletedLesson.rawValue, queryParameters: {
         'memberId': memberId,
       });
       switch (response.statusCode) {
@@ -262,16 +260,16 @@ abstract class _HomeScreenViewModelBase with Store {
 
           return completedLessons;
       }
-    } on DioError catch (e) {
-      debugPrint("last completed lesson failed");
+    } on DioError {
+      debugPrint("get completed lessons failed");
     }
     return null;
   }
 
   @action
-  Future<int?> GetCompletedLessonCount(int lessonId) async {
+  Future<int?> getCompletedLessonCount(int lessonId) async {
     try {
-      final response = await dio.get(Urls.GetCompletedLessonCount.rawValue,
+      final response = await dio.get(Urls.getCompletedLessonCount.rawValue,
           queryParameters: {'memberId': userId});
       switch (response.statusCode) {
         case HttpStatus.ok:
@@ -282,16 +280,16 @@ abstract class _HomeScreenViewModelBase with Store {
           return null;
       }
     } on DioError catch (e) {
-      print("e");
+      debugPrint(e.toString());
     }
     return null;
   }
 
   @action
-  Future<List?> GetUngradedLessons(int memberId) async {
+  Future<List?> getUngradedLessons(int memberId) async {
     try {
       final response = await dio
-          .get(Urls.GetUngradedMemberLessons.rawValue, queryParameters: {
+          .get(Urls.getUngradedMemberLessons.rawValue, queryParameters: {
         'memberId': memberId,
       });
       switch (response.statusCode) {
@@ -303,16 +301,16 @@ abstract class _HomeScreenViewModelBase with Store {
 
           return ungradedMemberLessons;
       }
-    } on DioError catch (e) {
-      print("last completed lesson failed");
+    } on DioError {
+      debugPrint("get ungraded lessons failed");
     }
     return null;
   }
 
   @action
-  Future PostLessonRate(int memberId, int lessonId, double rate) async {
+  Future postLessonRate(int memberId, int lessonId, double rate) async {
     try {
-      final response = await dio.post(Urls.PostLessonRate.rawValue,
+      final response = await dio.post(Urls.postLessonRate.rawValue,
           queryParameters: {
             'memberId': memberId,
             'lessonId': lessonId,
@@ -323,8 +321,8 @@ abstract class _HomeScreenViewModelBase with Store {
           debugPrint(response.data.toString());
       }
       debugPrint(response.data.toString());
-    } on DioError catch (e) {
-      print("last completed lesson failed");
+    } on DioError {
+      debugPrint("post lesson rate failed");
     }
     return null;
   }

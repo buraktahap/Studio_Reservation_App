@@ -8,10 +8,9 @@ import '../core/init/cache/locale_manager.dart';
 import '../models/branch_location_response.dart';
 import '../viewmodels/location_selection_view_model.dart';
 import 'lesson_detail_page.dart';
-import 'location_selection_view.dart';
 
 final String? userLocation =
-    LocaleManager.instance.getStringValue(PreferencesKeys.USER_LOCATION);
+    LocaleManager.instance.getStringValue(PreferencesKeys.userLocation);
 BranchLocationResponseModel _selectedCity =
     BranchLocationResponseModel(name: userLocation ?? "Select Branch");
 
@@ -24,14 +23,15 @@ class BookingView extends StatefulWidget {
 
 class _BookingViewState extends State<BookingView> {
   final int? userId =
-      LocaleManager.instance.getIntValue(PreferencesKeys.USER_ID);
+      LocaleManager.instance.getIntValue(PreferencesKeys.userId);
   var branches = [];
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await LocationSelectionViewModel().GetAllLocations();
+      await LocationSelectionViewModel().getAllLocations();
       branches = LocationSelectionViewModel().cities;
+      setState(() {});
     });
   }
 
@@ -57,7 +57,7 @@ class _BookingViewState extends State<BookingView> {
                 Expanded(
                   child: FutureBuilder(
                       future: BookingViewModel()
-                          .LessonsByBranchName(_selectedCity.name),
+                          .lessonsByBranchName(_selectedCity.name),
                       builder: (context, AsyncSnapshot snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
                           if (snapshot.hasData) {
@@ -70,19 +70,18 @@ class _BookingViewState extends State<BookingView> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => LessonDetailPage(
-                                          lesson_id: snapshot.data[index].id,
-                                          lesson_date: snapshot
+                                          lessonId: snapshot.data[index].id,
+                                          lessonDate: snapshot
                                               .data[index].startDate
                                               .toString(),
-                                          lesson_time: snapshot
+                                          lessonTime: snapshot
                                               .data[index].estimatedTime
                                               .toString(),
-                                          lesson_name:
-                                              snapshot.data[index].name,
-                                          lesson_description: snapshot
+                                          lessonName: snapshot.data[index].name,
+                                          lessonDescription: snapshot
                                                   .data[index].description ??
                                               " ",
-                                          lesson_level: snapshot
+                                          lessonLevel: snapshot
                                               .data[index].lessonLevel
                                               .toString(),
                                           onpressed: () async {
@@ -95,34 +94,7 @@ class _BookingViewState extends State<BookingView> {
                                       setState(() {});
                                     }),
                                     child: EnrollLessonCard(
-                                      lesson_name: snapshot.data[index].name,
-                                      lesson_date: snapshot
-                                          .data[index].startDate
-                                          .toString(),
-                                      lesson_time: snapshot
-                                          .data[index].estimatedTime
-                                          .toString(),
-                                      lesson_description: snapshot
-                                          .data[index].description
-                                          .toString(),
-                                      lesson_level: snapshot
-                                                  .data[index].lessonLevel
-                                                  .toString() ==
-                                              "1"
-                                          ? "Beginner"
-                                          : snapshot.data[0].lessonLevel
-                                                      .toString() ==
-                                                  "2"
-                                              ? "Intermediate"
-                                              : snapshot.data[0].lessonLevel
-                                                          .toString() ==
-                                                      "3"
-                                                  ? "Advanced"
-                                                  : "All",
-                                      lesson_id: snapshot.data[index].id,
-                                      isEnrolled:
-                                          snapshot.data[index].isEnrolled,
-                                      location: userLocation,
+                                      data: snapshot.data[index],
                                       buttonOrText: ActionButtons(
                                         lessonId: snapshot.data[index].id,
                                         align: Alignment.centerLeft,
@@ -198,7 +170,7 @@ class _BookingViewState extends State<BookingView> {
 
   List<DropdownMenuItem<String>> branchLocations(
       LocationSelectionViewModel viewModel) {
-    viewModel.GetAllLocations();
+    viewModel.getAllLocations();
     return viewModel.cities.map((item) {
       return DropdownMenuItem(
         value: item.name.toString(),

@@ -7,7 +7,7 @@ import '../core/init/cache/locale_manager.dart';
 HomeScreenViewModel viewModel = HomeScreenViewModel();
 
 class CompletedLessonCard extends StatefulWidget {
-  late var data;
+  var data;
   Widget? buttonBar;
   CompletedLessonCard({
     Key? key,
@@ -21,7 +21,7 @@ class CompletedLessonCard extends StatefulWidget {
 
 class _CompletedLessonCardState extends State<CompletedLessonCard> {
   final int? userId =
-      LocaleManager.instance.getIntValue(PreferencesKeys.USER_ID);
+      LocaleManager.instance.getIntValue(PreferencesKeys.userId);
 
   @override
   Widget build(BuildContext context) {

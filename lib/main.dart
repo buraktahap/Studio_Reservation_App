@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
               routes: {
                 '/': (context) => const LoginView(),
                 '/home': (context) => const HomeView(),
-                '/location': (context) => LocationSelectionView(),
+                '/location': (context) => const LocationSelectionView(),
                 '/splash': (context) => const SplashScreen(),
               },
               theme: lightTheme,

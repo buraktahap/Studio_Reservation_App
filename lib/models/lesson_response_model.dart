@@ -152,7 +152,7 @@ class Trainer {
   String? firstName;
   String? lastName;
   String? picture;
-  dynamic? description;
+  dynamic description;
 
   factory Trainer.fromJson(Map<String, dynamic> json) => Trainer(
         id: json["id"],

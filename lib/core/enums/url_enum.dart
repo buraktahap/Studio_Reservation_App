@@ -1,65 +1,65 @@
 enum Urls {
-  SignIn,
-  GetAllLocations,
-  MemberLocationUpdate,
-  GetAllLessons,
-  LessonsByBranchName,
-  Enroll,
-  GetMemberById,
-  CheckInLessonDetails,
-  GetLessonById,
-  CheckIn,
-  EnrollCancel,
-  ReservationList,
-  GetMemberLessonsByMemberIdByLessonId,
-  AddToWaitingQueue,
-  GetWaitingQueueIndexByMemberAndLessonId,
-  GetCompletedLesson,
-  GetCompletedLessonCount,
-  GetUngradedMemberLessons,
-  PostLessonRate,
+  signIn,
+  getAllLocations,
+  memberLocationUpdate,
+  getAllLessons,
+  lessonsByBranchName,
+  enroll,
+  getMemberById,
+  checkInLessonDetails,
+  getLessonById,
+  checkIn,
+  enrollCancel,
+  reservationList,
+  getMemberLessonsByMemberIdByLessonId,
+  addToWaitingQueue,
+  getWaitingQueueIndexByMemberAndLessonId,
+  getCompletedLesson,
+  getCompletedLessonCount,
+  getUngradedMemberLessons,
+  postLessonRate,
 }
 
 extension UrlsExtension on Urls {
   String get rawValue {
     switch (this) {
-      case Urls.SignIn:
+      case Urls.signIn:
         return "/Auth/SignIn";
-      case Urls.GetAllLocations:
+      case Urls.getAllLocations:
         return "/Branchs/GetAllBranches";
-      case Urls.MemberLocationUpdate:
+      case Urls.memberLocationUpdate:
         return "/Members/locationUpdate";
-      case Urls.GetAllLessons:
+      case Urls.getAllLessons:
         return "/Lessons/GetAllLessons";
-      case Urls.LessonsByBranchName:
+      case Urls.lessonsByBranchName:
         return "/Lessons/GetLessonsByBranchName";
-      case Urls.Enroll:
+      case Urls.enroll:
         return "/MemberLessons/Enroll";
-      case Urls.GetMemberById:
+      case Urls.getMemberById:
         return "/Members/getById";
-      case Urls.CheckInLessonDetails:
+      case Urls.checkInLessonDetails:
         return "/MemberLessons/CheckInLessonDetails";
-      case Urls.GetLessonById:
+      case Urls.getLessonById:
         return "/Lessons/GetLessonById";
-      case Urls.CheckIn:
+      case Urls.checkIn:
         return "/MemberLessons/CheckIn";
-      case Urls.EnrollCancel:
+      case Urls.enrollCancel:
         return "/MemberLessons/EnrollCancel";
-      case Urls.ReservationList:
+      case Urls.reservationList:
         return "/MemberLessons/ReservationList";
-      case Urls.GetMemberLessonsByMemberIdByLessonId:
+      case Urls.getMemberLessonsByMemberIdByLessonId:
         return "/MemberLessons/GetMemberLessonsByMemberIdByLessonId";
-      case Urls.AddToWaitingQueue:
+      case Urls.addToWaitingQueue:
         return "/MemberLessons/AddToWaitingQueue";
-      case Urls.GetWaitingQueueIndexByMemberAndLessonId:
+      case Urls.getWaitingQueueIndexByMemberAndLessonId:
         return "/MemberLessons/GetWaitingQueueIndexByMemberAndLessonId";
-      case Urls.GetCompletedLesson:
+      case Urls.getCompletedLesson:
         return "/MemberLessons/GetCompletedLesson";
-      case Urls.GetCompletedLessonCount:
+      case Urls.getCompletedLessonCount:
         return "/MemberLessons/GetCompletedLessonCount";
-      case Urls.GetUngradedMemberLessons:
+      case Urls.getUngradedMemberLessons:
         return "/MemberLessons/GetUngradedMemberLessons";
-      case Urls.PostLessonRate:
+      case Urls.postLessonRate:
         return "/MemberLessons/PostLessonRate";
     }
   }

@@ -68,29 +68,29 @@ class _UpcomingReservationListViewState
                                   itemCount: snapshot.data.length ?? 0,
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                    if (snapshot != null) {
+                                    if (snapshot.data != null) {
                                       return GestureDetector(
                                         onTap: () => Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 LessonDetailPage(
-                                              lesson_id: snapshot
+                                              lessonId: snapshot
                                                   .data[index].lesson.id,
-                                              lesson_date: snapshot
+                                              lessonDate: snapshot
                                                   .data[index].lesson.startDate
                                                   .toString(),
-                                              lesson_time: snapshot.data[index]
+                                              lessonTime: snapshot.data[index]
                                                   .lesson.estimatedTime
                                                   .toString(),
-                                              lesson_name: snapshot
+                                              lessonName: snapshot
                                                   .data[index].lesson.name,
-                                              lesson_description: snapshot
+                                              lessonDescription: snapshot
                                                       .data[index]
                                                       .lesson
                                                       .description ??
                                                   " ",
-                                              lesson_level: snapshot.data[index]
+                                              lessonLevel: snapshot.data[index]
                                                   .lesson.lessonLevel
                                                   .toString(),
                                               onpressed: () async {
@@ -103,33 +103,35 @@ class _UpcomingReservationListViewState
                                           setState(() {});
                                         }),
                                         child: CheckInLessonCard(
-                                            lesson_name: snapshot
+                                            lessonName: snapshot
                                                 .data[index].lesson.name,
-                                            lesson_date: snapshot.data[index].lesson.startDate
+                                            lessonDate: snapshot.data[index].lesson.startDate
                                                 .toString(),
-                                            lesson_time: snapshot.data[index]
+                                            lessonTime: snapshot.data[index]
                                                 .lesson.estimatedTime
                                                 .toString(),
-                                            lesson_description: snapshot
+                                            lessonDescription: snapshot
                                                 .data[index].lesson.description
                                                 .toString(),
-                                            lesson_level: snapshot.data[index]
+                                            lessonLevel: snapshot.data[index]
                                                         .lesson.lessonLevel
                                                         .toString() ==
                                                     "1"
                                                 ? "Beginner"
-                                                : snapshot.data[index].lesson.lessonLevel.toString() ==
+                                                : snapshot.data[index].lesson.lessonLevel
+                                                            .toString() ==
                                                         "2"
                                                     ? "Intermediate"
-                                                    : snapshot.data[index].lesson.lessonLevel.toString() ==
+                                                    : snapshot
+                                                                .data[index]
+                                                                .lesson
+                                                                .lessonLevel
+                                                                .toString() ==
                                                             "3"
                                                         ? "Advanced"
                                                         : "All",
-                                            lesson_id:
-                                                snapshot.data[index].lesson.id,
-                                            buttonBar: ActionButtons(
-                                                align: Alignment.centerLeft,
-                                                lessonId: snapshot.data[index].lesson.id),
+                                            lessonId: snapshot.data[index].lesson.id,
+                                            buttonBar: ActionButtons(align: Alignment.centerLeft, lessonId: snapshot.data[index].lesson.id),
                                             isChecked: snapshot.data[index].isCheckin),
                                       );
                                     } else {
