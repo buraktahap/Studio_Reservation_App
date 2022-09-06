@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:studio_reservation_app/components/completed_lesson_card.dart';
 import 'package:studio_reservation_app/components/text_lesson_card.dart';
@@ -8,7 +7,7 @@ import 'package:studio_reservation_app/core/base/base_viewmodel.dart';
 import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
 import 'package:studio_reservation_app/viewmodels/home_view_model.dart';
 import 'package:studio_reservation_app/views/completed_lessons_list.dart';
-import 'package:studio_reservation_app/views/ungraded_trainings.dart';
+import 'package:studio_reservation_app/views/ungraded_lessons.dart';
 import 'package:studio_reservation_app/views/upcoming_reservation_list_view.dart';
 import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/init/cache/locale_manager.dart';
@@ -179,8 +178,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     height: 20,
                   ),
                   FutureBuilder(
-                      future:
-                          HomeScreenViewModel().getCompletedLessons(userId!),
+                      future: HomeScreenViewModel().GetUngradedLessons(userId!),
                       builder: (context, AsyncSnapshot snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
                           if (snapshot.hasData) {
@@ -251,45 +249,28 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 }),
                                             child: CompletedLessonCard(
                                               data: snapshot.data[index],
-                                              buttonBar: RatingBar.builder(
-                                                itemSize: 30,
-                                                initialRating: 3,
-                                                minRating: 1,
-                                                direction: Axis.horizontal,
-                                                allowHalfRating: true,
-                                                itemCount: 5,
-                                                itemPadding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 4.0),
-                                                itemBuilder: (context, _) =>
-                                                    const Icon(
-                                                  Icons.star,
-                                                  color: Colors.amber,
-                                                ),
-                                                onRatingUpdate: (rating) {
-                                                  debugPrint(rating.toString());
-                                                },
-                                              ),
                                             ));
                                       }),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const UngradedTrainings(),
-                                        ),
-                                      ).then((_) => setState(() {}));
-                                    },
-                                    child: const Text(
-                                      "See All",
-                                      style: TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 253, 12, 146),
-                                          fontSize: 16),
-                                    ),
-                                  ),
+                                  snapshot.data.length != 0
+                                      ? TextButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const UngradedLessons(),
+                                              ),
+                                            ).then((_) => setState(() {}));
+                                          },
+                                          child: const Text(
+                                            "See All",
+                                            style: TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 253, 12, 146),
+                                                fontSize: 16),
+                                          ),
+                                        )
+                                      : const SizedBox(),
                                 ]);
                           } else {
                             return const TextLessonCard(
@@ -412,7 +393,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                 title: const Text("Completed Lessons"),
                                 children: [
                                   ListView.builder(
-                                      reverse: true,
                                       padding: const EdgeInsets.all(0),
                                       physics:
                                           const NeverScrollableScrollPhysics(),
@@ -468,7 +448,21 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   setState(() {});
                                                 }),
                                             child: CompletedLessonCard(
-                                                data: snapshot.data[index]));
+                                                data: snapshot.data[index],
+                                                buttonBar: RatingBarIndicator(
+                                                  itemBuilder:
+                                                      (context, index) =>
+                                                          const Icon(
+                                                    Icons.star,
+                                                    color: Colors.amber,
+                                                  ),
+                                                  rating: snapshot
+                                                          .data[index].rate ??
+                                                      0,
+                                                  itemCount: 5,
+                                                  itemSize: 20.0,
+                                                  direction: Axis.horizontal,
+                                                )));
                                       }),
                                   TextButton(
                                     onPressed: () {

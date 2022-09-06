@@ -32,7 +32,6 @@ class _BookingViewState extends State<BookingView> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await LocationSelectionViewModel().GetAllLocations();
       branches = LocationSelectionViewModel().cities;
-      setState(() {});
     });
   }
 

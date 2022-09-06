@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:studio_reservation_app/components/action_buttons.dart';
 import 'package:studio_reservation_app/components/checkin_lesson_card.dart';
+import 'package:studio_reservation_app/components/completed_lesson_card.dart';
 import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
 import '../components/background.dart';
 import '../core/base/base_viewmodel.dart';
@@ -8,14 +10,14 @@ import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/init/cache/locale_manager.dart';
 import 'lesson_detail_page.dart';
 
-class UngradedTrainings extends StatefulWidget {
-  const UngradedTrainings({Key? key}) : super(key: key);
+class UngradedLessons extends StatefulWidget {
+  const UngradedLessons({Key? key}) : super(key: key);
 
   @override
-  State<UngradedTrainings> createState() => _UngradedTrainingsState();
+  State<UngradedLessons> createState() => _UngradedLessonsState();
 }
 
-class _UngradedTrainingsState extends State<UngradedTrainings> {
+class _UngradedLessonsState extends State<UngradedLessons> {
   final int? userId =
       LocaleManager.instance.getIntValue(PreferencesKeys.USER_ID);
   @override
@@ -52,7 +54,7 @@ class _UngradedTrainingsState extends State<UngradedTrainings> {
                           child: Container(
                             alignment: Alignment.centerLeft,
                             child: const Text(
-                              "Ungraded Trainings",
+                              "Ungraded Lessons",
                               style: TextStyle(fontSize: 30),
                             ),
                           ),
@@ -60,7 +62,7 @@ class _UngradedTrainingsState extends State<UngradedTrainings> {
                       ],
                     ),
                     FutureBuilder(
-                        future: viewModel.getCompletedLessons(userId!),
+                        future: viewModel.GetUngradedLessons(userId!),
                         builder: (context, AsyncSnapshot snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.done) {
@@ -104,35 +106,41 @@ class _UngradedTrainingsState extends State<UngradedTrainings> {
                                         ).then((_) {
                                           setState(() {});
                                         }),
-                                        child: CheckInLessonCard(
-                                            lesson_name: snapshot
-                                                .data[index].lesson.name,
-                                            lesson_date: snapshot.data[index].lesson.startDate
-                                                .toString(),
-                                            lesson_time: snapshot.data[index]
-                                                .lesson.estimatedTime
-                                                .toString(),
-                                            lesson_description: snapshot
-                                                .data[index].lesson.description
-                                                .toString(),
-                                            lesson_level: snapshot.data[index]
-                                                        .lesson.lessonLevel
-                                                        .toString() ==
-                                                    "1"
-                                                ? "Beginner"
-                                                : snapshot.data[index].lesson.lessonLevel.toString() ==
-                                                        "2"
-                                                    ? "Intermediate"
-                                                    : snapshot.data[index].lesson.lessonLevel.toString() ==
-                                                            "3"
-                                                        ? "Advanced"
-                                                        : "All",
-                                            lesson_id:
-                                                snapshot.data[index].lesson.id,
-                                            buttonBar: ActionButtons(
-                                                align: Alignment.centerLeft,
-                                                lessonId: snapshot.data[index].lesson.id),
-                                            isChecked: snapshot.data[index].isCheckin),
+                                        child: CompletedLessonCard(
+                                            data: snapshot.data[index],
+                                            buttonBar: RatingBar.builder(
+                                              itemSize: 30,
+                                              initialRating:
+                                                  snapshot.data[index].rate ??
+                                                      0,
+                                              minRating: 1,
+                                              direction: Axis.horizontal,
+                                              allowHalfRating: true,
+                                              itemCount: 5,
+                                              itemPadding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 4.0),
+                                              itemBuilder: (context, _) =>
+                                                  const Icon(
+                                                Icons.star,
+                                                color: Colors.amber,
+                                              ),
+                                              onRatingUpdate: (rating) async {
+                                                debugPrint(rating.toString());
+                                                await HomeScreenViewModel()
+                                                    .PostLessonRate(
+                                                        userId!,
+                                                        snapshot.data[index]
+                                                            .lesson.id,
+                                                        rating);
+                                                // await Future.delayed(
+                                                //     const Duration(seconds: 5));
+                                                // await HomeScreenViewModel()
+                                                //     .GetUngradedLessons(userId!)
+                                                //     .then((value) =>
+                                                //         setState(() {}));
+                                              },
+                                            )),
                                       );
                                     } else {
                                       return const CircularProgressIndicator();

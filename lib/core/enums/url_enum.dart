@@ -16,6 +16,8 @@ enum Urls {
   GetWaitingQueueIndexByMemberAndLessonId,
   GetCompletedLesson,
   GetCompletedLessonCount,
+  GetUngradedMemberLessons,
+  PostLessonRate,
 }
 
 extension UrlsExtension on Urls {
@@ -55,6 +57,10 @@ extension UrlsExtension on Urls {
         return "/MemberLessons/GetCompletedLesson";
       case Urls.GetCompletedLessonCount:
         return "/MemberLessons/GetCompletedLessonCount";
+      case Urls.GetUngradedMemberLessons:
+        return "/MemberLessons/GetUngradedMemberLessons";
+      case Urls.PostLessonRate:
+        return "/MemberLessons/PostLessonRate";
     }
   }
 }

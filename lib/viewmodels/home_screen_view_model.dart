@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get_connect/http/src/status/http_status.dart';
 import 'package:mobx/mobx.dart';
 import 'package:studio_reservation_app/models/enroll_cancel_member_lesson_post.dart';
 import 'package:studio_reservation_app/models/last_completed_lesson_response.dart';
 import 'package:studio_reservation_app/models/lesson_response_model.dart';
 import 'package:studio_reservation_app/models/member_lesson_response.dart';
+import 'package:studio_reservation_app/models/member_lesson_with_lesson_included.dart';
 import 'package:studio_reservation_app/models/waiting_queue_index_response.dart';
 import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/constants/network/network_constants.dart';
@@ -255,13 +257,13 @@ abstract class _HomeScreenViewModelBase with Store {
         case HttpStatus.ok:
           final responseBody = await response.data;
           final completedLessons = responseBody
-              .map((e) => LastCompletedLessonResponse.fromJson(e))
+              .map((e) => MemberLessonWithLessonIncluded.fromJson(e))
               .toList();
 
           return completedLessons;
       }
     } on DioError catch (e) {
-      print("last completed lesson failed");
+      debugPrint("last completed lesson failed");
     }
     return null;
   }
@@ -281,6 +283,48 @@ abstract class _HomeScreenViewModelBase with Store {
       }
     } on DioError catch (e) {
       print("e");
+    }
+    return null;
+  }
+
+  @action
+  Future<List?> GetUngradedLessons(int memberId) async {
+    try {
+      final response = await dio
+          .get(Urls.GetUngradedMemberLessons.rawValue, queryParameters: {
+        'memberId': memberId,
+      });
+      switch (response.statusCode) {
+        case HttpStatus.ok:
+          final responseBody = await response.data;
+          final ungradedMemberLessons = responseBody
+              .map((e) => MemberLessonWithLessonIncluded.fromJson(e))
+              .toList();
+
+          return ungradedMemberLessons;
+      }
+    } on DioError catch (e) {
+      print("last completed lesson failed");
+    }
+    return null;
+  }
+
+  @action
+  Future PostLessonRate(int memberId, int lessonId, double rate) async {
+    try {
+      final response = await dio.post(Urls.PostLessonRate.rawValue,
+          queryParameters: {
+            'memberId': memberId,
+            'lessonId': lessonId,
+            'rate': rate
+          });
+      switch (response.statusCode) {
+        case HttpStatus.ok:
+          debugPrint(response.data.toString());
+      }
+      debugPrint(response.data.toString());
+    } on DioError catch (e) {
+      print("last completed lesson failed");
     }
     return null;
   }
