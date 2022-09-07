@@ -41,9 +41,10 @@ mixin _$BookingViewModel on _BookingViewModelBase, Store {
   }
 
   @override
-  ObservableFuture<List<GetLessonsByBranchNameWithEnroll>?> lessonsByBranchName(
-      String? Location) {
-    final _$future = super.lessonsByBranchName(Location);
+  ObservableFuture<List<GetLessonsByBranchNameWithEnroll>?>
+      lessonsByBranchNameandLessonLevel(String? Location, int lessonLevel) {
+    final _$future =
+        super.lessonsByBranchNameandLessonLevel(Location, lessonLevel);
     return ObservableFuture<List<GetLessonsByBranchNameWithEnroll>?>(_$future);
   }
 

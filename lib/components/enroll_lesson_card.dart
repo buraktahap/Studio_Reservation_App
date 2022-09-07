@@ -33,8 +33,8 @@ class _EnrollLessonCardState extends State<EnrollLessonCard> {
     var selectedTime = DateTime.parse(widget.data.estimatedTime.toString());
     String formattedTime = DateFormat('HH:mm').format(selectedTime);
     return Card(
-      elevation: 5,
-      shadowColor: Colors.black,
+      elevation: 10,
+      shadowColor: Colors.grey.withOpacity(0.3),
       color: Theme.of(context).primaryColor,
       margin: const EdgeInsets.fromLTRB(15, 0, 15, 20),
       clipBehavior: Clip.antiAlias,
@@ -58,7 +58,7 @@ class _EnrollLessonCardState extends State<EnrollLessonCard> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                              "${widget.data.name} - ${widget.data.lessonLevel}",
+                              "${widget.data.name} - ${widget.data.lessonLevel == 0 ? "Beginner" : widget.data.lessonLevel == 1 ? "Intermediate" : widget.data.lessonLevel == 2 ? "Advance" : "All"}",
                               style: const TextStyle(fontSize: 20)),
                         ]),
                     subtitle: Row(

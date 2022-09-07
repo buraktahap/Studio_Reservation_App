@@ -25,16 +25,18 @@ class LessonResponseModel {
     this.estimatedTime,
     this.trainerId,
     this.trainer,
+    this.memberLessons,
     this.classesId,
     this.classes,
     this.isEnrolled,
+    this.rate,
   });
 
   int? id;
   String? name;
   int? lessonType;
   int? lessonLevel;
-  String? description;
+  dynamic description;
   int? enrollQuota;
   int? waitingQueueQuota;
   int? enrollCount;
@@ -43,9 +45,11 @@ class LessonResponseModel {
   DateTime? estimatedTime;
   int? trainerId;
   Trainer? trainer;
+  List<dynamic>? memberLessons;
   int? classesId;
   Classes? classes;
   bool? isEnrolled;
+  double? rate;
 
   factory LessonResponseModel.fromJson(Map<String, dynamic> json) =>
       LessonResponseModel(
@@ -62,9 +66,11 @@ class LessonResponseModel {
         estimatedTime: DateTime.parse(json["estimatedTime"]),
         trainerId: json["trainerId"],
         trainer: Trainer.fromJson(json["trainer"]),
+        memberLessons: List<dynamic>.from(json["memberLessons"].map((x) => x)),
         classesId: json["classesId"],
         classes: Classes.fromJson(json["classes"]),
         isEnrolled: json["isEnrolled"],
+        rate: json["rate"].toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -81,9 +87,11 @@ class LessonResponseModel {
         "estimatedTime": estimatedTime?.toIso8601String(),
         "trainerId": trainerId,
         "trainer": trainer?.toJson(),
+        "memberLessons": List<dynamic>.from(memberLessons?.map((x) => x) ?? []),
         "classesId": classesId,
         "classes": classes?.toJson(),
         "isEnrolled": isEnrolled,
+        "rate": rate,
       };
 }
 

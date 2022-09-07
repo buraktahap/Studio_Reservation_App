@@ -44,8 +44,8 @@ class _CheckInLessonCardState extends State<CheckInLessonCard> {
     var selectedTime = DateTime.parse(widget.lessonTime);
     String formattedTime = DateFormat('HH:mm').format(selectedTime);
     return Card(
-      elevation: 5,
-      shadowColor: Colors.black,
+      elevation: 10,
+      shadowColor: Colors.grey.withOpacity(0.3),
       color: Theme.of(context).primaryColor,
       margin: const EdgeInsets.fromLTRB(15, 10, 15, 10),
       clipBehavior: Clip.antiAlias,

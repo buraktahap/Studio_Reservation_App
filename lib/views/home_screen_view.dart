@@ -149,17 +149,17 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                             lessonLevel: snapshot
                                                         .data.lesson.lessonLevel
                                                         .toString() ==
-                                                    "1"
+                                                    "0"
                                                 ? "Beginner"
                                                 : snapshot.data.lesson
                                                             .lessonLevel
                                                             .toString() ==
-                                                        "2"
+                                                        "1"
                                                     ? "Intermediate"
                                                     : snapshot.data.lesson
                                                                 .lessonLevel
                                                                 .toString() ==
-                                                            "3"
+                                                            "2"
                                                         ? "Advanced"
                                                         : "All",
                                             lessonId: snapshot.data.lesson.id,
@@ -248,16 +248,16 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                           lessonLevel: snapshot
                                                       .data.lesson.lessonLevel
                                                       .toString() ==
-                                                  "1"
+                                                  "0"
                                               ? "Beginner"
                                               : snapshot.data.lesson.lessonLevel
                                                           .toString() ==
-                                                      "2"
+                                                      "1"
                                                   ? "Intermediate"
                                                   : snapshot.data.lesson
                                                               .lessonLevel
                                                               .toString() ==
-                                                          "3"
+                                                          "2"
                                                       ? "Advanced"
                                                       : "All",
                                           lessonId: snapshot.data.lesson.id,
@@ -362,14 +362,14 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                                                   .lesson
                                                                   .lessonLevel
                                                                   .toString() ==
-                                                              "1"
+                                                              "0"
                                                           ? "Beginner"
                                                           : snapshot
                                                                       .data[0]
                                                                       .lesson
                                                                       .lessonLevel
                                                                       .toString() ==
-                                                                  "2"
+                                                                  "1"
                                                               ? "Intermediate"
                                                               : snapshot
                                                                           .data[
@@ -377,7 +377,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                                                           .lesson
                                                                           .lessonLevel
                                                                           .toString() ==
-                                                                      "3"
+                                                                      "2"
                                                                   ? "Advanced"
                                                                   : "All",
                                                       lessonId: snapshot

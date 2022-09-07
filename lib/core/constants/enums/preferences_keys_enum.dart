@@ -12,5 +12,5 @@ enum PreferencesKeys {
   userId,
   userLocation,
   checkinId,
-  isCheckin
+  isCheckin,
 }

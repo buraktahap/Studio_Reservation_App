@@ -31,10 +31,9 @@ class _CompletedLessonCardState extends State<CompletedLessonCard> {
         DateTime.parse(widget.data.lesson.estimatedTime.toString());
     String formattedTime = DateFormat('HH:mm').format(selectedTime);
     return Card(
-      elevation: 5,
-      shadowColor: Colors.black,
+      elevation: 10,
+      shadowColor: Colors.grey.withOpacity(0.3),
       color: Theme.of(context).primaryColor,
-      margin: const EdgeInsets.fromLTRB(15, 10, 15, 10),
       clipBehavior: Clip.antiAlias,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
@@ -56,7 +55,7 @@ class _CompletedLessonCardState extends State<CompletedLessonCard> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                              "${widget.data.lesson.name} - ${widget.data.lesson.lessonLevel}",
+                              "${widget.data.lesson.name} - ${widget.data.lesson.lessonLevel == 0 ? "Beginner" : widget.data.lesson.lessonLevel == 1 ? "Intermediate" : widget.data.lesson.lessonLevel == 2 ? "Advance" : "All"}",
                               style: const TextStyle(fontSize: 20)),
                         ]),
                     subtitle: Row(

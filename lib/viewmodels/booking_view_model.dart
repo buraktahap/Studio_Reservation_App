@@ -22,10 +22,11 @@ abstract class _BookingViewModelBase with Store {
   // @override
   // void setContext(BuildContext context) =>  this.context= context;
   void init() {
-    lessonsByBranchName(branchName);
+    lessonsByBranchNameandLessonLevel(branchName, lessonLevel);
   }
 
   String branchName = "";
+  int lessonLevel = 0;
   final dio = Dio(
     BaseOptions(
       baseUrl: NetworkConstants.baseUrl,
@@ -36,14 +37,17 @@ abstract class _BookingViewModelBase with Store {
   List lessons = [];
 
   @observable
-  Future<List<GetLessonsByBranchNameWithEnroll>?> lessonsByBranchName(
-      String? location) async {
+  Future<List<GetLessonsByBranchNameWithEnroll>?>
+      lessonsByBranchNameandLessonLevel(
+          String? location, int lessonLevel) async {
     try {
-      final response =
-          await dio.post(Urls.lessonsByBranchName.rawValue, queryParameters: {
-        'memberId': userId,
-        'branchName': location,
-      });
+      final response = await dio.post(
+          Urls.getLessonsByBranchNameAndLessonLevel.rawValue,
+          queryParameters: {
+            'memberId': userId,
+            'branchName': location,
+            'lessonLevel': lessonLevel
+          });
       switch (response.statusCode) {
         case HttpStatus.ok:
           final responseBody = await response.data;

@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:studio_reservation_app/components/action_buttons.dart';
 import 'package:studio_reservation_app/components/background.dart';
 import 'package:studio_reservation_app/core/base/base_viewmodel.dart';
@@ -180,6 +181,15 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                                                         ),
                                                       ),
                                                       const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      snapshot.data.rate != 0
+                                                          ? ratingBar(
+                                                              snapshot, 13)
+                                                          : const SizedBox(
+                                                              height: 0,
+                                                            ),
+                                                      const SizedBox(
                                                         height: 5,
                                                       ),
                                                       Align(
@@ -254,19 +264,16 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                                                                 "Level",
                                                             iconStatus: snapshot
                                                                         .data
-                                                                        .lessonLevel
-                                                                        .toString() ==
-                                                                    "1"
+                                                                        .lessonLevel ==
+                                                                    "0"
                                                                 ? "Beginner"
-                                                                : snapshot
-                                                                            .data
-                                                                            .lesson
+                                                                : snapshot.data
                                                                             .lessonLevel
                                                                             .toString() ==
-                                                                        "2"
+                                                                        "1"
                                                                     ? "Intermediate"
-                                                                    : snapshot.data.lesson.lessonLevel.toString() ==
-                                                                            "3"
+                                                                    : snapshot.data.lessonLevel.toString() ==
+                                                                            "2"
                                                                         ? "Advanced"
                                                                         : "All",
                                                           ),
@@ -284,7 +291,8 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                                                       ),
                                                       Divider(
                                                         color: Theme.of(context)
-                                                            .primaryColor
+                                                            .colorScheme
+                                                            .secondary
                                                             .withOpacity(0.1),
                                                         thickness: 1,
                                                       ),
@@ -387,6 +395,33 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                     ),
                   ],
                 ))));
+  }
+
+  Row ratingBar(AsyncSnapshot<dynamic> snapshot, int size) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        RatingBarIndicator(
+          itemBuilder: (context, index) => const Icon(
+            Icons.star,
+            color: Colors.amber,
+            
+          ),
+          rating:
+              snapshot.data.rate == null ? 0 : snapshot.data.rate.toDouble(),
+          itemCount: 5,
+          itemSize: size.toDouble(),
+          direction: Axis.horizontal,
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+        Text(
+          snapshot.data.rate.toString().substring(0, 3),
+          style: TextStyle(fontSize: size.toDouble()),
+        ),
+      ],
+    );
   }
 }
 

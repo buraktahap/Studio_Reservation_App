@@ -13,6 +13,7 @@ final String? userLocation =
     LocaleManager.instance.getStringValue(PreferencesKeys.userLocation);
 BranchLocationResponseModel _selectedCity =
     BranchLocationResponseModel(name: userLocation ?? "Select Branch");
+int? LessonLevel = 0;
 
 class BookingView extends StatefulWidget {
   const BookingView({Key? key}) : super(key: key);
@@ -54,10 +55,12 @@ class _BookingViewState extends State<BookingView> {
                   padding: const EdgeInsets.fromLTRB(15, 45, 15, 0),
                   child: cities(locationViewModel),
                 ),
+                const StackOver(),
                 Expanded(
                   child: FutureBuilder(
                       future: BookingViewModel()
-                          .lessonsByBranchName(_selectedCity.name),
+                          .lessonsByBranchNameandLessonLevel(
+                              _selectedCity.name, LessonLevel!),
                       builder: (context, AsyncSnapshot snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
                           if (snapshot.hasData) {
@@ -190,5 +193,118 @@ class _BookingViewState extends State<BookingView> {
         // child: Text(item.name.toString()),
       );
     }).toList();
+  }
+}
+
+//TabBar Class
+
+class StackOver extends StatefulWidget {
+  const StackOver({Key? key}) : super(key: key);
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _StackOverState createState() => _StackOverState();
+}
+
+class _StackOverState extends State<StackOver>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(
+      length: 4,
+      initialIndex: LessonLevel!,
+      vsync: this,
+    );
+
+    // Here is the addListener!
+    _tabController.addListener(_handleTabSelection);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        // give the tab bar a height [can change height to preferred height]
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Container(
+            height: 45,
+            decoration: BoxDecoration(
+              color: Colors.transparent.withOpacity(0.05),
+              borderRadius: BorderRadius.circular(
+                25.0,
+              ),
+            ),
+            child: TabBar(
+              labelPadding: const EdgeInsets.all(0),
+              controller: _tabController,
+              // give the indicator a decoration (color and border radius)
+              indicator: BoxDecoration(
+                borderRadius: BorderRadius.circular(
+                  30.0,
+                ),
+                gradient: const LinearGradient(
+                  begin: Alignment(0.9999982118745121, 0.999980688244732),
+                  end: Alignment(0.9999982118745121, -1.0000038146677073),
+                  stops: [0.0, 1.0],
+                  colors: [
+                    Color.fromARGB(255, 253, 12, 146),
+                    Color.fromARGB(255, 255, 170, 146)
+                  ],
+                ),
+              ),
+              labelColor: Colors.white,
+              unselectedLabelColor: Colors.black,
+
+              tabs: const [
+                // first tab [you can add an icon using the icon property]
+                Tab(
+                  text: 'Beginner',
+                ),
+
+                // second tab [you can add an icon using the icon property]
+                Tab(
+                  text: 'Mid',
+                ),
+                Tab(
+                  text: 'Advanced',
+                ),
+                Tab(
+                  text: 'All',
+                ),
+              ],
+            ),
+          ),
+        ),
+        // tab bar view here
+      ],
+    );
+  }
+
+  void _handleTabSelection() async {
+    if (_tabController.indexIsChanging) {
+      switch (_tabController.index) {
+        case 0:
+          LessonLevel = 0;
+          _tabController.index = 0;
+          setState(() {});
+
+          break;
+        case 1:
+          LessonLevel = 1;
+          _tabController.index = 1;
+          setState(() {});
+          break;
+        case 2:
+          LessonLevel = 2;
+          setState(() {
+            _tabController.index = 2;
+          });
+          break;
+      }
+    }
   }
 }

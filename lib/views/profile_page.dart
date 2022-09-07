@@ -77,105 +77,176 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               ),
                               const SizedBox(
-                                height: 30,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text("Member Type : ",
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                      )),
-                                  Text(
-                                      snapshot.data!.memberType == 1
-                                          ? "Online"
-                                          : "Onsite",
-                                      style: const TextStyle(
-                                        fontSize: 15,
-                                      )),
-                                ],
-                              ),
-                              const SizedBox(height: 10),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text("Subscription Type: ",
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                      )),
-                                  Text(
-                                      snapshot.data!.subscriptions.subsType == 0
-                                          ? "3 Months"
-                                          : snapshot.data!.subscriptions
-                                                      .subsType ==
-                                                  1
-                                              ? "6 Months"
-                                              : "12 Months",
-                                      style: const TextStyle(
-                                        fontSize: 15,
-                                      )),
-                                ],
-                              ),
-                              const SizedBox(
                                 height: 10,
                               ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text("Subscription Expire Date:",
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                      )),
-                                  Text(DateFormat('dd-MM-yyyy  HH:mm').format(
-                                      DateTime.parse(snapshot
-                                          .data.subscriptions.endDate
-                                          .toString()))),
-                                ],
-                              )
+                              FutureBuilder(
+                                  future: HomeScreenViewModel()
+                                      .getCompletedLessonCount(userId!),
+                                  builder: (context, AsyncSnapshot snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.done) {
+                                      return Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          snapshot.hasData
+                                              ? RichText(
+                                                  text: TextSpan(
+                                                    text: "You have completed ",
+                                                    style: const TextStyle(
+                                                        color: Colors.green,
+                                                        fontSize: 16),
+                                                    children: <TextSpan>[
+                                                      TextSpan(
+                                                        text:
+                                                            "${snapshot.data} ",
+                                                        style: const TextStyle(
+                                                          color: Colors.green,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      const TextSpan(
+                                                          text: "lessons 🥳"),
+                                                    ],
+                                                  ),
+                                                )
+                                              : const Text(
+                                                  "You haven't completed any lessons yet",
+                                                  style: TextStyle(
+                                                      color: Colors.green,
+                                                      fontSize: 16),
+                                                ),
+                                        ],
+                                      );
+                                    } else {
+                                      return const CircularProgressIndicator();
+                                    }
+                                  }),
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              ExpansionTile(
+                                  tilePadding: const EdgeInsets.all(0),
+                                  collapsedTextColor:
+                                      Theme.of(context).colorScheme.secondary,
+                                  textColor:
+                                      Theme.of(context).colorScheme.secondary,
+                                  title: const Text("Member Details"),
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          alignment: Alignment.centerRight,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.4,
+                                          child: const Text("Member Type: ",
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                              )),
+                                        ),
+                                        Container(
+                                          alignment: Alignment.centerLeft,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.4,
+                                          child: Text(
+                                              snapshot.data!.memberType == 1
+                                                  ? " Online"
+                                                  : " Onsite",
+                                              style: const TextStyle(
+                                                fontSize: 15,
+                                              )),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          alignment: Alignment.centerRight,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.4,
+                                          child:
+                                              const Text("Subscription Type: ",
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold,
+                                                  )),
+                                        ),
+                                        Container(
+                                          alignment: Alignment.centerLeft,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.4,
+                                          child: Text(
+                                              snapshot.data!.subscriptions
+                                                          .subsType ==
+                                                      0
+                                                  ? " 3 Months"
+                                                  : snapshot.data!.subscriptions
+                                                              .subsType ==
+                                                          1
+                                                      ? " 6 Months"
+                                                      : " 12 Months",
+                                              style: const TextStyle(
+                                                fontSize: 15,
+                                              )),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          alignment: Alignment.centerRight,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.4,
+                                          child: const Text("Expire Date: ",
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                              )),
+                                        ),
+                                        Container(
+                                          alignment: Alignment.centerLeft,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.4,
+                                          child: Text(
+                                              DateFormat(' dd-MM-yyyy  HH:mm')
+                                                  .format(DateTime.parse(
+                                                      snapshot.data
+                                                          .subscriptions.endDate
+                                                          .toString()))),
+                                        ),
+                                      ],
+                                    )
+                                  ]),
                             ],
                           );
                         }
                       }
                       return const CircularProgressIndicator();
                     },
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  FutureBuilder(
-                      future: HomeScreenViewModel()
-                          .getCompletedLessonCount(userId!),
-                      builder: (context, AsyncSnapshot snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text("Completed Lesson Count : ",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                  )),
-                              Text(
-                                  snapshot.hasData
-                                      ? snapshot.data.toString()
-                                      : "0",
-                                  style: const TextStyle(
-                                    fontSize: 15,
-                                  )),
-                            ],
-                          );
-                        } else {
-                          return const CircularProgressIndicator();
-                        }
-                      }),
-                  const SizedBox(
-                    height: 20,
                   ),
                   FutureBuilder(
                       future: HomeScreenViewModel().getUngradedLessons(userId!),

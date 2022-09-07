@@ -116,18 +116,18 @@ class _UpcomingReservationListViewState
                                             lessonLevel: snapshot.data[index]
                                                         .lesson.lessonLevel
                                                         .toString() ==
-                                                    "1"
+                                                    "0"
                                                 ? "Beginner"
                                                 : snapshot.data[index].lesson.lessonLevel
                                                             .toString() ==
-                                                        "2"
+                                                        "1"
                                                     ? "Intermediate"
                                                     : snapshot
                                                                 .data[index]
                                                                 .lesson
                                                                 .lessonLevel
                                                                 .toString() ==
-                                                            "3"
+                                                            "2"
                                                         ? "Advanced"
                                                         : "All",
                                             lessonId: snapshot.data[index].lesson.id,

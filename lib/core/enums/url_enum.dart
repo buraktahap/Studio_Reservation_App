@@ -3,7 +3,7 @@ enum Urls {
   getAllLocations,
   memberLocationUpdate,
   getAllLessons,
-  lessonsByBranchName,
+  getLessonsByBranchNameAndLessonLevel,
   enroll,
   getMemberById,
   checkInLessonDetails,
@@ -31,8 +31,8 @@ extension UrlsExtension on Urls {
         return "/Members/locationUpdate";
       case Urls.getAllLessons:
         return "/Lessons/GetAllLessons";
-      case Urls.lessonsByBranchName:
-        return "/Lessons/GetLessonsByBranchName";
+      case Urls.getLessonsByBranchNameAndLessonLevel:
+        return "/Lessons/GetLessonsByBranchNameAndLessonLevel";
       case Urls.enroll:
         return "/MemberLessons/Enroll";
       case Urls.getMemberById:
