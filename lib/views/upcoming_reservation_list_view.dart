@@ -121,7 +121,7 @@ class _UpcomingReservationListViewState
                                                 : snapshot.data[index].lesson.lessonLevel
                                                             .toString() ==
                                                         "1"
-                                                    ? "Intermediate"
+                                                    ? "Mid"
                                                     : snapshot
                                                                 .data[index]
                                                                 .lesson

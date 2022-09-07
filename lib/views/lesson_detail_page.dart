@@ -271,7 +271,7 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                                                                             .lessonLevel
                                                                             .toString() ==
                                                                         "1"
-                                                                    ? "Intermediate"
+                                                                    ? "Mid"
                                                                     : snapshot.data.lessonLevel.toString() ==
                                                                             "2"
                                                                         ? "Advanced"
@@ -405,7 +405,6 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
           itemBuilder: (context, index) => const Icon(
             Icons.star,
             color: Colors.amber,
-            
           ),
           rating:
               snapshot.data.rate == null ? 0 : snapshot.data.rate.toDouble(),

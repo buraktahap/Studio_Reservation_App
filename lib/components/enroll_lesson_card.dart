@@ -58,7 +58,7 @@ class _EnrollLessonCardState extends State<EnrollLessonCard> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                              "${widget.data.name} - ${widget.data.lessonLevel == 0 ? "Beginner" : widget.data.lessonLevel == 1 ? "Intermediate" : widget.data.lessonLevel == 2 ? "Advance" : "All"}",
+                              "${widget.data.name} - ${widget.data.lessonLevel == 0 ? "Beginner" : widget.data.lessonLevel == 1 ? "Mid" : widget.data.lessonLevel == 2 ? "Advance" : "All"}",
                               style: const TextStyle(fontSize: 20)),
                         ]),
                     subtitle: Row(

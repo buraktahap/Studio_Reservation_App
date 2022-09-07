@@ -13,7 +13,8 @@ final String? userLocation =
     LocaleManager.instance.getStringValue(PreferencesKeys.userLocation);
 BranchLocationResponseModel _selectedCity =
     BranchLocationResponseModel(name: userLocation ?? "Select Branch");
-int? LessonLevel = 0;
+int? lessonLevel = 0;
+late TabController _tabController;
 
 class BookingView extends StatefulWidget {
   const BookingView({Key? key}) : super(key: key);
@@ -22,10 +23,12 @@ class BookingView extends StatefulWidget {
   State<BookingView> createState() => _BookingViewState();
 }
 
-class _BookingViewState extends State<BookingView> {
+class _BookingViewState extends State<BookingView>
+    with SingleTickerProviderStateMixin {
   final int? userId =
       LocaleManager.instance.getIntValue(PreferencesKeys.userId);
   var branches = [];
+
   @override
   void initState() {
     super.initState();
@@ -34,6 +37,14 @@ class _BookingViewState extends State<BookingView> {
       branches = LocationSelectionViewModel().cities;
       setState(() {});
     });
+    _tabController = TabController(
+      length: 4,
+      initialIndex: lessonLevel!,
+      vsync: this,
+    );
+
+    // Here is the addListener!
+    _tabController.addListener(_handleTabSelection);
   }
 
   final LocationSelectionViewModel locationViewModel =
@@ -55,12 +66,12 @@ class _BookingViewState extends State<BookingView> {
                   padding: const EdgeInsets.fromLTRB(15, 45, 15, 0),
                   child: cities(locationViewModel),
                 ),
-                const StackOver(),
+                Tabbar(),
                 Expanded(
                   child: FutureBuilder(
                       future: BookingViewModel()
                           .lessonsByBranchNameandLessonLevel(
-                              _selectedCity.name, LessonLevel!),
+                              _selectedCity.name, lessonLevel!),
                       builder: (context, AsyncSnapshot snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
                           if (snapshot.hasData) {
@@ -194,37 +205,10 @@ class _BookingViewState extends State<BookingView> {
       );
     }).toList();
   }
-}
 
 //TabBar Class
 
-class StackOver extends StatefulWidget {
-  const StackOver({Key? key}) : super(key: key);
-
-  @override
-  // ignore: library_private_types_in_public_api
-  _StackOverState createState() => _StackOverState();
-}
-
-class _StackOverState extends State<StackOver>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(
-      length: 4,
-      initialIndex: LessonLevel!,
-      vsync: this,
-    );
-
-    // Here is the addListener!
-    _tabController.addListener(_handleTabSelection);
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget Tabbar() {
     return Column(
       children: [
         // give the tab bar a height [can change height to preferred height]
@@ -288,18 +272,18 @@ class _StackOverState extends State<StackOver>
     if (_tabController.indexIsChanging) {
       switch (_tabController.index) {
         case 0:
-          LessonLevel = 0;
+          lessonLevel = 0;
           _tabController.index = 0;
           setState(() {});
 
           break;
         case 1:
-          LessonLevel = 1;
+          lessonLevel = 1;
           _tabController.index = 1;
           setState(() {});
           break;
         case 2:
-          LessonLevel = 2;
+          lessonLevel = 2;
           setState(() {
             _tabController.index = 2;
           });

@@ -55,7 +55,7 @@ class _CompletedLessonCardState extends State<CompletedLessonCard> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                              "${widget.data.lesson.name} - ${widget.data.lesson.lessonLevel == 0 ? "Beginner" : widget.data.lesson.lessonLevel == 1 ? "Intermediate" : widget.data.lesson.lessonLevel == 2 ? "Advance" : "All"}",
+                              "${widget.data.lesson.name} - ${widget.data.lesson.lessonLevel == 0 ? "Beginner" : widget.data.lesson.lessonLevel == 1 ? "Mid" : widget.data.lesson.lessonLevel == 2 ? "Advance" : "All"}",
                               style: const TextStyle(fontSize: 20)),
                         ]),
                     subtitle: Row(

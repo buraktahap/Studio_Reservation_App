@@ -155,7 +155,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                                             .lessonLevel
                                                             .toString() ==
                                                         "1"
-                                                    ? "Intermediate"
+                                                    ? "Mid"
                                                     : snapshot.data.lesson
                                                                 .lessonLevel
                                                                 .toString() ==
@@ -253,7 +253,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                               : snapshot.data.lesson.lessonLevel
                                                           .toString() ==
                                                       "1"
-                                                  ? "Intermediate"
+                                                  ? "Mid"
                                                   : snapshot.data.lesson
                                                               .lessonLevel
                                                               .toString() ==
@@ -370,7 +370,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                                                       .lessonLevel
                                                                       .toString() ==
                                                                   "1"
-                                                              ? "Intermediate"
+                                                              ? "Mid"
                                                               : snapshot
                                                                           .data[
                                                                               0]
