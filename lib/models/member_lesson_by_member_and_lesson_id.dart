@@ -4,21 +4,20 @@
 
 import 'dart:convert';
 
-List<MemberLessonByMemberAndLessonId> memberLessonByMemberAndLessonIdFromJson(
+MemberLessonByMemberAndLessonId memberLessonByMemberAndLessonIdFromJson(
         String str) =>
-    List<MemberLessonByMemberAndLessonId>.from(json
-        .decode(str)
-        .map((x) => MemberLessonByMemberAndLessonId.fromJson(x)));
+    MemberLessonByMemberAndLessonId.fromJson(json.decode(str));
 
 String memberLessonByMemberAndLessonIdToJson(
-        List<MemberLessonByMemberAndLessonId> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+        MemberLessonByMemberAndLessonId data) =>
+    json.encode(data.toJson());
 
 class MemberLessonByMemberAndLessonId {
   MemberLessonByMemberAndLessonId({
     this.isEnrolled,
     this.isCheckin,
     this.isCompleted,
+    this.rate,
     this.memberId,
     this.member,
     this.lessonId,
@@ -29,6 +28,7 @@ class MemberLessonByMemberAndLessonId {
   bool? isEnrolled;
   bool? isCheckin;
   bool? isCompleted;
+  double? rate;
   int? memberId;
   dynamic member;
   int? lessonId;
@@ -40,6 +40,7 @@ class MemberLessonByMemberAndLessonId {
         isEnrolled: json["isEnrolled"],
         isCheckin: json["isCheckin"],
         isCompleted: json["isCompleted"],
+        rate: json["rate"]?.toDouble(),
         memberId: json["memberId"],
         member: json["member"],
         lessonId: json["lessonId"],
@@ -51,6 +52,7 @@ class MemberLessonByMemberAndLessonId {
         "isEnrolled": isEnrolled,
         "isCheckin": isCheckin,
         "isCompleted": isCompleted,
+        "rate": rate,
         "memberId": memberId,
         "member": member,
         "lessonId": lessonId,
@@ -66,12 +68,14 @@ class Lesson {
     this.lessonType,
     this.lessonLevel,
     this.description,
+    this.rate,
     this.enrollQuota,
     this.waitingQueueQuota,
     this.startDate,
     this.estimatedTime,
     this.trainerId,
     this.trainer,
+    this.memberLessons,
     this.classesId,
     this.classes,
     this.enrollCount,
@@ -83,18 +87,20 @@ class Lesson {
   String? name;
   int? lessonType;
   int? lessonLevel;
-  String? description;
+  dynamic description;
+  double? rate;
   int? enrollQuota;
   int? waitingQueueQuota;
   DateTime? startDate;
   DateTime? estimatedTime;
   int? trainerId;
   dynamic trainer;
+  List<dynamic>? memberLessons;
   int? classesId;
   dynamic classes;
   int? enrollCount;
   int? waitingQueueCount;
-  dynamic waitingQueues;
+  List<dynamic>? waitingQueues;
 
   factory Lesson.fromJson(Map<String, dynamic> json) => Lesson(
         id: json["id"],
@@ -102,6 +108,7 @@ class Lesson {
         lessonType: json["lessonType"],
         lessonLevel: json["lessonLevel"],
         description: json["description"],
+        rate: json["rate"]?.toDouble(),
         enrollQuota: json["enrollQuota"],
         waitingQueueQuota: json["waitingQueueQuota"],
         startDate: DateTime.parse(json["startDate"]),
@@ -112,7 +119,7 @@ class Lesson {
         classes: json["classes"],
         enrollCount: json["enrollCount"],
         waitingQueueCount: json["waitingQueueCount"],
-        waitingQueues: json["waitingQueues"],
+        waitingQueues: List<dynamic>.from(json["waitingQueues"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -121,6 +128,7 @@ class Lesson {
         "lessonType": lessonType,
         "lessonLevel": lessonLevel,
         "description": description,
+        "rate": rate,
         "enrollQuota": enrollQuota,
         "waitingQueueQuota": waitingQueueQuota,
         "startDate": startDate?.toIso8601String(),
@@ -131,6 +139,6 @@ class Lesson {
         "classes": classes,
         "enrollCount": enrollCount,
         "waitingQueueCount": waitingQueueCount,
-        "waitingQueues": waitingQueues,
+        "waitingQueues": List<dynamic>.from(waitingQueues?.map((x) => x) ?? []),
       };
 }

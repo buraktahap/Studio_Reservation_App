@@ -13,7 +13,7 @@ final String? userLocation =
     LocaleManager.instance.getStringValue(PreferencesKeys.userLocation);
 BranchLocationResponseModel _selectedCity =
     BranchLocationResponseModel(name: userLocation ?? "Select Branch");
-int? lessonLevel = 0;
+int? lessonLevel = 3;
 late TabController _tabController;
 
 class BookingView extends StatefulWidget {
@@ -118,13 +118,13 @@ class _BookingViewState extends State<BookingView>
                                 });
                           }
                           return Padding(
-                            padding: const EdgeInsets.fromLTRB(15, 45, 15, 0),
+                            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                             child: Container(
                               width: MediaQuery.of(context).size.width,
                               height: MediaQuery.of(context).size.height * 0.75,
                               alignment: Alignment.center,
                               child: Text(
-                                "${_selectedCity.name.toString()} doesn't have any lesson at the moment. Please check later.",
+                                "${_selectedCity.name.toString()} doesn't have any ${lessonLevel == 0 ? "Beginner level" : lessonLevel == 1 ? "Mid level" : lessonLevel == 2 ? "Advanced level" : ""} lesson at the moment. Please check later.",
                                 style: const TextStyle(fontSize: 20),
                                 textAlign: TextAlign.center,
                               ),
@@ -286,6 +286,12 @@ class _BookingViewState extends State<BookingView>
           lessonLevel = 2;
           setState(() {
             _tabController.index = 2;
+          });
+          break;
+        case 3:
+          lessonLevel = 3;
+          setState(() {
+            _tabController.index = 3;
           });
           break;
       }

@@ -5,14 +5,14 @@ class ColoredButtonWithSize extends StatefulWidget {
       {Key? key,
       required this.text,
       required this.onPressed,
-      required this.width,
-      required this.height})
+      this.width,
+      this.height})
       : super(key: key);
 
   final String text;
   final VoidCallback onPressed;
-  final double width;
-  final double height;
+  final double? width;
+  final double? height;
 
   @override
   State<ColoredButtonWithSize> createState() => _ColoredButtonWithSizeState();
@@ -24,8 +24,8 @@ class _ColoredButtonWithSizeState extends State<ColoredButtonWithSize> {
     return GestureDetector(
       onTap: widget.onPressed,
       child: Container(
-        width: 150,
-        height: 35,
+        width: widget.width ?? 150,
+        height: widget.height ?? 35,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30.0),
           gradient: const LinearGradient(

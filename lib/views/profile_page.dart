@@ -35,7 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
       onPageBuilder: (BuildContext context, HomeViewModel viewModel) =>
           SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 45, 20, 80),
+          padding: const EdgeInsets.fromLTRB(10, 45, 10, 80),
           child: Center(
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -55,7 +55,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border: Border.all(
-                                      color: const Color(0xffFF3E85),
+                                      color: const Color(0xffFF3E85)
+                                          .withOpacity(0.8),
                                       width: 3,
                                     ),
                                   ),
@@ -92,7 +93,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           snapshot.hasData
                                               ? RichText(
                                                   text: TextSpan(
-                                                    text: "You have completed ",
+                                                    text: "Completed ",
                                                     style: const TextStyle(
                                                         color: Colors.green,
                                                         fontSize: 16),
@@ -107,7 +108,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                         ),
                                                       ),
                                                       const TextSpan(
-                                                          text: "lessons 🥳"),
+                                                          text: "lessons  ✔"),
                                                     ],
                                                   ),
                                                 )
@@ -127,6 +128,11 @@ class _ProfilePageState extends State<ProfilePage> {
                                 height: 30,
                               ),
                               ExpansionTile(
+                                  leading: Image.asset(
+                                    "assets/images/member_details.png",
+                                    width: 30,
+                                    height: 30,
+                                  ),
                                   tilePadding: const EdgeInsets.all(0),
                                   collapsedTextColor:
                                       Theme.of(context).colorScheme.secondary,
@@ -231,12 +237,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   .size
                                                   .width *
                                               0.4,
-                                          child: Text(
-                                              DateFormat(' dd-MM-yyyy  HH:mm')
-                                                  .format(DateTime.parse(
-                                                      snapshot.data
-                                                          .subscriptions.endDate
-                                                          .toString()))),
+                                          child: Text(DateFormat(' dd-MM-yyyy')
+                                              .format(DateTime.parse(snapshot
+                                                  .data.subscriptions.endDate
+                                                  .toString()))),
                                         ),
                                       ],
                                     )
@@ -254,6 +258,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         if (snapshot.connectionState == ConnectionState.done) {
                           if (snapshot.hasData) {
                             return ExpansionTile(
+                                leading: Image.asset(
+                                  "assets/images/ungraded_lessons.png",
+                                  width: 30,
+                                  height: 30,
+                                ),
                                 tilePadding: const EdgeInsets.all(0),
                                 collapsedTextColor:
                                     Theme.of(context).colorScheme.secondary,
@@ -319,6 +328,66 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 }),
                                             child: CompletedLessonCard(
                                               data: snapshot.data[index],
+                                              buttonBar: snapshot
+                                                          .data[index].rate ==
+                                                      null
+                                                  ? RatingBar.builder(
+                                                      allowHalfRating: true,
+                                                      itemSize: 30,
+                                                      initialRating: snapshot
+                                                              .data[index]
+                                                              .rate ??
+                                                          0,
+                                                      minRating: 1,
+                                                      direction:
+                                                          Axis.horizontal,
+                                                      itemCount: 5,
+                                                      itemPadding:
+                                                          const EdgeInsets
+                                                                  .symmetric(
+                                                              horizontal: 4.0),
+                                                      itemBuilder:
+                                                          (context, _) =>
+                                                              const Icon(
+                                                        Icons.star,
+                                                        color: Colors.amber,
+                                                      ),
+                                                      onRatingUpdate:
+                                                          (rating) async {
+                                                        debugPrint(
+                                                            rating.toString());
+                                                        await HomeScreenViewModel()
+                                                            .postLessonRate(
+                                                                userId!,
+                                                                snapshot
+                                                                    .data[index]
+                                                                    .lesson
+                                                                    .id,
+                                                                rating);
+                                                        // await Future.delayed(
+                                                        //     const Duration(seconds: 5));
+                                                        // await HomeScreenViewModel()
+                                                        //     .GetUngradedLessons(userId!)
+                                                        //     .then((value) =>
+                                                        //         setState(() {}));
+                                                      },
+                                                    )
+                                                  : RatingBarIndicator(
+                                                      itemBuilder:
+                                                          (context, index) =>
+                                                              const Icon(
+                                                        Icons.star,
+                                                        color: Colors.amber,
+                                                      ),
+                                                      rating: snapshot
+                                                              .data[index]
+                                                              .rate ??
+                                                          0,
+                                                      itemCount: 5,
+                                                      itemSize: 20.0,
+                                                      direction:
+                                                          Axis.horizontal,
+                                                    ),
                                             ));
                                       }),
                                   snapshot.data.length != 0
@@ -356,6 +425,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         if (snapshot.connectionState == ConnectionState.done) {
                           if (snapshot.hasData) {
                             return ExpansionTile(
+                                leading: Image.asset(
+                                  "assets/images/upcoming_lessons.png",
+                                  width: 30,
+                                  height: 30,
+                                ),
+                                childrenPadding: const EdgeInsets.all(0),
                                 tilePadding: const EdgeInsets.all(0),
                                 collapsedTextColor:
                                     Theme.of(context).colorScheme.secondary,
@@ -454,6 +529,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         if (snapshot.connectionState == ConnectionState.done) {
                           if (snapshot.hasData) {
                             return ExpansionTile(
+                                leading: Image.asset(
+                                  "assets/images/member_details.png",
+                                  width: 30,
+                                  height: 30,
+                                ),
                                 tilePadding: const EdgeInsets.all(0),
                                 collapsedTextColor:
                                     Theme.of(context).colorScheme.secondary,
@@ -471,66 +551,118 @@ class _ProfilePageState extends State<ProfilePage> {
                                           : snapshot.data.length,
                                       itemBuilder:
                                           (BuildContext context, int index) {
+                                        HomeScreenViewModel()
+                                            .getCompletedLessons(userId!);
                                         return GestureDetector(
-                                            onTap: () => Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        LessonDetailPage(
-                                                      lessonId: snapshot
-                                                          .data[index]
-                                                          .lesson
-                                                          .id,
-                                                      lessonDate: snapshot
-                                                          .data[index]
-                                                          .lesson
-                                                          .startDate
-                                                          .toString(),
-                                                      lessonTime: snapshot
-                                                          .data[index]
-                                                          .lesson
-                                                          .estimatedTime
-                                                          .toString(),
-                                                      lessonName: snapshot
-                                                          .data[index]
-                                                          .lesson
-                                                          .name,
-                                                      lessonDescription: snapshot
-                                                              .data[index]
-                                                              .lesson
-                                                              .description ??
-                                                          " ",
-                                                      lessonLevel: snapshot
-                                                          .data[index]
-                                                          .lesson
-                                                          .lessonLevel
-                                                          .toString(),
-                                                      onpressed: () async {
-                                                        Navigator.pop(
-                                                            context, true);
-                                                        setState(() {});
-                                                      },
-                                                    ),
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      LessonDetailPage(
+                                                    rate: snapshot
+                                                        .data[index].rate,
+                                                    lessonId: snapshot
+                                                        .data[index].lesson.id,
+                                                    lessonDate: snapshot
+                                                        .data[index]
+                                                        .lesson
+                                                        .startDate
+                                                        .toString(),
+                                                    lessonTime: snapshot
+                                                        .data[index]
+                                                        .lesson
+                                                        .estimatedTime
+                                                        .toString(),
+                                                    lessonName: snapshot
+                                                        .data[index]
+                                                        .lesson
+                                                        .name,
+                                                    lessonDescription: snapshot
+                                                            .data[index]
+                                                            .lesson
+                                                            .description ??
+                                                        " ",
+                                                    lessonLevel: snapshot
+                                                        .data[index]
+                                                        .lesson
+                                                        .lessonLevel
+                                                        .toString(),
+                                                    onpressed: () async {
+                                                      Navigator.pop(
+                                                          context, true);
+                                                      setState(() {});
+                                                    },
                                                   ),
-                                                ).then((_) {
-                                                  setState(() {});
-                                                }),
+                                                ),
+                                              ).then((_) {
+                                                setState(() {});
+                                              });
+                                            },
                                             child: CompletedLessonCard(
                                                 data: snapshot.data[index],
-                                                buttonBar: RatingBarIndicator(
-                                                  itemBuilder:
-                                                      (context, index) =>
-                                                          const Icon(
-                                                    Icons.star,
-                                                    color: Colors.amber,
-                                                  ),
-                                                  rating: snapshot
-                                                          .data[index].rate ??
-                                                      0,
-                                                  itemCount: 5,
-                                                  itemSize: 20.0,
-                                                  direction: Axis.horizontal,
-                                                )));
+                                                buttonBar: snapshot
+                                                            .data[index].rate ==
+                                                        null
+                                                    ? RatingBar.builder(
+                                                        allowHalfRating: true,
+                                                        itemSize: 30,
+                                                        initialRating: snapshot
+                                                                .data[index]
+                                                                .rate ??
+                                                            0,
+                                                        minRating: 1,
+                                                        direction:
+                                                            Axis.horizontal,
+                                                        itemCount: 5,
+                                                        itemPadding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                horizontal:
+                                                                    4.0),
+                                                        itemBuilder:
+                                                            (context, _) =>
+                                                                const Icon(
+                                                          Icons.star,
+                                                          color: Colors.amber,
+                                                        ),
+                                                        onRatingUpdate:
+                                                            (rating) async {
+                                                          debugPrint(rating
+                                                              .toString());
+                                                          await HomeScreenViewModel()
+                                                              .postLessonRate(
+                                                                  userId!,
+                                                                  snapshot
+                                                                      .data[
+                                                                          index]
+                                                                      .lesson
+                                                                      .id,
+                                                                  rating);
+                                                          // await Future.delayed(
+                                                          //     const Duration(seconds: 5));
+                                                          // await HomeScreenViewModel()
+                                                          //     .GetUngradedLessons(userId!)
+                                                          //     .then((value) =>
+                                                          //         setState(() {}));
+                                                        },
+                                                      )
+                                                    : RatingBarIndicator(
+                                                        itemBuilder:
+                                                            (context, index) =>
+                                                                const Icon(
+                                                          Icons.star,
+                                                          color: Colors.amber,
+                                                        ),
+                                                        rating: snapshot
+                                                                .data[index]
+                                                                .rate ??
+                                                            0,
+                                                        itemCount: 5,
+                                                        itemSize: 20.0,
+                                                        direction:
+                                                            Axis.horizontal,
+                                                      )));
                                       }),
                                   TextButton(
                                     onPressed: () {

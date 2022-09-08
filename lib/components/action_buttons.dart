@@ -37,8 +37,6 @@ class _ActionButtonsState extends State<ActionButtons> {
                       InkWell(
                         highlightColor: Colors.transparent,
                         child: ColoredButtonWithSize(
-                          height: 50,
-                          width: 150,
                           text: "Check In",
                           onPressed: () async {
                             HomeScreenViewModel().checkIn(widget.lessonId);
@@ -56,8 +54,6 @@ class _ActionButtonsState extends State<ActionButtons> {
                         overlayColor:
                             MaterialStateProperty.all(Colors.transparent),
                         child: ColoredButtonWithSize(
-                          height: 50,
-                          width: 150,
                           text: "Cancel",
                           onPressed: () async {
                             await HomeScreenViewModel()
@@ -112,8 +108,6 @@ class _ActionButtonsState extends State<ActionButtons> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             ColoredButtonWithSize(
-                              height: 50,
-                              width: 150,
                               text: "Enroll",
                               onPressed: () async {
                                 await BookingViewModel()
@@ -147,8 +141,8 @@ class _ActionButtonsState extends State<ActionButtons> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ColoredButtonWithSize(
-                              height: 50,
-                              width: 150,
+                              height: 35,
+                              width: 200,
                               text: "Join Waiting Queue",
                               onPressed: () async {
                                 await HomeScreenViewModel()

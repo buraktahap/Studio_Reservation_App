@@ -4,6 +4,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:studio_reservation_app/components/action_buttons.dart';
 import 'package:studio_reservation_app/components/background.dart';
 import 'package:studio_reservation_app/core/base/base_viewmodel.dart';
+import '../core/constants/enums/preferences_keys_enum.dart';
+import '../core/init/cache/locale_manager.dart';
 import '../viewmodels/home_screen_view_model.dart';
 
 Widget waitingList = Container();
@@ -16,11 +18,12 @@ class LessonDetailPage extends StatefulWidget {
   // final String lesson_image;
   final String lessonLevel;
   final String lessonTime;
-
+  double? rate;
   final VoidCallback onpressed;
 
-  const LessonDetailPage({
+  LessonDetailPage({
     Key? key,
+    this.rate,
     required this.lessonName,
     required this.lessonDescription,
     required this.lessonId,
@@ -35,6 +38,8 @@ class LessonDetailPage extends StatefulWidget {
 }
 
 class _LessonDetailPageState extends State<LessonDetailPage> {
+  final int? userId =
+      LocaleManager.instance.getIntValue(PreferencesKeys.userId);
   FutureBuilder<List> waitingListWidget() {
     return FutureBuilder(
         initialData: [waitingList],
@@ -183,12 +188,58 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                                                       const SizedBox(
                                                         height: 10,
                                                       ),
-                                                      snapshot.data.rate != 0
-                                                          ? ratingBar(
-                                                              snapshot, 13)
-                                                          : const SizedBox(
-                                                              height: 0,
-                                                            ),
+                                                      FutureBuilder(
+                                                          future: HomeScreenViewModel()
+                                                              .getMemberLessonByLessonAndMemberId(
+                                                                  widget
+                                                                      .lessonId),
+                                                          builder: (context,
+                                                              AsyncSnapshot
+                                                                  snapshot) {
+                                                            if (snapshot
+                                                                    .connectionState ==
+                                                                ConnectionState
+                                                                    .done) {
+                                                              return snapshot.data !=
+                                                                          null &&
+                                                                      snapshot.data
+                                                                              .rate ==
+                                                                          null
+                                                                  ? const SizedBox(
+                                                                      height: 0,
+                                                                    )
+                                                                  : snapshot.data !=
+                                                                          null
+                                                                      ? Row(
+                                                                          children: [
+                                                                              RatingBarIndicator(
+                                                                                itemBuilder: (context, index) => const Icon(
+                                                                                  Icons.star,
+                                                                                  color: Colors.amber,
+                                                                                ),
+                                                                                rating: snapshot.data.rate.toDouble(),
+                                                                                itemCount: 5,
+                                                                                itemSize: 20.0,
+                                                                                direction: Axis.horizontal,
+                                                                              ),
+                                                                              const SizedBox(
+                                                                                width: 10,
+                                                                              ),
+                                                                              Text(
+                                                                                snapshot.data.rate.toDouble().toString().substring(0, 3),
+                                                                                style: TextStyle(fontSize: 13.toDouble()),
+                                                                              ),
+                                                                            ])
+                                                                      : const SizedBox(
+                                                                          height:
+                                                                              0,
+                                                                        );
+                                                            } else {
+                                                              return const SizedBox(
+                                                                height: 0,
+                                                              );
+                                                            }
+                                                          }),
                                                       const SizedBox(
                                                         height: 5,
                                                       ),
@@ -395,32 +446,6 @@ class _LessonDetailPageState extends State<LessonDetailPage> {
                     ),
                   ],
                 ))));
-  }
-
-  Row ratingBar(AsyncSnapshot<dynamic> snapshot, int size) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        RatingBarIndicator(
-          itemBuilder: (context, index) => const Icon(
-            Icons.star,
-            color: Colors.amber,
-          ),
-          rating:
-              snapshot.data.rate == null ? 0 : snapshot.data.rate.toDouble(),
-          itemCount: 5,
-          itemSize: size.toDouble(),
-          direction: Axis.horizontal,
-        ),
-        const SizedBox(
-          width: 10,
-        ),
-        Text(
-          snapshot.data.rate.toString().substring(0, 3),
-          style: TextStyle(fontSize: size.toDouble()),
-        ),
-      ],
-    );
   }
 }
 
