@@ -58,9 +58,8 @@ class _LocationSelectionViewState extends State<LocationSelectionView> {
                               child: const Text(
                                   "Please select your branch to continue.",
                                   style: TextStyle(
-                                    fontSize: 19,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.normal,
-                                    fontFamily: 'Quicksand',
                                   )),
                             ),
                           ),
@@ -112,7 +111,11 @@ class _LocationSelectionViewState extends State<LocationSelectionView> {
             },
             hint: Padding(
               padding: const EdgeInsets.only(left: 10.0),
-              child: Text(_selectedCity.name.toString()),
+              child: Text(_selectedCity.name.toString(),
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.normal,
+                  )),
             ),
             alignment: Alignment.center,
             elevation: 16,
@@ -148,7 +151,8 @@ class _LocationSelectionViewState extends State<LocationSelectionView> {
     return viewModel.cities.map((item) {
       return DropdownMenuItem(
         value: item.name.toString(),
-        child: Text(item.name.toString()),
+        child: Text(item.name.toString(),
+            style: const TextStyle(fontWeight: FontWeight.w300)),
       );
     }).toList();
   }

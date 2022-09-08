@@ -11,7 +11,7 @@ final darkTheme = ThemeData(
 );
 
 final lightTheme = ThemeData(
-  fontFamily: GoogleFonts.raleway().fontFamily,
+  fontFamily: GoogleFonts.quicksand().fontFamily,
   cardTheme: const CardTheme(elevation: 5, shadowColor: Colors.black),
   shadowColor: const Color(0xffFF34C6),
   buttonTheme: const ButtonThemeData(
@@ -21,7 +21,7 @@ final lightTheme = ThemeData(
   textTheme: TextTheme(
     bodyText1: TextStyle(
       color: Colors.black,
-      fontFamily: GoogleFonts.raleway().fontFamily,
+      fontFamily: GoogleFonts.quicksand().fontFamily,
       fontWeight: FontWeight.w700,
     ),
   ),

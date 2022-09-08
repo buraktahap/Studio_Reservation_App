@@ -128,17 +128,22 @@ class _ProfilePageState extends State<ProfilePage> {
                                 height: 30,
                               ),
                               ExpansionTile(
-                                  leading: Image.asset(
-                                    "assets/images/member_details.png",
-                                    width: 30,
-                                    height: 30,
-                                  ),
                                   tilePadding: const EdgeInsets.all(0),
                                   collapsedTextColor:
                                       Theme.of(context).colorScheme.secondary,
                                   textColor:
                                       Theme.of(context).colorScheme.secondary,
-                                  title: const Text("Member Details"),
+                                  title: Row(
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/member_details.png",
+                                        width: 30,
+                                        height: 30,
+                                      ),
+                                      const SizedBox(width: 10),
+                                      const Text("Member Details"),
+                                    ],
+                                  ),
                                   children: [
                                     Row(
                                       mainAxisAlignment:
@@ -258,18 +263,26 @@ class _ProfilePageState extends State<ProfilePage> {
                         if (snapshot.connectionState == ConnectionState.done) {
                           if (snapshot.hasData) {
                             return ExpansionTile(
-                                leading: Image.asset(
-                                  "assets/images/ungraded_lessons.png",
-                                  width: 30,
-                                  height: 30,
-                                ),
+                                childrenPadding: const EdgeInsets.all(0),
                                 tilePadding: const EdgeInsets.all(0),
                                 collapsedTextColor:
                                     Theme.of(context).colorScheme.secondary,
                                 textColor:
                                     Theme.of(context).colorScheme.secondary,
-                                title: const Text(
-                                  "Ungraded Lessons",
+                                title: Row(
+                                  children: [
+                                    Image.asset(
+                                      "assets/images/ungraded_lessons.png",
+                                      width: 30,
+                                      height: 30,
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    const Text(
+                                      "Ungraded Lessons",
+                                    ),
+                                  ],
                                 ),
                                 children: [
                                   ListView.builder(
@@ -425,18 +438,25 @@ class _ProfilePageState extends State<ProfilePage> {
                         if (snapshot.connectionState == ConnectionState.done) {
                           if (snapshot.hasData) {
                             return ExpansionTile(
-                                leading: Image.asset(
-                                  "assets/images/upcoming_lessons.png",
-                                  width: 30,
-                                  height: 30,
-                                ),
                                 childrenPadding: const EdgeInsets.all(0),
                                 tilePadding: const EdgeInsets.all(0),
                                 collapsedTextColor:
                                     Theme.of(context).colorScheme.secondary,
                                 textColor:
                                     Theme.of(context).colorScheme.secondary,
-                                title: const Text("Upcoming Lessons"),
+                                title: Row(
+                                  children: [
+                                    Image.asset(
+                                      "assets/images/upcoming_lessons.png",
+                                      width: 30,
+                                      height: 30,
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    const Text("Upcoming Lessons"),
+                                  ],
+                                ),
                                 children: [
                                   ListView.builder(
                                       padding: const EdgeInsets.all(0),
@@ -529,17 +549,25 @@ class _ProfilePageState extends State<ProfilePage> {
                         if (snapshot.connectionState == ConnectionState.done) {
                           if (snapshot.hasData) {
                             return ExpansionTile(
-                                leading: Image.asset(
-                                  "assets/images/member_details.png",
-                                  width: 30,
-                                  height: 30,
-                                ),
+                                childrenPadding: const EdgeInsets.all(0),
                                 tilePadding: const EdgeInsets.all(0),
                                 collapsedTextColor:
                                     Theme.of(context).colorScheme.secondary,
                                 textColor:
                                     Theme.of(context).colorScheme.secondary,
-                                title: const Text("Completed Lessons"),
+                                title: Row(
+                                  children: [
+                                    Image.asset(
+                                      "assets/images/member_details.png",
+                                      width: 30,
+                                      height: 30,
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    const Text("Completed Lessons"),
+                                  ],
+                                ),
                                 children: [
                                   ListView.builder(
                                       padding: const EdgeInsets.all(0),

@@ -153,7 +153,8 @@ class _BookingViewState extends State<BookingView>
             _selectedCity.name.toString(),
             style: TextStyle(
                 color: Theme.of(context).textTheme.bodyText1?.color,
-                fontSize: 25),
+                fontSize: 25,
+                fontWeight: FontWeight.w300),
           ),
           alignment: AlignmentDirectional.topStart,
           elevation: 16,

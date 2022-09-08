@@ -57,7 +57,6 @@ class LoginViewState extends State<LoginView> {
                                 style: TextStyle(
                                   fontSize: 30,
                                   fontWeight: FontWeight.normal,
-                                  fontFamily: 'Quicksand',
                                 )),
                           ),
                         ),
@@ -69,7 +68,7 @@ class LoginViewState extends State<LoginView> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(30, 0, 0, 0),
+                          padding: const EdgeInsets.fromLTRB(30, 0, 20, 0),
                           child: Container(
                             alignment: Alignment.centerLeft,
                             child: const Text(
@@ -77,7 +76,6 @@ class LoginViewState extends State<LoginView> {
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.normal,
-                                  fontFamily: 'Quicksand',
                                 )),
                           ),
                         ),
