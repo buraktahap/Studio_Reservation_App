@@ -35,7 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
       onPageBuilder: (BuildContext context, HomeViewModel viewModel) =>
           SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 45, 10, 80),
+          padding: const EdgeInsets.fromLTRB(20, 45, 20, 80),
           child: Center(
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -558,7 +558,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 title: Row(
                                   children: [
                                     Image.asset(
-                                      "assets/images/member_details.png",
+                                      "assets/images/completed_lessons.png",
                                       width: 30,
                                       height: 30,
                                     ),

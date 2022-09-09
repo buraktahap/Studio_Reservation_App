@@ -36,6 +36,7 @@ class _PasswordFieldState extends State<PasswordField> {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(25, 10, 0, 10),
           child: TextFormField(
+              textInputAction: TextInputAction.done,
               obscureText: isObscure,
               controller: widget.controller,
               showCursor: true,

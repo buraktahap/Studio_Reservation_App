@@ -37,6 +37,7 @@ class _ActionButtonsState extends State<ActionButtons> {
                       InkWell(
                         highlightColor: Colors.transparent,
                         child: ColoredButtonWithSize(
+                          width: MediaQuery.of(context).size.width * 0.35,
                           text: "Check In",
                           onPressed: () async {
                             HomeScreenViewModel().checkIn(widget.lessonId);
@@ -54,6 +55,7 @@ class _ActionButtonsState extends State<ActionButtons> {
                         overlayColor:
                             MaterialStateProperty.all(Colors.transparent),
                         child: ColoredButtonWithSize(
+                          width: MediaQuery.of(context).size.width * 0.35,
                           text: "Cancel",
                           onPressed: () async {
                             await HomeScreenViewModel()

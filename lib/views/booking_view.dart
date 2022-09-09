@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:studio_reservation_app/components/enroll_lesson_Card.dart';
 import 'package:studio_reservation_app/core/base/view/base_view.dart';
@@ -63,10 +64,10 @@ class _BookingViewState extends State<BookingView>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(15, 45, 15, 0),
+                  padding: const EdgeInsets.fromLTRB(20, 45, 20, 10),
                   child: cities(locationViewModel),
                 ),
-                Tabbar(),
+                tabBar(),
                 Expanded(
                   child: FutureBuilder(
                       future: BookingViewModel()
@@ -118,15 +119,23 @@ class _BookingViewState extends State<BookingView>
                                 });
                           }
                           return Padding(
-                            padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                            padding: const EdgeInsets.fromLTRB(15, 45, 15, 0),
                             child: Container(
                               width: MediaQuery.of(context).size.width,
                               height: MediaQuery.of(context).size.height * 0.75,
                               alignment: Alignment.center,
-                              child: Text(
-                                "${_selectedCity.name.toString()} doesn't have any ${lessonLevel == 0 ? "Beginner level" : lessonLevel == 1 ? "Mid level" : lessonLevel == 2 ? "Advanced level" : ""} lesson at the moment. Please check later.",
-                                style: const TextStyle(fontSize: 20),
-                                textAlign: TextAlign.center,
+                              child: Column(
+                                children: [
+                                  Image.asset("assets/images/asset02.png"),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  Text(
+                                    "${_selectedCity.name.toString()} doesn't have any ${lessonLevel == 0 ? "Beginner level" : lessonLevel == 1 ? "Mid level" : lessonLevel == 2 ? "Advanced level" : ""} lesson at the moment. Please check later.",
+                                    style: const TextStyle(fontSize: 15),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
                               ),
                             ),
                           );
@@ -141,45 +150,47 @@ class _BookingViewState extends State<BookingView>
   }
 
   Widget cities(LocationSelectionViewModel viewModel) {
-    return GestureDetector(
-      onTap: () {},
-      child: ButtonTheme(
-        alignedDropdown: true,
-        child: DropdownButton(
-          underline: Container(),
-          isExpanded: false,
-          onTap: () {},
-          hint: Text(
-            _selectedCity.name.toString(),
-            style: TextStyle(
-                color: Theme.of(context).textTheme.bodyText1?.color,
-                fontSize: 25,
-                fontWeight: FontWeight.w300),
-          ),
-          alignment: AlignmentDirectional.topStart,
-          elevation: 16,
-          itemHeight: 60,
-          borderRadius: BorderRadius.circular(30),
-          style: TextStyle(
-              color: Theme.of(context).textTheme.bodyText1?.color,
-              fontSize: 18),
-          icon: Padding(
-            padding: const EdgeInsets.only(right: 30.0),
-            child: Icon(
-              Icons.expand_more,
-              color: Theme.of(context).textTheme.bodyText1?.color,
-            ),
-          ),
-          items: branchLocations(viewModel),
-          onChanged: (item) {
-            _selectedCity.name = item.toString();
-            BranchLocationResponseModel(
-              name: _selectedCity.name,
-            );
-            setState(() {});
-          },
+    return DropdownButton2(
+      underline: Container(),
+      buttonPadding: const EdgeInsets.only(left: 16),
+      dropdownWidth: MediaQuery.of(context).size.width * 0.4,
+      barrierColor: Colors.pinkAccent.withOpacity(0.1),
+      dropdownElevation: 15,
+      buttonHeight: 30,
+      dropdownDecoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment(0.9999982118745121, 0.999980688244732),
+          end: Alignment(0.9999982118745121, -1.0000038146677073),
+          stops: [0.0, 1.0],
+          colors: [
+            Color.fromARGB(255, 255, 74, 173),
+            Color.fromARGB(255, 253, 194, 178)
+          ],
         ),
+        borderRadius: BorderRadius.circular(20),
       ),
+      buttonElevation: 8,
+      isExpanded: false,
+      hint: Text(
+        _selectedCity.name.toString(),
+        style: TextStyle(
+            color: Theme.of(context).textTheme.bodyText1?.color,
+            fontSize: 25,
+            fontWeight: FontWeight.w300),
+      ),
+      itemHeight: 50,
+      icon: Icon(
+        Icons.expand_more,
+        color: Theme.of(context).textTheme.bodyText1?.color,
+      ),
+      items: branchLocations(viewModel),
+      onChanged: (item) {
+        _selectedCity.name = item.toString();
+        BranchLocationResponseModel(
+          name: _selectedCity.name,
+        );
+        setState(() {});
+      },
     );
   }
 
@@ -192,14 +203,11 @@ class _BookingViewState extends State<BookingView>
         child: item.name.toString() == _selectedCity.name.toString()
             ? Text(
                 item.name.toString(),
-                style: TextStyle(
-                    color: Theme.of(context).shadowColor, fontSize: 18),
+                style: const TextStyle(color: Colors.black, fontSize: 24),
               )
             : Text(
                 item.name.toString(),
-                style: TextStyle(
-                    color: Theme.of(context).textTheme.bodyText1?.color,
-                    fontSize: 18),
+                style: const TextStyle(color: Colors.white, fontSize: 24),
               ),
 
         // child: Text(item.name.toString()),
@@ -209,7 +217,7 @@ class _BookingViewState extends State<BookingView>
 
 //TabBar Class
 
-  Widget Tabbar() {
+  Widget tabBar() {
     return Column(
       children: [
         // give the tab bar a height [can change height to preferred height]
@@ -255,7 +263,7 @@ class _BookingViewState extends State<BookingView>
                   text: 'Mid',
                 ),
                 Tab(
-                  text: 'Advanced',
+                  text: 'Advance',
                 ),
                 Tab(
                   text: 'All',

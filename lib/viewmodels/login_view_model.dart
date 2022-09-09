@@ -78,42 +78,4 @@ abstract class _LoginViewModelBase with Store, BaseViewModel {
 
   @observable
   List cities = [];
-
-  // @observable
-  // Future<List<BranchLocationResponseModel>?> getAllLocations() async {
-  //   final response = await dio.get(Urls.GetAllLocations.rawValue);
-  //   switch (response.statusCode) {
-  //     case HttpStatus.ok:
-  //       final responseBody = await response.data;
-  //       if (responseBody is List) {
-  //         return cities = responseBody
-  //             .map((e) => BranchLocationResponseModel.fromJson(e))
-  //             .toList();
-  //       }
-  //       return Future.error(responseBody);
-  //   }
-  //   return null;
-  // }
-
-  // Future<void> login() async {
-  //   if (passwordController.text.isNotEmpty && emailController.text.isNotEmpty) {
-  //     var response = await http.post(
-  //         Uri.parse("https://192.168.1.38:7240/api/Member/LoginRequest"),
-  //         body: ({
-  //           'email': "admin@test.com",
-  //           'password': passwordController.text
-  //         }));
-  //     if (response.statusCode == 200) {
-  //       print("giriş başarılı");
-  //       Navigator.push(context,
-  //           MaterialPageRoute(builder: (context) => LocationSelectionView()));
-  //     } else {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //           const SnackBar(content: Text("Invalid Credentials.")));
-  //     }
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(content: Text("Black Field Not Allowed")));
-  //   }
-  // }
 }

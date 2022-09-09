@@ -423,7 +423,7 @@ class _HomeScreenViewState extends State<HomeScreenView> {
                                         const Text(
                                           "You haven't enrolled in any lesson yet,\nyou can enroll from the booking page.",
                                           style: TextStyle(
-                                            fontSize: 20,
+                                            fontSize: 15,
                                           ),
                                         ),
                                       ],

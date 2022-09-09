@@ -56,6 +56,10 @@ dependencies:
   intl: ^0.17.0
   google_fonts: ^3.0.1
   flutter_rating_bar: ^4.0.1
+  dropdown_below: ^1.0.3
+  custom_dropdown: ^0.0.2
+  dropdown_button2: ^1.7.2
+  # firebase_core: ^1.22.0
 dependency_overrides:
   analyzer: ^4.3.1
   meta: ^1.8.0
