@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "253894091046",
+    "firebase_url": "https://studio-reservation-app-default-rtdb.firebaseio.com",
+    "project_id": "studio-reservation-app",
+    "storage_bucket": "studio-reservation-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:253894091046:android:689a75c2e62c8c65e161e7",
+        "android_client_info": {
+          "package_name": "com.example.studio_reservation_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "253894091046-gti41llbtlmpobc3vv97fvvq6fn4j2ao.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtkacGQHrB1j4rYSa6xzqjNNfj3uNXr7c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "253894091046-gti41llbtlmpobc3vv97fvvq6fn4j2ao.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

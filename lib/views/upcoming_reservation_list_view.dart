@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:studio_reservation_app/components/action_buttons.dart';
 import 'package:studio_reservation_app/components/checkin_lesson_card.dart';
+import 'package:studio_reservation_app/components/upcoming_lesson_cardv2.dart';
 import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
 import '../components/background.dart';
 import '../core/base/base_viewmodel.dart';
@@ -24,8 +25,7 @@ class _UpcomingReservationListViewState
         onPageBuilder: (BuildContext context, HomeScreenViewModel viewModel) =>
             Scaffold(
                 extendBody: true,
-                body: Background(
-                    child: Column(
+                body: Column(
                   children: [
                     Row(
                       children: [
@@ -102,10 +102,14 @@ class _UpcomingReservationListViewState
                                         ).then((_) {
                                           setState(() {});
                                         }),
-                                        child: CheckInLessonCard(
+                                        child: UpcomingLessonCardV2(
+                                            lessonBranch: snapshot
+                                                .data[index].lesson.classes
+                                                .toString(),
                                             lessonName: snapshot
                                                 .data[index].lesson.name,
-                                            lessonDate: snapshot.data[index].lesson.startDate
+                                            lessonDate: snapshot
+                                                .data[index].lesson.startDate
                                                 .toString(),
                                             lessonTime: snapshot.data[index]
                                                 .lesson.estimatedTime
@@ -118,16 +122,12 @@ class _UpcomingReservationListViewState
                                                         .toString() ==
                                                     "0"
                                                 ? "Beginner"
-                                                : snapshot.data[index].lesson.lessonLevel
+                                                : snapshot.data[index].lesson
+                                                            .lessonLevel
                                                             .toString() ==
                                                         "1"
                                                     ? "Mid"
-                                                    : snapshot
-                                                                .data[index]
-                                                                .lesson
-                                                                .lessonLevel
-                                                                .toString() ==
-                                                            "2"
+                                                    : snapshot.data[index].lesson.lessonLevel.toString() == "2"
                                                         ? "Advanced"
                                                         : "All",
                                             lessonId: snapshot.data[index].lesson.id,
@@ -144,6 +144,6 @@ class _UpcomingReservationListViewState
                           }
                         }),
                   ],
-                ))));
+                )));
   }
 }

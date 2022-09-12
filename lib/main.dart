@@ -1,4 +1,7 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:studio_reservation_app/core/base/theme/theme.dart';
@@ -6,10 +9,29 @@ import 'package:studio_reservation_app/views/home_view.dart';
 import 'package:studio_reservation_app/views/location_selection_view.dart';
 import 'package:studio_reservation_app/views/login_view.dart';
 import 'package:studio_reservation_app/views/splash_screen.dart';
+import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
+
+import 'firebase_options.dart';
 
 Future<void> main() async {
   HttpOverrides.global = MyHttpOverrides();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    debugPrint('Got a message whilst in the foreground!');
+    debugPrint('Message data: ${message.data}');
 
+    if (message.notification != null) {
+      debugPrint(
+          'Message also contained a notification: ${message.notification}');
+    }
+  });
+
+  final fcmToken = await FirebaseMessaging.instance.getToken();
+  debugPrint("FCM Token: $fcmToken");
   runApp(const MyApp());
 }
 
