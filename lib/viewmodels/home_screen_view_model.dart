@@ -8,6 +8,7 @@ import 'package:studio_reservation_app/models/enroll_cancel_member_lesson_post.d
 import 'package:studio_reservation_app/models/lesson_response_model.dart';
 import 'package:studio_reservation_app/models/member_lesson_response.dart';
 import 'package:studio_reservation_app/models/member_lesson_with_lesson_included.dart';
+import 'package:studio_reservation_app/models/reservations_response.dart';
 import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/constants/network/network_constants.dart';
 import '../core/enums/url_enum.dart';
@@ -87,15 +88,16 @@ abstract class _HomeScreenViewModelBase with Store {
   List reservations = [];
 
   @observable
-  Future<List<MemberLessonResponse>?> reservationList() async {
-    final response = await dio
-        .get(Urls.reservationList.rawValue, queryParameters: {'id': userId});
+  Future<List<ReservationsResponse>?> reservationList(
+      DateTime? selectedDay) async {
+    final response = await dio.get(Urls.reservationList.rawValue,
+        queryParameters: {'id': userId, 'selectedDay': selectedDay});
     switch (response.statusCode) {
       case HttpStatus.ok:
         final responseBody = await response.data;
         if (responseBody is List) {
           return reservations = responseBody
-              .map((e) => MemberLessonResponse.fromJson(e))
+              .map((e) => ReservationsResponse.fromJson(e))
               .toList();
         }
         return Future.error(responseBody);

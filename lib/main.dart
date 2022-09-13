@@ -1,16 +1,16 @@
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:studio_reservation_app/core/base/theme/theme.dart';
 import 'package:studio_reservation_app/views/home_view.dart';
 import 'package:studio_reservation_app/views/location_selection_view.dart';
 import 'package:studio_reservation_app/views/login_view.dart';
 import 'package:studio_reservation_app/views/splash_screen.dart';
-import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
-
+import 'core/constants/enums/preferences_keys_enum.dart';
+import 'core/init/cache/locale_manager.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -19,6 +19,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     debugPrint('Got a message whilst in the foreground!');
@@ -35,21 +36,37 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool? isRememberMe;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final preferences = await SharedPreferences.getInstance();
+      isRememberMe =
+          LocaleManager.instance.getBoolValue(PreferencesKeys.isRememberMe);
+      setState(() {
+        preferences.setBool("isRememberMe", false);
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
         builder: (BuildContext context, Widget? widget) => MaterialApp(
               debugShowCheckedModeBanner: false,
-              initialRoute: "/",
-              routes: {
-                '/': (context) => const LoginView(),
-                '/home': (context) => const HomeView(),
-                '/location': (context) => const LocationSelectionView(),
-                '/splash': (context) => const SplashScreen(),
-              },
+              home: isRememberMe == true
+                  ? const HomeView()
+                  : LoginView(),
               theme: lightTheme,
             ));
   }

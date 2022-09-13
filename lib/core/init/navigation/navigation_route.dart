@@ -9,22 +9,21 @@ class NavigationRoute {
 
   get firmId => null;
 
-  Route<dynamic> generateRoute(RouteSettings args) {
-    switch (args.name) {
+  // Route<dynamic> generateRoute(RouteSettings args) {
+  //   switch (args.name) {
 
-      // case NavigationConstants.MAIN_VIEWS:
-      //   return normalNavigate(MainViews());
+  //     // case NavigationConstants.MAIN_VIEWS:
+  //     //   return normalNavigate(MainViews());
 
+  //     // case NavigationConstants.LOGIN_VIA_AZURE_VIEW:
+  //     //   return normalNavigate(LoginView());
 
-      // case NavigationConstants.LOGIN_VIA_AZURE_VIEW:
-      //   return normalNavigate(LoginView());
-
-      default:
-        return MaterialPageRoute(
-          builder: (context) => const LoginView(),
-        );
-    }
-  }
+  //     default:
+  //       return MaterialPageRoute(
+  //         builder: (context) => const LoginView(isRememberMe: ),
+  //       );
+  //   }
+  // }
 
   MaterialPageRoute normalNavigate(Widget widget) {
     return MaterialPageRoute(

@@ -64,7 +64,7 @@ dependencies:
   firebase_messaging: ^13.0.1
   cloud_firestore: ^3.4.7
   firebase_in_app_messaging: ^0.6.0+24
-  syncfusion_flutter_datepicker: ^20.2.48
+  table_calendar: ^3.0.7
   # firebase_core: ^1.22.0
 dependency_overrides:
   analyzer: ^4.3.1

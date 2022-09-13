@@ -1,12 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:studio_reservation_app/components/completed_lesson_card.dart';
 import 'package:studio_reservation_app/components/text_lesson_card.dart';
 import 'package:studio_reservation_app/core/base/base_viewmodel.dart';
 import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
 import 'package:studio_reservation_app/viewmodels/home_view_model.dart';
 import 'package:studio_reservation_app/views/completed_lessons_list.dart';
+import 'package:studio_reservation_app/views/login_view.dart';
 import 'package:studio_reservation_app/views/ungraded_lessons.dart';
 import 'package:studio_reservation_app/views/upcoming_reservation_list_view.dart';
 import '../core/constants/enums/preferences_keys_enum.dart';
@@ -433,7 +435,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         }
                       }),
                   FutureBuilder(
-                      future: HomeScreenViewModel().reservationList(),
+                      future: HomeScreenViewModel().reservationList(null),
                       builder: (context, AsyncSnapshot snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
                           if (snapshot.hasData) {
@@ -719,6 +721,18 @@ class _ProfilePageState extends State<ProfilePage> {
                           return const CircularProgressIndicator();
                         }
                       }),
+                  ElevatedButton(
+                    onPressed: () async {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      prefs.setBool('isRememberMe', false);
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext ctx) => LoginView()));
+                    },
+                    child: Text('Logout'),
+                  ),
                 ]),
           ),
         ),

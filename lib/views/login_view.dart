@@ -4,17 +4,25 @@ import 'package:studio_reservation_app/components/input_field.dart';
 import '../../../../core/base/view/base_view.dart';
 import '../components/logo.dart';
 import '../components/password_field.dart';
+import '../core/constants/enums/preferences_keys_enum.dart';
+import '../core/init/cache/locale_manager.dart';
 import '../viewmodels/login_view_model.dart';
 
 class LoginView extends StatefulWidget {
-  const LoginView({Key? key}) : super(key: key);
+  const LoginView({
+    Key? key,
+  }) : super(key: key);
   @override
   LoginViewState createState() => LoginViewState();
 }
 
 class LoginViewState extends State<LoginView> {
+  bool isRememberMeCheckBox = false;
   @override
   Widget build(BuildContext context) {
+    // bool? isRememberme =
+
+    //     LocaleManager.instance.getBoolValue(PreferencesKeys.isRememberMe);
     return BaseView<LoginViewModel>(
       viewModel: LoginViewModel(),
       onModelReady: (LoginViewModel model) {
@@ -94,16 +102,41 @@ class LoginViewState extends State<LoginView> {
                               controller: viewModel.passwordController,
                               hint: "Password",
                             ),
-                            TextButton(
-                              onPressed: () {},
-                              child: const Text(
-                                'Forget Password?',
-                                style: TextStyle(fontSize: 14),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  TextButton(
+                                    onPressed: () {},
+                                    child: const Text(
+                                      'Remember Me?',
+                                      style: TextStyle(fontSize: 14),
+                                    ),
+                                  ),
+                                  Checkbox(
+                                      activeColor: const Color(0xffFD0C89),
+                                      value: isRememberMeCheckBox,
+                                      onChanged: ((value) {
+                                        setState(() {
+                                          isRememberMeCheckBox =
+                                              !isRememberMeCheckBox;
+                                          LocaleManager.instance.setBoolValue(
+                                              PreferencesKeys.isRememberMe,
+                                              value!);
+                                        });
+                                      })),
+                                ],
                               ),
                             ),
                             ColoredButton(
                               text: 'Sign In',
                               onPressed: () async {
+                                if (isRememberMeCheckBox == true) {
+                                  LocaleManager.instance.setBoolValue(
+                                      PreferencesKeys.isRememberMe,
+                                      isRememberMeCheckBox);
+                                }
                                 viewModel.signIn(
                                   viewModel.emailController.text,
                                   viewModel.passwordController.text,

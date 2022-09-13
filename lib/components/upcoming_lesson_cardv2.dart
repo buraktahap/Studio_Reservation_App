@@ -1,4 +1,4 @@
-import 'dart:ffi';
+import 'dart:math';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +15,7 @@ class UpcomingLessonCardV2 extends StatefulWidget {
   late bool isChecked;
   late Widget buttonBar;
   final String lessonBranch;
+  final String trainerName;
   VoidCallback? detailSetState;
   UpcomingLessonCardV2(
       {Key? key,
@@ -27,7 +28,8 @@ class UpcomingLessonCardV2 extends StatefulWidget {
       required this.isChecked,
       required this.buttonBar,
       this.detailSetState,
-      required this.lessonBranch})
+      required this.lessonBranch,
+      required this.trainerName})
       : super(key: key);
 
   @override
@@ -43,11 +45,14 @@ class _UpcomingLessonCardV2State extends State<UpcomingLessonCardV2> {
     String formattedDateDay = DateFormat('dd').format(selectedDate);
     String formattedDateDayString = DateFormat('EEEE').format(selectedDate);
     String formattedDateMonth = DateFormat('MMM').format(selectedDate);
+    String formattedDateHour = DateFormat('HH:mm').format(selectedDate);
     var selectedTime = DateTime.parse(widget.lessonTime);
     String formattedTime = DateFormat('HH:mm').format(selectedTime);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15.5),
+      padding: EdgeInsets.symmetric(
+          horizontal: (30 / 414) * MediaQuery.of(context).size.width,
+          vertical: (15.5 / 414) * MediaQuery.of(context).size.width),
       child: SizedBox(
           height: (137.5 / 896) * MediaQuery.of(context).size.height,
           width: (354 / 414) * MediaQuery.of(context).size.width,
@@ -91,7 +96,7 @@ class _UpcomingLessonCardV2State extends State<UpcomingLessonCardV2> {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 12, 7.5, 0),
+                padding: const EdgeInsets.fromLTRB(20, 10, 7.5, 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -100,20 +105,21 @@ class _UpcomingLessonCardV2State extends State<UpcomingLessonCardV2> {
                     //   height: (12 / 896) * MediaQuery.of(context).size.height,
                     // ),
                     Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Container(
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               gradient: LinearGradient(
-                                begin: Alignment(
+                                begin: const Alignment(
                                     0.9999982118745121, 0.999980688244732),
-                                end: Alignment(
+                                end: const Alignment(
                                     0.9999982118745121, -1.0000038146677073),
-                                stops: [0.0, 1.0],
+                                stops: const [0.0, 1.0],
                                 colors: [
-                                  Color.fromRGBO(235, 12, 146, 0.2),
-                                  Color.fromRGBO(255, 170, 146, 0.2)
+                                  getColor(),
+                                  Colors.white,
                                 ],
                               ),
                             ),
@@ -121,17 +127,19 @@ class _UpcomingLessonCardV2State extends State<UpcomingLessonCardV2> {
                                 (30 / 414) * MediaQuery.of(context).size.width,
                             height:
                                 (30 / 896) * MediaQuery.of(context).size.height,
-                            child: Icon(
-                              Icons.history,
-                              size: (12 / 414) *
-                                  MediaQuery.of(context).size.width,
+                            child: Center(
+                              child: Icon(
+                                Icons.schedule,
+                                size: (15 / 414) *
+                                    MediaQuery.of(context).size.width,
+                              ),
                             ),
                           ),
                           SizedBox(
                             width:
                                 (9 / 414) * MediaQuery.of(context).size.width,
                           ),
-                          Text(formattedTime,
+                          Text("$formattedDateHour | $formattedTime min",
                               style: const TextStyle(
                                   fontWeight: FontWeight.w600, fontSize: 14)),
                           SizedBox(
@@ -168,7 +176,7 @@ class _UpcomingLessonCardV2State extends State<UpcomingLessonCardV2> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.lessonName,
+                              "${widget.lessonName} - ${widget.lessonLevel}",
                               style: const TextStyle(
                                   fontWeight: FontWeight.w600, fontSize: 14),
                             ),
@@ -176,7 +184,7 @@ class _UpcomingLessonCardV2State extends State<UpcomingLessonCardV2> {
                               height: 4,
                             ),
                             Text(
-                              widget.lessonBranch,
+                              widget.trainerName,
                               style: const TextStyle(
                                   fontWeight: FontWeight.w600, fontSize: 14),
                             ),
@@ -195,10 +203,18 @@ class _UpcomingLessonCardV2State extends State<UpcomingLessonCardV2> {
   Container littleLine() {
     return Container(
       width: 1.0,
-      height: 70.0,
+      height: (70 / 896) * MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30.0),
           color: const Color.fromARGB(78, 33, 35, 56)),
     );
+  }
+
+  getColor() {
+    Random random = Random();
+    Color? color = Color.fromARGB(
+        255, random.nextInt(255), random.nextInt(255), random.nextInt(255));
+    debugPrint("selected color: $color");
+    return color;
   }
 }

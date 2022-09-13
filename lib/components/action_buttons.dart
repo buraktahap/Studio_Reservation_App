@@ -64,7 +64,7 @@ class _ActionButtonsState extends State<ActionButtons> {
                             await viewModel
                                 .memberLessonByMemberAndLessonIdWithIndex(
                                     widget.lessonId);
-                            viewModel.reservationList();
+                            viewModel.reservationList(null);
                             setState(() {});
                           },
                         ),
