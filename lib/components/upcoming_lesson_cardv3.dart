@@ -4,20 +4,20 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
 
-class UpcomingLessonCardV2 extends StatefulWidget {
+class UpcomingLessonCardV3 extends StatefulWidget {
   // final String lesson_image;
   var data;
 
-  UpcomingLessonCardV2({
+  UpcomingLessonCardV3({
     Key? key,
     required this.data,
   }) : super(key: key);
 
   @override
-  State<UpcomingLessonCardV2> createState() => _UpcomingLessonCardV2State();
+  State<UpcomingLessonCardV3> createState() => _UpcomingLessonCardV3State();
 }
 
-class _UpcomingLessonCardV2State extends State<UpcomingLessonCardV2> {
+class _UpcomingLessonCardV3State extends State<UpcomingLessonCardV3> {
   HomeScreenViewModel viewModel = HomeScreenViewModel();
   @override
   Widget build(BuildContext context) {
@@ -32,9 +32,11 @@ class _UpcomingLessonCardV2State extends State<UpcomingLessonCardV2> {
     String formattedTime = DateFormat('HH:mm').format(selectedTime);
 
     return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: (30 / 414) * MediaQuery.of(context).size.width,
-      ),
+      padding: EdgeInsets.fromLTRB(
+          (30 / 414) * MediaQuery.of(context).size.width,
+          0,
+          (30 / 414) * MediaQuery.of(context).size.width,
+          0),
       child: SizedBox(
           height: (137.5 / 896) * MediaQuery.of(context).size.height,
           width: (354 / 414) * MediaQuery.of(context).size.width,
@@ -42,45 +44,13 @@ class _UpcomingLessonCardV2State extends State<UpcomingLessonCardV2> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: LinearGradient(
-                        begin: Alignment(0.9999982118745121, 0.999980688244732),
-                        end: Alignment(0.9999982118745121, -1.0000038146677073),
-                        stops: [0.0, 1.0],
-                        colors: [
-                          Color.fromRGBO(235, 12, 146, 0.2),
-                          Color.fromRGBO(255, 170, 146, 0.2)
-                        ],
-                      ),
-                    ),
-                    width: (55 / 414) * MediaQuery.of(context).size.width,
-                    height: (55 / 896) * MediaQuery.of(context).size.height,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          formattedDateDay,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 14),
-                        ),
-                        Text(
-                          formattedDateMonth,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 14),
-                        ),
-                      ],
-                    ),
-                  ),
-                  littleLine(),
-                ],
+              Padding(
+                padding: EdgeInsets.only(
+                    left: (27 / 414) * MediaQuery.of(context).size.width),
+                child: littleLine(),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 10, 7.5, 10),
+                padding: const EdgeInsets.fromLTRB(20, 0, 7.5, 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -88,55 +58,58 @@ class _UpcomingLessonCardV2State extends State<UpcomingLessonCardV2> {
                     // SizedBox(
                     //   height: (12 / 896) * MediaQuery.of(context).size.height,
                     // ),
-                    Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              gradient: LinearGradient(
-                                begin: const Alignment(
-                                    0.9999982118745121, 0.999980688244732),
-                                end: const Alignment(
-                                    0.9999982118745121, -1.0000038146677073),
-                                stops: const [0.0, 1.0],
-                                colors: [
-                                  getColor(),
-                                  Colors.white,
-                                ],
+                    Center(
+                      child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                gradient: LinearGradient(
+                                  begin: const Alignment(
+                                      0.9999982118745121, 0.999980688244732),
+                                  end: const Alignment(
+                                      0.9999982118745121, -1.0000038146677073),
+                                  stops: const [0.0, 1.0],
+                                  colors: [
+                                    getColor(),
+                                    Colors.white,
+                                  ],
+                                ),
+                              ),
+                              width: (30 / 414) *
+                                  MediaQuery.of(context).size.width,
+                              height: (30 / 896) *
+                                  MediaQuery.of(context).size.height,
+                              child: Center(
+                                child: Icon(
+                                  Icons.schedule,
+                                  size: (15 / 414) *
+                                      MediaQuery.of(context).size.width,
+                                ),
                               ),
                             ),
-                            width:
-                                (30 / 414) * MediaQuery.of(context).size.width,
-                            height:
-                                (30 / 896) * MediaQuery.of(context).size.height,
-                            child: Center(
-                              child: Icon(
-                                Icons.schedule,
-                                size: (15 / 414) *
-                                    MediaQuery.of(context).size.width,
-                              ),
+                            SizedBox(
+                              width:
+                                  (9 / 414) * MediaQuery.of(context).size.width,
                             ),
-                          ),
-                          SizedBox(
-                            width:
-                                (9 / 414) * MediaQuery.of(context).size.width,
-                          ),
-                          Text("$formattedDateHour | $formattedTime min",
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w600, fontSize: 14)),
-                          SizedBox(
-                            width:
-                                (10 / 414) * MediaQuery.of(context).size.width,
-                          ),
-                          Opacity(
-                            opacity: 0.2,
-                            child: Text(formattedDateDayString,
+                            Text("$formattedDateHour | $formattedTime min",
                                 style: const TextStyle(
                                     fontWeight: FontWeight.w600, fontSize: 14)),
-                          ),
-                        ]),
+                            SizedBox(
+                              width: (10 / 414) *
+                                  MediaQuery.of(context).size.width,
+                            ),
+                            Opacity(
+                              opacity: 0.2,
+                              child: Text(formattedDateDayString,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14)),
+                            ),
+                          ]),
+                    ),
                     Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -187,7 +160,7 @@ class _UpcomingLessonCardV2State extends State<UpcomingLessonCardV2> {
   Container littleLine() {
     return Container(
       width: 1.0,
-      height: (70 / 896) * MediaQuery.of(context).size.height,
+      height: (137.5 / 896) * MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30.0),
           color: const Color.fromARGB(78, 33, 35, 56)),

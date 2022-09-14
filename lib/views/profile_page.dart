@@ -721,17 +721,27 @@ class _ProfilePageState extends State<ProfilePage> {
                           return const CircularProgressIndicator();
                         }
                       }),
-                  ElevatedButton(
-                    onPressed: () async {
-                      SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
-                      prefs.setBool('isRememberMe', false);
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext ctx) => LoginView()));
-                    },
-                    child: Text('Logout'),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 75),
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Colors.pink.shade200)),
+                      onPressed: () {
+                        WidgetsBinding.instance.addPostFrameCallback((_) async {
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          prefs.setBool('isRememberMe', false);
+                          setState(() {});
+                        });
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext ctx) =>
+                                    const LoginView()));
+                      },
+                      child: const Text('Logout'),
+                    ),
                   ),
                 ]),
           ),

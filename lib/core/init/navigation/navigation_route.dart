@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:studio_reservation_app/views/login_view.dart';
 
 class NavigationRoute {
   static final NavigationRoute _instance = NavigationRoute._init();

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:studio_reservation_app/components/action_buttons.dart';
 import 'package:studio_reservation_app/components/upcoming_lesson_cardv2.dart';
+import 'package:studio_reservation_app/components/upcoming_lesson_cardv3.dart';
 import 'package:studio_reservation_app/viewmodels/home_screen_view_model.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../core/base/base_viewmodel.dart';
 import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/init/cache/locale_manager.dart';
 import 'lesson_detail_page.dart';
+
+List<dynamic> upcomingLessons = [];
 
 class UpcomingReservationListView extends StatefulWidget {
   const UpcomingReservationListView({Key? key}) : super(key: key);
@@ -20,10 +23,27 @@ class _UpcomingReservationListViewState
     extends State<UpcomingReservationListView> {
   bool? isRememberme =
       LocaleManager.instance.getBoolValue(PreferencesKeys.isRememberMe);
-  List<dynamic> upcomingLessons = [];
+
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
   CalendarFormat _calendarFormat = CalendarFormat.month;
+  List<dynamic> _getEventsForDay(DateTime day) {
+    return upcomingLessons.where((element) {
+      return element.lesson.startDate.day == day.day &&
+          element.lesson.startDate.month == day.month &&
+          element.lesson.startDate.year == day.year;
+    }).toList();
+  }
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      upcomingLessons = (await HomeScreenViewModel().reservationList(null))!;
+      setState(() {});
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BaseView<HomeScreenViewModel>(
@@ -86,79 +106,79 @@ class _UpcomingReservationListViewState
                                     if (snapshot.data != null) {
                                       upcomingLessons = snapshot.data.toList();
                                       return GestureDetector(
-                                        onTap: () => Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                LessonDetailPage(
-                                              lessonId: snapshot
-                                                  .data[index].lesson.id,
-                                              lessonDate: snapshot
-                                                  .data[index].lesson.startDate
-                                                  .toString(),
-                                              lessonTime: snapshot.data[index]
-                                                  .lesson.estimatedTime
-                                                  .toString(),
-                                              lessonName: snapshot
-                                                  .data[index].lesson.name,
-                                              lessonDescription: snapshot
-                                                      .data[index]
-                                                      .lesson
-                                                      .description ??
-                                                  " ",
-                                              lessonLevel: snapshot.data[index]
-                                                  .lesson.lessonLevel
-                                                  .toString(),
-                                              onpressed: () async {
-                                                Navigator.pop(context, true);
+                                          onTap: () => Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      LessonDetailPage(
+                                                    lessonId: snapshot
+                                                        .data[index].lesson.id,
+                                                    lessonDate: snapshot
+                                                        .data[index]
+                                                        .lesson
+                                                        .startDate
+                                                        .toString(),
+                                                    lessonTime: snapshot
+                                                        .data[index]
+                                                        .lesson
+                                                        .estimatedTime
+                                                        .toString(),
+                                                    lessonName: snapshot
+                                                        .data[index]
+                                                        .lesson
+                                                        .name,
+                                                    lessonDescription: snapshot
+                                                            .data[index]
+                                                            .lesson
+                                                            .description ??
+                                                        " ",
+                                                    lessonLevel: snapshot
+                                                        .data[index]
+                                                        .lesson
+                                                        .lessonLevel
+                                                        .toString(),
+                                                    onpressed: () async {
+                                                      Navigator.pop(
+                                                          context, true);
+                                                      setState(() {});
+                                                    },
+                                                  ),
+                                                ),
+                                              ).then((_) {
                                                 setState(() {});
-                                              },
-                                            ),
-                                          ),
-                                        ).then((_) {
-                                          setState(() {});
-                                        }),
-                                        child: UpcomingLessonCardV2(
-                                            trainerName:
-                                                "${snapshot.data[index].lesson.trainer.firstName} ${snapshot.data[index].lesson.trainer.lastName}",
-                                            lessonBranch: snapshot
-                                                .data[index].lesson.classes
-                                                .toString(),
-                                            lessonName: snapshot
-                                                .data[index].lesson.name,
-                                            lessonDate: snapshot
-                                                .data[index].lesson.startDate
-                                                .toString(),
-                                            lessonTime: snapshot.data[index]
-                                                .lesson.estimatedTime
-                                                .toString(),
-                                            lessonDescription: snapshot
-                                                .data[index].lesson.description
-                                                .toString(),
-                                            lessonLevel: snapshot.data[index]
-                                                        .lesson.lessonLevel
-                                                        .toString() ==
-                                                    "0"
-                                                ? "Beginner"
-                                                : snapshot.data[index].lesson
-                                                            .lessonLevel
-                                                            .toString() ==
-                                                        "1"
-                                                    ? "Mid"
-                                                    : snapshot.data[index].lesson.lessonLevel.toString() == "2"
-                                                        ? "Advanced"
-                                                        : "All",
-                                            lessonId: snapshot.data[index].lesson.id,
-                                            buttonBar: ActionButtons(align: Alignment.centerLeft, lessonId: snapshot.data[index].lesson.id),
-                                            isChecked: snapshot.data[index].isCheckin),
-                                      );
+                                              }),
+                                          child: index == 0
+                                              ? UpcomingLessonCardV2(
+                                                  data: snapshot.data[index])
+                                              : UpcomingLessonCardV3(
+                                                  data: snapshot.data[index]));
                                     } else {
                                       return const CircularProgressIndicator();
                                     }
                                   });
                             } else {
-                              debugPrint("$isRememberme");
-                              return Center(child: Text("No Upcoming Lessons"));
+                              return Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Column(
+                                  children: [
+                                    Image.asset(
+                                      "assets/images/asset03.png",
+                                      height: 250,
+                                      width: 250,
+                                    ),
+                                    const SizedBox(
+                                      height: 0,
+                                    ),
+                                    const Text(
+                                      "You haven't enrolled in any lesson for this day,\nyou can enroll from the booking page.",
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ],
+                                ),
+                              );
                             }
                           }),
                     ),
@@ -167,25 +187,30 @@ class _UpcomingReservationListViewState
   }
 
   Container openCalendar() {
-    // List<dynamic> _getEventsForDay(DateTime day) {
-    //   return upcomingLessons;
-    // }
-
     return Container(
       padding: const EdgeInsets.all(8),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 0.1,
+              blurRadius: 10,
+              offset: const Offset(5, 5), // changes position of shadow
+            ),
+          ],
           color: Colors.white,
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(50),
               bottomRight: Radius.circular(50))),
       child: Center(
         child: Column(
           children: [
             TableCalendar(
-              // eventLoader: ((day) {
-              //   return _getEventsForDay(day);
-              // }),
+              eventLoader: ((day) {
+                return _getEventsForDay(day);
+              }),
               calendarStyle: const CalendarStyle(
+                  
                   rangeHighlightColor: Colors.black,
                   selectedTextStyle: TextStyle(color: Colors.white),
                   todayTextStyle: TextStyle(color: Colors.black),
@@ -227,8 +252,10 @@ class _UpcomingReservationListViewState
               selectedDayPredicate: (day) {
                 return isSameDay(_selectedDay, day);
               },
-              onPageChanged: (focusedDay) {
-                _focusedDay = focusedDay;
+              onPageChanged: (focusedDay) async {
+                upcomingLessons =
+                    (await HomeScreenViewModel().reservationList(null))!;
+                _focusedDay = _focusedDay;
               },
               calendarFormat: _calendarFormat,
               onFormatChanged: (format) {
@@ -236,13 +263,16 @@ class _UpcomingReservationListViewState
                   _calendarFormat = format;
                 });
               },
-              onDaySelected: (selectedDay, focusedDay) {
+              onDaySelected: (selectedDay, focusedDay) async {
+                upcomingLessons =
+                    (await HomeScreenViewModel().reservationList(null))!;
                 setState(() {
-                  debugPrint(selectedDay.toString());
+                  upcomingLessons;
                   _selectedDay = selectedDay;
-                  _focusedDay =
-                      selectedDay; // update `_focusedDay` here as well
+                  _focusedDay = _focusedDay;
                 });
+                upcomingLessons =
+                    (await HomeScreenViewModel().reservationList(null))!;
               },
             ),
 

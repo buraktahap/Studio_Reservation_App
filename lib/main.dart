@@ -6,9 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:studio_reservation_app/core/base/theme/theme.dart';
 import 'package:studio_reservation_app/views/home_view.dart';
-import 'package:studio_reservation_app/views/location_selection_view.dart';
 import 'package:studio_reservation_app/views/login_view.dart';
-import 'package:studio_reservation_app/views/splash_screen.dart';
 import 'core/constants/enums/preferences_keys_enum.dart';
 import 'core/init/cache/locale_manager.dart';
 import 'firebase_options.dart';
@@ -66,7 +64,7 @@ class _MyAppState extends State<MyApp> {
               debugShowCheckedModeBanner: false,
               home: isRememberMe == true
                   ? const HomeView()
-                  : LoginView(),
+                  : const LoginView(),
               theme: lightTheme,
             ));
   }
