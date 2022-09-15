@@ -38,7 +38,7 @@ class _UpcomingLessonCardV3State extends State<UpcomingLessonCardV3> {
           (30 / 414) * MediaQuery.of(context).size.width,
           0),
       child: SizedBox(
-          height: (137.5 / 896) * MediaQuery.of(context).size.height,
+          height: (150 / 896) * MediaQuery.of(context).size.height,
           width: (354 / 414) * MediaQuery.of(context).size.width,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -50,10 +50,10 @@ class _UpcomingLessonCardV3State extends State<UpcomingLessonCardV3> {
                 child: littleLine(),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 7.5, 10),
+                padding: const EdgeInsets.fromLTRB(20, 10, 7.5, 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     // SizedBox(
                     //   height: (12 / 896) * MediaQuery.of(context).size.height,
@@ -143,7 +143,7 @@ class _UpcomingLessonCardV3State extends State<UpcomingLessonCardV3> {
                             Text(
                               "${widget.data.lesson.trainer.firstName + " " + widget.data.lesson.trainer.lastName}",
                               style: const TextStyle(
-                                  fontWeight: FontWeight.w600, fontSize: 14),
+                                  fontWeight: FontWeight.w500, fontSize: 14),
                             ),
                           ],
                         ),
@@ -160,7 +160,7 @@ class _UpcomingLessonCardV3State extends State<UpcomingLessonCardV3> {
   Container littleLine() {
     return Container(
       width: 1.0,
-      height: (137.5 / 896) * MediaQuery.of(context).size.height,
+      height: (150 / 896) * MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30.0),
           color: const Color.fromARGB(78, 33, 35, 56)),

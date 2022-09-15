@@ -210,7 +210,6 @@ class _UpcomingReservationListViewState
                 return _getEventsForDay(day);
               }),
               calendarStyle: const CalendarStyle(
-                  
                   rangeHighlightColor: Colors.black,
                   selectedTextStyle: TextStyle(color: Colors.white),
                   todayTextStyle: TextStyle(color: Colors.black),

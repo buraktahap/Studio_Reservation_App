@@ -36,7 +36,7 @@ class _UpcomingLessonCardV2State extends State<UpcomingLessonCardV2> {
         horizontal: (30 / 414) * MediaQuery.of(context).size.width,
       ),
       child: SizedBox(
-          height: (137.5 / 896) * MediaQuery.of(context).size.height,
+          height: (150 / 896) * MediaQuery.of(context).size.height,
           width: (354 / 414) * MediaQuery.of(context).size.width,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -83,7 +83,7 @@ class _UpcomingLessonCardV2State extends State<UpcomingLessonCardV2> {
                 padding: const EdgeInsets.fromLTRB(20, 10, 7.5, 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     // SizedBox(
                     //   height: (12 / 896) * MediaQuery.of(context).size.height,
@@ -170,7 +170,7 @@ class _UpcomingLessonCardV2State extends State<UpcomingLessonCardV2> {
                             Text(
                               "${widget.data.lesson.trainer.firstName + " " + widget.data.lesson.trainer.lastName}",
                               style: const TextStyle(
-                                  fontWeight: FontWeight.w600, fontSize: 14),
+                                  fontWeight: FontWeight.w500, fontSize: 14),
                             ),
                           ],
                         ),
