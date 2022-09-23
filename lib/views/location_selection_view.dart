@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:studio_reservation_app/components/background.dart';
 import 'package:studio_reservation_app/components/colored_button.dart';
 import 'package:studio_reservation_app/core/base/view/base_view.dart';
-import 'package:studio_reservation_app/core/init/notifier/theme_notifier.dart';
 import 'package:studio_reservation_app/models/branch_location_response.dart';
 import 'package:studio_reservation_app/models/sign_in_response.dart';
 import '../core/constants/enums/preferences_keys_enum.dart';
 import '../core/init/cache/locale_manager.dart';
 import '../viewmodels/location_selection_view_model.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 
 class LocationSelectionView extends StatefulWidget {
   const LocationSelectionView({Key? key}) : super(key: key);
@@ -91,57 +91,59 @@ class _LocationSelectionViewState extends State<LocationSelectionView> {
   }
 
   Widget cities(LocationSelectionViewModel viewModel) {
-    return Container(
-      height: 60,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          color: Colors.white,
-          border: Border.all(width: 1, color: const Color(0xffFF34C6))),
-      child: GestureDetector(
-        onTap: () {},
-        child: ButtonTheme(
-          alignedDropdown: true,
-          child: DropdownButton(
-            underline: Container(),
-            isExpanded: true,
-            onTap: () {
-              setState(() {
-                viewModel.getAllLocations();
-              });
-            },
-            hint: Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Text(_selectedCity.name.toString(),
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.normal,
-                  )),
-            ),
-            alignment: Alignment.center,
-            elevation: 16,
-            itemHeight: 60,
-            borderRadius: BorderRadius.circular(30),
-            style: TextStyle(
-                color: ThemeNotifier().currentTheme.textTheme.bodyText1?.color,
-                fontSize: 18),
-            icon: const Padding(
-              padding: EdgeInsets.only(right: 30.0),
-              child: Icon(
-                Icons.expand_more,
-              ),
-            ),
-            items: branchLocations(viewModel),
-            onChanged: (item) {
-              _selectedCity.name = item.toString();
-              BranchLocationResponseModel(
-                name: _selectedCity.name,
-              );
-
-              setState(() {});
-            },
-          ),
-        ),
+    return DropdownButton2(
+      disabledHint: Text(
+        "Select Branch",
+        style: TextStyle(
+            color: Theme.of(context).textTheme.bodyText1?.color,
+            fontSize: 25,
+            fontWeight: FontWeight.w300),
       ),
+      alignment: Alignment.center,
+      buttonWidth: (354 / MediaQuery.of(context).size.width) *
+          MediaQuery.of(context).size.width,
+      underline: Container(),
+      buttonPadding: const EdgeInsets.only(left: 16),
+      dropdownWidth: (354 / MediaQuery.of(context).size.width) *
+              MediaQuery.of(context).size.width -
+          20,
+      barrierColor: Colors.pinkAccent.withOpacity(0.1),
+      dropdownElevation: 15,
+      buttonHeight: 30,
+      dropdownDecoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment(0.9999982118745121, 0.999980688244732),
+          end: Alignment(0.9999982118745121, -1.0000038146677073),
+          stops: [0.0, 1.0],
+          colors: [
+            Color.fromARGB(255, 255, 74, 173),
+            Color.fromARGB(255, 253, 194, 178)
+          ],
+        ),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      buttonElevation: 8,
+      isExpanded: true,
+      hint: Text(
+        _selectedCity.name.toString(),
+        style: TextStyle(
+            color: Theme.of(context).textTheme.bodyText1?.color,
+            fontSize: 25,
+            fontWeight: FontWeight.w300),
+      ),
+      itemHeight: 50,
+      icon: Icon(
+        Icons.expand_more,
+        color: Theme.of(context).textTheme.bodyText1?.color,
+      ),
+      items: branchLocations(viewModel),
+      onChanged: (item) {
+        _selectedCity.name = item.toString();
+        BranchLocationResponseModel(
+          name: _selectedCity.name,
+        );
+        setState(() {});
+      },
     );
   }
 
@@ -151,8 +153,13 @@ class _LocationSelectionViewState extends State<LocationSelectionView> {
     return viewModel.cities.map((item) {
       return DropdownMenuItem(
         value: item.name.toString(),
-        child: Text(item.name.toString(),
-            style: const TextStyle(fontWeight: FontWeight.w300)),
+        child: Align(
+          alignment: Alignment.center,
+          child: Text(
+            item.name.toString(),
+            style: const TextStyle(fontWeight: FontWeight.w300, fontSize: 25),
+          ),
+        ),
       );
     }).toList();
   }
