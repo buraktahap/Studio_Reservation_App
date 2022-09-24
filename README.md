@@ -1,16 +1,8 @@
-# studio_reservation_app
+# Studio Reservation App
 
-A new Flutter project.
+I've built this app as my internship  project. My goal was making reservation process in studio's or gym's better. With this app user can easily select the lesson which he/she wants to enroll in desired branch. Beside that user can manage and organize the lessons for its own use. Take a look at the video below to see how app works.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+https://user-images.githubusercontent.com/56032031/192074092-eef44db5-d9f1-46bd-a9ce-16c1b20ee04b.mp4
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
